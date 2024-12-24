@@ -1,0 +1,20 @@
+{
+  "name": "RentNearUni",
+  "version": "1.0.0",
+  "description": "A comprehensive platform specialized in finding apartments, boarding houses, rooms for rent near Sri Lankan Universities ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "cd server && npm run devStart",
+    "client": "cd client && npm start",
+    "start": "concurrently \"npm run server\"  \"npm run client\""
+  },
+  "keywords": [],
+  "author": "Madhushankha De Silva",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^6.2.2"
+  },
+  "devDependencies": {
+  }
+}
