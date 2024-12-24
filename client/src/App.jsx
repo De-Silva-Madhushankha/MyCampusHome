@@ -1,13 +1,16 @@
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage';
 
-function App() {
+
+const App = () => {
   return (
-    <>
-      <h1 className="text-2xl font-bold">
-        <p> Hello!, Welcome to RentNearUni, A convenient platform to find an accommodation near your uni without going door to door</p>
-      </h1>
-    </>
-  )
-}
+    <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
