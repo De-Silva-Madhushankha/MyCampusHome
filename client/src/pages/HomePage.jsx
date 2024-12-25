@@ -1,47 +1,15 @@
-import React from 'react';
-import Layout from '../components/Layout';
-import { FloatingNav } from '../components/FloatingNavbar';
+import HeroSection from '../components/HeroSection';
+import CityGrid from '../components/UnisGrid';
+import RentalProcess from '../components/RentalProcess';
+import Features from '../components/Features';
 
-const HomePage = () => {
+export default function HomePage() {
   return (
-    <Layout>
-      <FloatingNav />
-      <div>
-        <h1>Home Page</h1>
-      </div>
-      <div>
-        <h1>Home Page</h1>
-      </div>
-      <div>
-        <h1>Home Page</h1>
-      </div>
-      <div>
-        <h1>Home Page</h1>
-      </div>
-      <div>
-        <h1>Home Page</h1>
-      </div>
-      <div>
-        <h1>Home Page</h1>
-      </div>
-      <div>
-        <h1>Home Page</h1>
-      </div>
-      <div>
-        <h1>Home Page</h1>
-      </div>
-      <div>
-        <h1>Home Page</h1>
-      </div>
-      <div>
-        <h1>Home Page</h1>
-      </div>
-      <div>
-        <h1>Home Page</h1>
-      </div>
-
-    </Layout>
+    <>
+      <HeroSection />
+      <CityGrid />
+      <RentalProcess />
+      <Features />
+    </>
   );
-};
-
-export default HomePage;
+}
