@@ -82,12 +82,12 @@ const Footer = () => {
             </div>
 
             <div
-        className="absolute bottom-0 left-0 w-full -z-10 h-1/2 bg-no-repeat bg-center color-bg"
-        style={{ 
-          backgroundImage: 'url(/footer-city-bg.svg)',
-          filter: 'brightness(9) contrast(2)',
-        }}
-      ></div>
+                className="absolute bottom-0 left-0 w-full -z-10 h-1/2 bg-no-repeat bg-center color-bg"
+                style={{
+                    backgroundImage: 'url(/footer-city-bg.svg)',
+                    filter: 'brightness(9) contrast(2)',
+                }}
+            ></div>
         </footer>
     );
 };
