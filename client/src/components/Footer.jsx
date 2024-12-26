@@ -22,7 +22,7 @@ const Footer = () => {
                             </a>
                         </div>
                         <p className="text-sm">Patents Pending</p>
-                        <p className="text-sm">© CampusHome, Inc.</p>
+                        <p className="text-sm">© MyCampusHome, Inc.</p>
                     </div>
 
                     <div>
