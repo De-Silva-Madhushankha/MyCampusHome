@@ -14,7 +14,7 @@ const Footer = () => {
                                 <i className="fab fa-facebook"></i>
                             </a>
                             <a
-                                href="mailto:rentnearuni@gmail.com"
+                                href="mailto:campushome@gmail.com"
                                 className="text-gray-400 hover:text-gray-200 text-2xl"
                                 aria-label="Email Us"
                             >
