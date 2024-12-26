@@ -43,67 +43,67 @@ const shuffle = (array) => {
 const squareData = [
   {
     id: 1,
-    src: "./public/photo-1.avif",
+    src: "/photo-1.avif",
   },
   {
     id: 2,
-    src: "./public/photo-2.avif",
+    src: "/photo-2.avif",
   },
   {
     id: 3,
-    src: "./public/photo-3.avif",
+    src: "/photo-3.avif",
   },
   {
     id: 4,
-    src: "./public/photo-4.avif",
+    src: "/photo-4.avif",
   },
   {
     id: 5,
-    src: "./public/photo-5.avif",
+    src: "/photo-5.avif",
   },
   {
     id: 6,
-    src: "./public/photo-6.avif",
+    src: "/photo-6.avif",
   },
   {
     id: 7,
-    src: "./public/photo-7.avif",
+    src: "/photo-7.avif",
   },
   {
     id: 8,
-    src: "./public/photo-8.avif",
+    src: "/photo-8.avif",
   },
   {
     id: 9,
-    src: "./public/photo-9.avif",
+    src: "/photo-9.avif",
   },
   {
     id: 10,
-    src: "./public/photo-10.avif",
+    src: "/photo-10.avif",
   },
   {
     id: 11,
-    src: "./public/photo-11.avif",
+    src: "/photo-11.avif",
   },
   {
     id: 12,
-    src: "./public/photo-12.avif",
+    src: "/photo-12.avif",
   },
   {
     id: 13,
-    src: "./public/photo-13.avif",
+    src: "/photo-13.avif",
   },
   {
     id: 14,
-    src: "./public/photo-14.avif",
+    src: "/photo-14.avif",
   },
   {
     id: 15,
-    src: "./public/photo-15.avif",
+    src: "/photo-15.avif",
   },
   {
     id: 16,
-    src: "./public/photo-16.avif",
+    src: "/photo-16.avif",
   },
 ];
 
