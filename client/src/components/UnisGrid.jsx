@@ -7,7 +7,7 @@ const FeaturedUnis = () => {
 
   return (
     <div className="bg-gray-100 py-16">
-      <h2 className="text-center text-4xl font-bold mb-8">Find Your Perfect Campus Home – Convenient, Easy, One-Stop Living!</h2>
+      <h2 className="text-center text-4xl font-bold mb-8">Find Your Perfect Home, Right Next to Campus</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
         {cities.map((city) => (
           <div
