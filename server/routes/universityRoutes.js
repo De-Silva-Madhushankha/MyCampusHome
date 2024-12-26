@@ -12,7 +12,6 @@ router.get("/", async (req, res) => {
     const filter = req.query.type ? { type: req.query.type } : {};
     const universities = await University.find(filter);
     res.json(universities);
-    console.log(universities);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch universities", error });
   }
