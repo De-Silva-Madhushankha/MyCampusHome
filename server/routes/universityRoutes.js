@@ -28,7 +28,6 @@ router.post("/", async (req, res) => {
       location: req.body.location,
       description: req.body.description,
     });
-    console.log(newUniversity);
     await newUniversity.save();
 
     res.status(201).json(newUniversity);
