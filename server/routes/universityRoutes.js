@@ -1,10 +1,7 @@
 import express from "express";
-import multer from "multer";
-import cloudinary from "../utils/cloudinaryConfig.js";
 import University from "../models/universityModel.js";
 
 const router = express.Router();
-const upload = multer({ dest: "uploads/" });
 
 
 router.get("/", async (req, res) => {
