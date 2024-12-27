@@ -5,7 +5,22 @@ const userSchema = Schema({
     type: String,
     required: true,
   },
-  // Add other user fields here
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  phone : {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  
+  
+
 });
 
 const User = model('User', userSchema);

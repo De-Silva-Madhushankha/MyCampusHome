@@ -6,6 +6,7 @@ const universitySchema = new mongoose.Schema({
   type: { type: String, enum: ["Public", "Private"], required: true },
   location: { type: String, required: true },
   description: { type: String },
+  logo: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 

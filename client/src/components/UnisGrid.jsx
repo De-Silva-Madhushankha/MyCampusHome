@@ -1,146 +1,179 @@
-// filepath: /c:/Users/madhu/Documents/RentNearUni/client/src/components/UnisGrid.jsx
 import React, { useState, useEffect } from "react";
-import { FiMapPin } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Card, CardMedia, Typography, Chip, CircularProgress, Button } from "@mui/material";
+import { School, LocationOn, Map as MapIcon } from "@mui/icons-material";
 import axios from "axios";
-import { GoogleMap, LoadScript, Marker, InfoWindow } from "@react-google-maps/api";
 
-const containerStyle = {
-  width: "100%",
-  height: "500px",
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
 };
 
-const center = {
-  lat: 7.8731,
-  lng: 80.7718,
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4 }
+  },
+  hover: {
+    y: -5,
+    scale: 1.02,
+    transition: { duration: 0.2 }
+  }
 };
 
-const UniversityDisplay = () => {
-  const [filter, setFilter] = useState("All");
+const UniversityGrid = () => {
   const [universities, setUniversities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filter, setFilter] = useState("All");
   const [showMap, setShowMap] = useState(false);
-  const [selectedUniversity, setSelectedUniversity] = useState(null);
 
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/universities/");
+        const response = await axios.get("http://localhost:5000/api/universities");
         setUniversities(Array.isArray(response.data) ? response.data : []);
         setLoading(false);
       } catch (err) {
-        setError(err);
+        setError(err.message);
         setLoading(false);
       }
     };
-
     fetchUniversities();
   }, []);
 
-  // Filter logic
-  const filteredUniversities =
-    filter === "All"
-      ? universities
-      : universities.filter((uni) => uni.type === filter);
+  const filteredUniversities = Array.isArray(universities) 
+    ? (filter === "All" 
+        ? universities 
+        : universities.filter(uni => uni.type === filter))
+    : [];
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error loading universities: {error.message}</div>;
+  if (loading) return (
+    <div className="flex justify-center items-center min-h-[400px]">
+      <CircularProgress sx={{ color: 'rgb(79, 70, 229)' }} />
+    </div>
+  );
 
   return (
-    <div className="container mx-auto p-6">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Explore Universities</h1>
-        <button
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-5xl font-bold text-gray-900">Explore Universities</h1>
+        <Button
+          variant="contained"
+          startIcon={<MapIcon />}
           onClick={() => setShowMap(!showMap)}
-          className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 flex items-center"
+          sx={{
+            bgcolor: 'rgb(79, 70, 229)',
+            '&:hover': { bgcolor: 'rgb(67, 56, 202)' },
+          }}
         >
-          <FiMapPin className="mr-2" />
-          {showMap ? "Hide Map" : "View on Map"}
-        </button>
+          {showMap ? 'Hide Map' : 'View on Map'}
+        </Button>
       </div>
 
-      {/* Filters */}
-      <div className="flex space-x-4 mb-6">
-        {["All", "Public", "Private"].map((category) => (
-          <button
-            key={category}
-            onClick={() => setFilter(category)}
-            className={`px-4 py-2 rounded ${
-              filter === category
-                ? "bg-indigo-500 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+      <div className="flex gap-4 mb-8 justify-center">
+        {["All", "Public", "Private"].map((type) => (
+          <motion.button
+            key={type}
+            onClick={() => setFilter(type)}
+            className={`px-4 py-2 rounded-lg ${
+              filter === type
+                ? "bg-indigo-600 text-white"
+                : "bg-gray-100 hover:bg-gray-200 text-gray-700"
             }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            {category}
-          </button>
+            {type}
+          </motion.button>
         ))}
       </div>
 
-      {/* University Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+      >
         {filteredUniversities.map((uni) => (
-          <div
+          <motion.div
             key={uni._id}
-            className="bg-white shadow-lg rounded-lg p-4 flex flex-col items-center"
+            variants={cardVariants}
+            whileHover="hover"
+            layoutId={uni._id}
           >
-            <img
-              src={uni.logo}
-              alt={`${uni.name} logo`}
-              className="w-20 h-20 object-contain mb-4"
-            />
-            <h2 className="text-lg font-semibold">{uni.name}</h2>
-            <p className="text-gray-500">{uni.location}</p>
-            <span
-              className={`mt-2 px-3 py-1 text-sm rounded ${
-                uni.type === "Public"
-                  ? "bg-green-100 text-green-800"
-                  : "bg-yellow-100 text-yellow-800"
-              }`}
+            <Link
+              to={`/universities/${uni._id}`}
+              className="block h-full no-underline"
             >
-              {uni.type}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      {/* Map */}
-      {showMap && (
-        <div className="mt-6">
-          <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
-            <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={8}>
-              {filteredUniversities.map((uni) => (
-                <Marker
-                  key={uni._id}
-                  position={{ lat: uni.coordinates[0], lng: uni.coordinates[1] }}
-                  onClick={() => setSelectedUniversity(uni)}
+              <Card className="relative h-[320px] overflow-hidden bg-white shadow-lg">
+                <CardMedia
+                  component="img"
+                  image={uni.logo}
+                  alt={uni.name}
+                  className="h-full w-full object-cover"
                 />
-              ))}
-              {selectedUniversity && (
-                <InfoWindow
-                  position={{
-                    lat: selectedUniversity.coordinates[0],
-                    lng: selectedUniversity.coordinates[1],
-                  }}
-                  onCloseClick={() => setSelectedUniversity(null)}
+                
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                />
+
+                <motion.div
+                  className="absolute bottom-0 left-0 right-0 p-6"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
                 >
-                  <div className="text-center">
-                    <img
-                      src={selectedUniversity.logo}
-                      alt={`${selectedUniversity.name} logo`}
-                      className="w-10 h-10 object-contain mb-2"
-                    />
-                    <h2 className="text-lg font-semibold">{selectedUniversity.name}</h2>
-                    <p className="text-gray-500">{selectedUniversity.location}</p>
+                  <Typography variant="h5" className="text-white font-bold mb-2">
+                    {uni.name}
+                  </Typography>
+
+                  <div className="flex items-center gap-2 text-white/90 mb-3">
+                    <LocationOn fontSize="small" />
+                    <Typography variant="body2">{uni.location}</Typography>
                   </div>
-                </InfoWindow>
-              )}
-            </GoogleMap>
-          </LoadScript>
-        </div>
+
+                  <Chip
+                    icon={<School />}
+                    label={uni.type}
+                    size="small"
+                    sx={{
+                      bgcolor: uni.type === "Public" 
+                        ? "rgb(167, 243, 208)" 
+                        : "rgb(253, 230, 138)",
+                      color: uni.type === "Public" 
+                        ? "rgb(6, 95, 70)" 
+                        : "rgb(146, 64, 14)",
+                      '& .MuiChip-icon': { color: 'inherit' }
+                    }}
+                  />
+                </motion.div>
+              </Card>
+            </Link>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {showMap && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          className="fixed inset-0 bg-white z-50"
+        >
+          {/* Add your map component here */}
+          <div className="h-full">Map Component</div>
+        </motion.div>
       )}
     </div>
   );
 };
 
-export default UniversityDisplay;
+export default UniversityGrid;

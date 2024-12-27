@@ -1,4 +1,4 @@
-import University from "../models/UniversityModel.js";
+import University from "../models/universityModel.js";
 
 export const getUniversities = async (req, res) => {
   try {
@@ -20,6 +20,7 @@ export const addUniversity = async (req, res) => {
       type: req.body.type,
       location: req.body.location,
       description: req.body.description,
+      logo: req.body.logo,
     });
 
     await newUniversity.save();

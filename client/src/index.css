@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .card:hover .card-content > *:not(.card-title),
+    .card:focus-within .card-content > *:not(.card-title) {
+      opacity: 1;
+    }
+  
+    @media (hover: hover) {
+      .card-content > *:not(.card-title) {
+        opacity: 0;
+        transition: opacity 500ms linear;
+      }
+    }
+  }
