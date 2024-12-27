@@ -57,7 +57,7 @@ const Navbar = () => {
             <Link to="/login" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
               Log In
             </Link>
-            <Link to="/signup" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+            <Link to="/register" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
               Sign Up
             </Link>
           </div>
