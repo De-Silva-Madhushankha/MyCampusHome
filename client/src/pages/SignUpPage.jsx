@@ -1,4 +1,58 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const SignUp = () => {
+
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      acceptTerms: false
+    });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+  
+    const handleChange = (e) => {
+      const { name, value, type, checked } = e.target;
+      setFormData(prev => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value
+      }));
+    };
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setError("");
+      setLoading(true);
+  
+      if (formData.password !== formData.passwordConfirmation) {
+        setError("Passwords do not match");
+        setLoading(false);
+        return;
+      }
+  
+      try {
+        const response = await axios.post("http://localhost:5000/api/user/register", {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password
+        });
+  
+        if (response.data) {
+          navigate("/login");
+        }
+      } catch (err) {
+        setError(err.response?.data?.message || "Registration failed");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     return (
         <section className="bg-white">
             <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
@@ -67,13 +121,15 @@ const SignUp = () => {
                             </p>
                         </div>
 
-                        <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+                        <form onSubmit={handleSubmit} className="mt-8 grid grid-cols-6 gap-6">
                             <div className="col-span-6 sm:col-span-3">
                                 <div className="relative">
                                     <input
                                         type="text"
                                         id="FirstName"
-                                        name="first_name"
+                                        name="firstName"
+                                        value={formData.firstName}
+                                        onChange={handleChange}
                                         className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
                                         placeholder="First Name"
                                     />
@@ -91,7 +147,9 @@ const SignUp = () => {
                                     <input
                                         type="text"
                                         id="LastName"
-                                        name="last_name"
+                                        name="lastName"
+                                        value={formData.lastName}
+                                        onChange={handleChange}
                                         className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
                                         placeholder="Last Name"
                                     />
@@ -110,6 +168,8 @@ const SignUp = () => {
                                         type="email"
                                         id="Email"
                                         name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
                                         className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
                                         placeholder="Email"
                                     />
@@ -128,6 +188,8 @@ const SignUp = () => {
                                         type="password"
                                         id="Password"
                                         name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
                                         className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
                                         placeholder="Password"
                                     />
@@ -145,7 +207,9 @@ const SignUp = () => {
                                     <input
                                         type="password"
                                         id="PasswordConfirmation"
-                                        name="password_confirmation"
+                                        name="passwordConfirmation"
+                                        value={formData.passwordConfirmation}
+                                        onChange={handleChange}
                                         className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
                                         placeholder="Confirm Password"
                                     />
@@ -181,7 +245,7 @@ const SignUp = () => {
                             </div>
 
                             <div className="col-span-6">
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-gray-600">
                                     By creating an account, you agree to our
                                     <a href="#" className="ml-1 text-indigo-600 hover:text-indigo-700 hover:underline">terms and conditions</a>
                                     {' '}and{' '}
@@ -191,17 +255,26 @@ const SignUp = () => {
 
                             <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                                 <button
+                                    type="submit"
+                                    disabled={loading}
                                     className="group relative inline-block w-full sm:w-auto overflow-hidden rounded-lg bg-indigo-600 px-8 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                                 >
+                                    
                                     <span className="absolute inset-0 h-full w-full scale-0 rounded-lg bg-indigo-700 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"></span>
-                                    <span className="relative inline-block text-sm font-semibold">Create an account</span>
+                                    <span className="relative inline-block text-sm font-semibold">{loading ? "Creating an Account..." : "Create an Account"}</span>
                                 </button>
 
-                                <p className="mt-4 text-sm text-gray-500 sm:mt-0">
+                                <p className="mt-4 text-sm text-gray-600 sm:mt-0">
                                     Already have an account?{' '}
                                     <a href="/login" className="text-indigo-600 hover:text-indigo-700 hover:underline">Log in</a>
                                 </p>
+
+                                
                             </div>
+                            {error && (
+          <div className="col-span-6 text-red-500 text-sm">
+            {error}
+          </div>)}
                         </form>
                     </div>
                 </main>
