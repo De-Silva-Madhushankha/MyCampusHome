@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
 
-    const navigate = useNavigate();
     const [formData, setFormData] = useState({
       firstName: "",
       lastName: "",
@@ -15,6 +14,33 @@ const SignUp = () => {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState(false);
+    const navigate = useNavigate();
+
+    const validateForm = () => {
+        if (!formData.firstName || !formData.lastName) {
+          setError("All fields are required");
+          return false;
+        }
+    
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+          setError("Please enter a valid email address");
+          return false;
+        }
+    
+        if (formData.password.length < 6) {
+          setError("Password must be at least 6 characters long");
+          return false;
+        }
+    
+        if (formData.password !== formData.passwordConfirmation) {
+          setError("Passwords do not match");
+          return false;
+        }
+    
+        return true;
+      };
   
     const handleChange = (e) => {
       const { name, value, type, checked } = e.target;
@@ -27,13 +53,11 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       setError("");
+
+      if (!validateForm()) return;
+
+
       setLoading(true);
-  
-      if (formData.password !== formData.passwordConfirmation) {
-        setError("Passwords do not match");
-        setLoading(false);
-        return;
-      }
   
       try {
         const response = await axios.post("http://localhost:5000/api/user/register", {
@@ -44,7 +68,10 @@ const SignUp = () => {
         });
   
         if (response.data) {
+            setSuccess(true);
+            setTimeout(() => {
           navigate("/login");
+            }, 2000);
         }
       } catch (err) {
         setError(err.response?.data?.message || "Registration failed");
