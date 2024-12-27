@@ -63,81 +63,117 @@ const SignUp = () => {
                             </h1>
 
                             <p className="mt-4 leading-relaxed text-gray-500">
-                            Sign up to MyCampusHome.LK and unlock a world of convenience in finding your ideal rental or boarding place. Create your account to explore tailored listings, connect with property owners, and simplify your housing journey.
+                                Sign up to MyCampusHome.LK and unlock a world of convenience in finding your ideal rental or boarding place. Create your account to explore tailored listings, connect with property owners, and simplify your housing journey.
                             </p>
                         </div>
 
                         <form action="#" className="mt-8 grid grid-cols-6 gap-6">
                             <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="FirstName" className="block text-sm font-medium text-gray-700">
-                                    First Name
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="FirstName"
-                                    name="first_name"
-                                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                                />
-                            </div>
-
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="LastName" className="block text-sm font-medium text-gray-700">
-                                    Last Name
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="LastName"
-                                    name="last_name"
-                                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                                />
-                            </div>
-
-                            <div className="col-span-6">
-                                <label htmlFor="Email" className="block text-sm font-medium text-gray-700"> Email </label>
-
-                                <input
-                                    type="email"
-                                    id="Email"
-                                    name="email"
-                                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                                />
-                            </div>
-
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="Password" className="block text-sm font-medium text-gray-700"> Password </label>
-
-                                <input
-                                    type="password"
-                                    id="Password"
-                                    name="password"
-                                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                                />
-                            </div>
-
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="PasswordConfirmation" className="block text-sm font-medium text-gray-700">
-                                    Password Confirmation
-                                </label>
-
-                                <input
-                                    type="password"
-                                    id="PasswordConfirmation"
-                                    name="password_confirmation"
-                                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                                />
-                            </div>
-
-                            <div className="col-span-6">
-                                <label htmlFor="MarketingAccept" className="flex gap-4">
+                                <div className="relative">
                                     <input
-                                        type="checkbox"
-                                        id="MarketingAccept"
-                                        name="marketing_accept"
-                                        className="size-5 rounded-md border-gray-200 bg-white shadow-sm"
+                                        type="text"
+                                        id="FirstName"
+                                        name="first_name"
+                                        className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
+                                        placeholder="First Name"
                                     />
+                                    <label
+                                        htmlFor="FirstName"
+                                        className="absolute -top-2.5 left-3 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-indigo-600"
+                                    >
+                                        First Name
+                                    </label>
+                                </div>
+                            </div>
 
+                            <div className="col-span-6 sm:col-span-3">
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        id="LastName"
+                                        name="last_name"
+                                        className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
+                                        placeholder="Last Name"
+                                    />
+                                    <label
+                                        htmlFor="LastName"
+                                        className="absolute -top-2.5 left-3 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-indigo-600"
+                                    >
+                                        Last Name
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="col-span-6">
+                                <div className="relative">
+                                    <input
+                                        type="email"
+                                        id="Email"
+                                        name="email"
+                                        className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
+                                        placeholder="Email"
+                                    />
+                                    <label
+                                        htmlFor="Email"
+                                        className="absolute -top-2.5 left-3 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-indigo-600"
+                                    >
+                                        Email
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="col-span-6 sm:col-span-3">
+                                <div className="relative">
+                                    <input
+                                        type="password"
+                                        id="Password"
+                                        name="password"
+                                        className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
+                                        placeholder="Password"
+                                    />
+                                    <label
+                                        htmlFor="Password"
+                                        className="absolute -top-2.5 left-3 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-indigo-600"
+                                    >
+                                        Password
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="col-span-6 sm:col-span-3">
+                                <div className="relative">
+                                    <input
+                                        type="password"
+                                        id="PasswordConfirmation"
+                                        name="password_confirmation"
+                                        className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
+                                        placeholder="Confirm Password"
+                                    />
+                                    <label
+                                        htmlFor="PasswordConfirmation"
+                                        className="absolute -top-2.5 left-3 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-indigo-600"
+                                    >
+                                        Confirm Password
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="col-span-6">
+                                <label className="flex items-center gap-4 hover:cursor-pointer group">
+                                    <div className="relative">
+                                        <input
+                                            type="checkbox"
+                                            id="MarketingAccept"
+                                            name="marketing_accept"
+                                            className="peer sr-only"
+                                        />
+                                        <div className="size-5 rounded border-2 border-gray-200 transition-colors peer-checked:border-indigo-600 peer-checked:bg-indigo-600 group-hover:border-gray-300"></div>
+                                        <div className="absolute inset-0 hidden text-white peer-checked:block">
+                                            <svg className="size-5" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </div>
                                     <span className="text-sm text-gray-700">
                                         I want to receive emails about events, product updates and company announcements.
                                     </span>
@@ -147,22 +183,23 @@ const SignUp = () => {
                             <div className="col-span-6">
                                 <p className="text-sm text-gray-500">
                                     By creating an account, you agree to our
-                                    <a href="#" className="text-gray-700 underline"> terms and conditions </a>
-                                    and
-                                    <a href="#" className="text-gray-700 underline">privacy policy</a>.
+                                    <a href="#" className="ml-1 text-indigo-600 hover:text-indigo-700 hover:underline">terms and conditions</a>
+                                    {' '}and{' '}
+                                    <a href="#" className="text-indigo-600 hover:text-indigo-700 hover:underline">privacy policy</a>.
                                 </p>
                             </div>
 
                             <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                                 <button
-                                    className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                                    className="group relative inline-block w-full sm:w-auto overflow-hidden rounded-lg bg-indigo-600 px-8 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                                 >
-                                    Create an account
+                                    <span className="absolute inset-0 h-full w-full scale-0 rounded-lg bg-indigo-700 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"></span>
+                                    <span className="relative inline-block text-sm font-semibold">Create an account</span>
                                 </button>
 
                                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
-                                    Already have an account?
-                                    <a href="#" className="text-gray-700 underline">Log in</a>.
+                                    Already have an account?{' '}
+                                    <a href="/login" className="text-indigo-600 hover:text-indigo-700 hover:underline">Log in</a>
                                 </p>
                             </div>
                         </form>
