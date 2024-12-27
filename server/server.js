@@ -2,7 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+
 import universityRoutes from "./routes/universityRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -24,5 +26,15 @@ mongoose
 
 // Routes
 app.use("/api/universities", universityRoutes);
+app.use("/api/user", userRoutes);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+console.log("Routes setup complete");
+
+app.get('/', (req, res) => {
+  res.send('server is running');
+})
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log(`http://localhost:${PORT}/`);
+})
