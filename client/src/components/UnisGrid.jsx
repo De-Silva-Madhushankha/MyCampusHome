@@ -53,7 +53,7 @@ const UniversityDisplay = () => {
         <h1 className="text-2xl font-bold">Explore Universities</h1>
         <button
           onClick={() => setShowMap(!showMap)}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center"
+          className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 flex items-center"
         >
           <FiMapPin className="mr-2" />
           {showMap ? "Hide Map" : "View on Map"}
@@ -68,7 +68,7 @@ const UniversityDisplay = () => {
             onClick={() => setFilter(category)}
             className={`px-4 py-2 rounded ${
               filter === category
-                ? "bg-blue-500 text-white"
+                ? "bg-indigo-500 text-white"
                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
           >
