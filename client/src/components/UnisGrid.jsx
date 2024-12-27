@@ -172,6 +172,7 @@ const UniversityGrid = () => {
           <div className="h-full">Map Component</div>
         </motion.div>
       )}
+      
     </div>
   );
 };
