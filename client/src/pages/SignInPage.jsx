@@ -94,8 +94,8 @@ const SignIn = () => {
               </h1>
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-8 grid grid-cols-6 gap-6">
-              <div className="col-span-6">
+            <form onSubmit={handleSubmit} className="mt-8 grid grid-cols-10 gap-6">
+              <div className="col-span-10">
                 <div className="relative">
                   <input
                     type="email"
@@ -115,7 +115,7 @@ const SignIn = () => {
                 </div>
               </div>
 
-              <div className="col-span-6">
+              <div className="col-span-10">
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
@@ -142,7 +142,7 @@ const SignIn = () => {
                 </div>
               </div>
 
-              <div className="col-span-6 flex items-center justify-between">
+              <div className="col-span-10 flex items-center justify-between">
                 <label className="flex items-center gap-4 hover:cursor-pointer group">
                   <div className="relative">
                     <input
@@ -168,12 +168,12 @@ const SignIn = () => {
               </div>
 
               {error && (
-                <div className="col-span-6 text-red-500 text-sm bg-red-50 p-3 rounded-lg">
+                <div className="col-span-10 text-red-500 text-sm bg-red-50 p-3 rounded-lg">
                   {error}
                 </div>
               )}
 
-              <div className="col-span-6 space-y-4">
+              <div className="col-span-10 space-y-4">
                 <button
                   type="submit"
                   disabled={loading}
@@ -197,7 +197,7 @@ const SignIn = () => {
               <div className="col-span-6">
                 <p className="text-center text-sm text-gray-600">
                   Don't have an account?{' '}
-                  <Link to="/signup" className="text-indigo-600 hover:text-indigo-700 hover:underline">
+                  <Link to="/register" className="text-indigo-600 hover:text-indigo-700 hover:underline">
                     Sign up
                   </Link>
                 </p>
