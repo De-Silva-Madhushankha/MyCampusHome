@@ -4,6 +4,7 @@ import SignIn from './pages/SignInPage';
 import SignUp from './pages/SignUpPage';
 import HelpCenter from './pages/HelpCenter';
 import { NotFound } from './pages/NotFoundPage';
+import AccommodationList from './pages/AccommodationListing';
 
 
 
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/login" element={<SignIn />} />
           <Route path="/register" element={<SignUp />} />
           <Route path="/help" element={<HelpCenter />} />
+          <Route path="/list-property" element={<AccommodationList />} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
 
