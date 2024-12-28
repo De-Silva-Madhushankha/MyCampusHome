@@ -37,6 +37,7 @@ const Navbar = () => {
 
           <div className="hidden lg:flex items-center space-x-4">
             <Button
+              className="hover:bg-indigo-500 hover:text-white"
               href="/list-property"
               variant="outlined"
               color="primary"

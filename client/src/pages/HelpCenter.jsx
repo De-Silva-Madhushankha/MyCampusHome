@@ -52,7 +52,7 @@ const HelpCenter = () => {
   return (
     <div className="min-h-screen bg-white">
 
-      <nav className="bg-white border-b border-gray-100 fixed top-0 w-full z-50 backdrop-blur-lg bg-white/80">
+      <nav className="bg-white border-b border-gray-300 fixed top-0 w-full z-50 backdrop-blur-lg bg-white/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <Link
@@ -85,7 +85,6 @@ const HelpCenter = () => {
             Search our knowledge base or browse categories below to find answers
           </p>
           
-          {/* Enhanced Search Bar */}
           <div className="max-w-2xl mx-auto relative">
             <div className="relative group">
               <input
@@ -93,16 +92,15 @@ const HelpCenter = () => {
                 placeholder="Search for articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-6 py-4 pl-14 rounded-2xl bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-shadow duration-200 text-base"
+                className="w-full px-6 py-4 pl-14 rounded-2xl bg-white shadow-lg focus:outline-none focus:ring-1 focus:ring-gray-500 duration-200 text-base"
               />
-              <Search className="absolute left-5 top-4 text-gray-400 group-hover:text-indigo-500 transition-colors duration-200" size={24} />
+              <Search className="absolute left-5 top-4 text-gray-400 group-hover:text-gray-600 transition-colors duration-200" size={24} />
               <kbd className="absolute right-4 top-4 px-2 py-1 text-xs font-medium text-gray-500 bg-gray-100 rounded">⌘K</kbd>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-8">
         <div className="space-y-4">
           {categories.map((category) => (
