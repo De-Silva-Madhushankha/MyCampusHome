@@ -16,10 +16,10 @@ MyCampusHome is a MERN (MongoDB, Express.js, React.js, Node.js) stack web applic
 Here are some screenshots of the MyCampusHome application:
 
 ### Homepage
-![Homepage Screenshot](screenshots/homepage.png)
+![Homepage Screenshot](screenshots/homepage.jpeg)
 
 ### Login Page
-![Login Page Screenshot](screenshots/login.png)
+![Login Page Screenshot](screenshots/loginpage.jpeg)
 
 ### Accommodation Search
 ![Accommodation Search Screenshot](screenshots/search.png)
