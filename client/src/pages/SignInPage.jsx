@@ -185,13 +185,13 @@ const SignIn = () => {
                   </span>
                 </button>
 
-                <button
+                {/* <button
                   type="button"
                   className="flex w-full items-center justify-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-8 py-3 text-sm font-semibold text-gray-700 hover:border-gray-300"
                 >
                   <GoogleIcon className="h-5 w-5" />
                   Continue with Google
-                </button>
+                </button> */}
               </div>
 
               <div className="col-span-6">
