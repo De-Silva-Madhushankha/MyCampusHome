@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const SignUp = () => {
 
@@ -91,7 +91,7 @@ const SignUp = () => {
                     />
 
                     <div className="hidden lg:relative lg:block lg:p-12">
-                        <a className="block text-white" href="/">
+                        <Link className="block text-white" to="/">
                             <span className="sr-only">Home</span>
                             <svg
                                 className="h-8 sm:h-10"
@@ -104,7 +104,7 @@ const SignUp = () => {
                                     fill="currentColor"
                                 />
                             </svg>
-                        </a>
+                        </Link>
 
                         <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
                             Welcome to MyCampusHome.LK
@@ -293,7 +293,7 @@ const SignUp = () => {
 
                                 <p className="mt-4 text-sm text-gray-600 sm:mt-0">
                                     Already have an account?{' '}
-                                    <a href="/login" className="text-indigo-600 hover:text-indigo-700 hover:underline">Log in</a>
+                                    <Link to="/login" className="text-indigo-600 hover:text-indigo-700 hover:underline">Log in</Link>
                                 </p>
 
                                 

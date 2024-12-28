@@ -65,12 +65,12 @@ const SignIn = () => {
             className="absolute inset-0 h-full w-full object-cover opacity-80"
           />
           <div className="hidden lg:relative lg:block lg:p-12">
-            <a className="block text-white" href="/">
+            <Link className="block text-white" to="/">
               <span className="sr-only">Home</span>
               <svg className="h-8 sm:h-10" viewBox="0 0 24 24" fill="none">
                 <path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z" fill="currentColor" />
               </svg>
-            </a>
+            </Link>
             <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
               Welcome back to MyCampusHome.LK
             </h2>
