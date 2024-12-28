@@ -51,7 +51,7 @@ const Navbar = () => {
             >
               List an Accommodation
             </Button>
-            <Link to="/help-center" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+            <Link to="/help" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
               Help Center
             </Link>
             <Link to="/login" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
