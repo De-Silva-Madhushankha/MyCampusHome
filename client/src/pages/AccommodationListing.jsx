@@ -719,26 +719,6 @@ const AccommodationListing = () => {
   return (
     <>
       <Navbar />
-      {/* Features Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
-            <Link
-              key={index}
-              to="#"
-              className="bg-white p-6 rounded-xl border border-gray-100 hover:border-indigo-200 transition-all hover:shadow-lg"
-            >
-              <div className="text-indigo-600 bg-indigo-50 p-3 rounded-lg inline-block mb-4">
-                {feature.icon}
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-gray-600">{feature.description}</p>
-            </Link>
-          ))}
-        </div>
-      </div>
 
       {/* Multi-Step Form */}
       <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -854,6 +834,26 @@ const AccommodationListing = () => {
             )}
           </form>
         </div>
+              {/* Features Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map((feature, index) => (
+            <Link
+              key={index}
+              to="#"
+              className="bg-white p-6 rounded-xl border border-gray-100 hover:border-indigo-200 transition-all hover:shadow-lg"
+            >
+              <div className="text-indigo-600 bg-indigo-50 p-3 rounded-lg inline-block mb-4">
+                {feature.icon}
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {feature.title}
+              </h3>
+              <p className="text-gray-600">{feature.description}</p>
+            </Link>
+          ))}
+        </div>
+      </div>
       </div>
       <Footer />
     </>
