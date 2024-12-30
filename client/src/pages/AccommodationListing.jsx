@@ -7,6 +7,7 @@ import {
   CheckSquare,
   Users,
   FileText,
+  Trash2,
   Radio,
   ChevronRight,
 } from 'lucide-react';
@@ -231,6 +232,19 @@ const AccommodationListing = () => {
     setFormData({
       ...formData,
       photos: [...formData.photos, ...photoURLs],
+    });
+  };
+
+  const handlePhotoDelete = (index) => {
+    const updatedPhotos = [...formData.photos];
+    // Revoke the object URL to free up memory
+    URL.revokeObjectURL(updatedPhotos[index]);
+    updatedPhotos.splice(index, 1);
+    setFormData({
+      ...formData,
+      photos: updatedPhotos,
+      // Also remove from photoFiles if stored
+      // photoFiles: formData.photoFiles.filter((_, i) => i !== index),
     });
   };
 
