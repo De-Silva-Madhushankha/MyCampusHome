@@ -1,6 +1,6 @@
 # MyCampusHome
 
-MyCampusHome is a MERN (MongoDB, Express.js, React.js, Node.js) stack web application designed to assist students in finding the perfect student accommodations. The platform offers an intuitive interface, responsive design, and integration with modern authentication and payment systems.
+MyCampusHome is a comprehensive web application designed to assist students in finding the perfect student accommodations. The platform offers an intuitive interface, responsive design, and integration with modern authentication and payment systems.
 
 ## Features
 
