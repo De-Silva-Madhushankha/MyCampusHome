@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Home, Camera, ArrowRight, Radio, Users, FileText, MapPin, ChevronDown } from 'lucide-react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const PropertyListing = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -33,40 +35,7 @@ const PropertyListing = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
-      <nav className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center gap-8">
-              <img 
-                src="/api/placeholder/120/40" 
-                alt="Logo" 
-                className="h-8 w-auto"
-              />
-              <div className="hidden md:flex items-center gap-6">
-                <a href="#" className="text-gray-600 hover:text-indigo-600">Payments</a>
-                <a href="#" className="text-gray-600 hover:text-indigo-600">Screening</a>
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search by city or ZIP"
-                    className="w-64 pl-10 pr-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
-                  />
-                  <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <button className="text-gray-600 hover:text-indigo-600 font-medium">Log In</button>
-              <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
-                Sign Up
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
+      <Navbar />
       <div className="relative overflow-hidden bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center mb-12">
@@ -150,59 +119,9 @@ const PropertyListing = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-white font-semibold mb-4">For Tenants</h3>
-              <div className="space-y-2">
-                <a href="#" className="block hover:text-white transition-colors">Apply Online</a>
-                <a href="#" className="block hover:text-white transition-colors">Schedule Tour</a>
-                <a href="#" className="block hover:text-white transition-colors">Rent Payments</a>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-4">For Landlords</h3>
-              <div className="space-y-2">
-                <a href="#" className="block hover:text-white transition-colors">List Property</a>
-                <a href="#" className="block hover:text-white transition-colors">Screening</a>
-                <a href="#" className="block hover:text-white transition-colors">Tenant Management</a>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-4">Resources</h3>
-              <div className="space-y-2">
-                <a href="#" className="block hover:text-white transition-colors">Help Center</a>
-                <a href="#" className="block hover:text-white transition-colors">Blog</a>
-                <a href="#" className="block hover:text-white transition-colors">FAQs</a>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-4">Company</h3>
-              <div className="space-y-2">
-                <a href="#" className="block hover:text-white transition-colors">About Us</a>
-                <a href="#" className="block hover:text-white transition-colors">Contact</a>
-                <a href="#" className="block hover:text-white transition-colors">Privacy Policy</a>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-4">
-              <img 
-                src="/api/placeholder/120/40" 
-                alt="Logo" 
-                className="h-8 w-auto brightness-0 invert"
-              />
-              <span>© 2024 YourBrand. All rights reserved.</span>
-            </div>
-            <div className="flex gap-4">
-              <img src="/api/placeholder/120/40" alt="App Store" className="h-10 w-auto" />
-              <img src="/api/placeholder/120/40" alt="Play Store" className="h-10 w-auto" />
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
+
+      
     </div>
   );
 };
