@@ -26,9 +26,10 @@ const AccommodationListing = () => {
     postalCode: '',
     nearestUniversity: '',
 
-    // Property Details
+    // Accomodation Details
     propertyType: '',
     bedrooms: '',
+    beds: '',
     bathrooms: '',
     furnished: false,
     area: '',
@@ -55,9 +56,9 @@ const AccommodationListing = () => {
   const features = [
     {
       icon: <Camera className="w-8 h-8" />,
-      title: 'Quick Property Upload',
+      title: 'Quick Accommodation Upload',
       description:
-        'List your property in minutes with our streamlined process. Add photos and details effortlessly.',
+        'List your accommodation in minutes with our streamlined process. Add photos and details effortlessly.',
     },
     {
       icon: <FileText className="w-8 h-8" />,
@@ -88,6 +89,7 @@ const AccommodationListing = () => {
     'Kitchen Access',
     'Parking',
     'TV',
+    'None',
   ];
 
   const propertyTypes = [
@@ -115,6 +117,8 @@ const AccommodationListing = () => {
           newErrors.propertyType = 'Property type is required';
         if (!formData.bedrooms)
           newErrors.bedrooms = 'Number of bedrooms is required';
+        if (!formData.beds)
+          newErrors.beds = 'Number of beds is required';
         if (!formData.bathrooms)
           newErrors.bathrooms = 'Number of bathrooms is required';
         if (!formData.area)
@@ -127,12 +131,14 @@ const AccommodationListing = () => {
       case 4:
         if (formData.photos.length === 0)
           newErrors.photos = 'Add at least one photo';
+        if (formData.photos.length > 5)
+          newErrors.photos = 'Maximum five photos only'
         break;
       case 5:
         if (!formData.price)
           newErrors.price = 'Price is required';
         if (!formData.deposit)
-          newErrors.deposit = 'Deposit amount is required';
+          newErrors.deposit = 'Security Deposit amount is required';
         if (!formData.minimumStay)
           newErrors.minimumStay = 'Minimum stay is required';
         break;
@@ -192,6 +198,7 @@ const AccommodationListing = () => {
 
         if (response.ok) {
           // Redirect or show success message
+          notify
           navigate('/dashboard');
         } else {
           // Handle server errors
@@ -232,10 +239,9 @@ const AccommodationListing = () => {
       case 1:
         return (
           <div className="space-y-6">
-            {/* Address */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Property Address*
+                Accommodation Address*
               </label>
               <div className="relative">
                 <MapPin className="absolute left-3 top-3.5 text-gray-400" size={18} />
@@ -246,9 +252,8 @@ const AccommodationListing = () => {
                     setFormData({ ...formData, address: e.target.value })
                   }
                   placeholder="Enter street address"
-                  className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
-                    errors.address ? 'border-red-500' : 'border-gray-200'
-                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                  className={`w-full pl-10 pr-4 py-3 rounded-lg border ${errors.address ? 'border-red-500' : 'border-gray-200'
+                    } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
                 />
               </div>
               {errors.address && (
@@ -256,7 +261,6 @@ const AccommodationListing = () => {
               )}
             </div>
 
-            {/* Unit */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Unit/Suite (Optional)
@@ -275,7 +279,6 @@ const AccommodationListing = () => {
               </div>
             </div>
 
-            {/* City */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 City*
@@ -287,16 +290,14 @@ const AccommodationListing = () => {
                   setFormData({ ...formData, city: e.target.value })
                 }
                 placeholder="Enter city"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.city ? 'border-red-500' : 'border-gray-200'
-                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                className={`w-full px-4 py-3 rounded-lg border ${errors.city ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
               />
               {errors.city && (
                 <p className="mt-1 text-sm text-red-500">{errors.city}</p>
               )}
             </div>
 
-            {/* Postal Code */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Postal Code*
@@ -308,16 +309,14 @@ const AccommodationListing = () => {
                   setFormData({ ...formData, postalCode: e.target.value })
                 }
                 placeholder="Enter postal code"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.postalCode ? 'border-red-500' : 'border-gray-200'
-                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                className={`w-full px-4 py-3 rounded-lg border ${errors.postalCode ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
               />
               {errors.postalCode && (
                 <p className="mt-1 text-sm text-red-500">{errors.postalCode}</p>
               )}
             </div>
 
-            {/* Nearest University */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Nearest University*
@@ -332,9 +331,8 @@ const AccommodationListing = () => {
                   })
                 }
                 placeholder="Enter nearest university"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.nearestUniversity ? 'border-red-500' : 'border-gray-200'
-                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                className={`w-full px-4 py-3 rounded-lg border ${errors.nearestUniversity ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
               />
               {errors.nearestUniversity && (
                 <p className="mt-1 text-sm text-red-500">
@@ -348,10 +346,9 @@ const AccommodationListing = () => {
       case 2:
         return (
           <div className="space-y-6">
-            {/* Property Type */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Property Type*
+                Accommodation Type*
               </label>
               <div className="grid grid-cols-2 gap-4">
                 {propertyTypes.map((type) => (
@@ -361,11 +358,10 @@ const AccommodationListing = () => {
                     onClick={() =>
                       setFormData({ ...formData, propertyType: type })
                     }
-                    className={`p-4 rounded-lg border-2 ${
-                      formData.propertyType === type
+                    className={`p-4 rounded-lg border-2 ${formData.propertyType === type
                         ? 'border-indigo-600 bg-indigo-50'
                         : 'border-gray-200 hover:border-gray-300'
-                    } transition-colors flex flex-col items-center`}
+                      } transition-colors flex flex-col items-center`}
                   >
                     {type === 'Entire House' && <Home className="mb-2" />}
                     {type === 'Apartment' && <Home className="mb-2" />}
@@ -382,7 +378,6 @@ const AccommodationListing = () => {
               )}
             </div>
 
-            {/* Bedrooms */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Number of Bedrooms*
@@ -395,16 +390,34 @@ const AccommodationListing = () => {
                 }
                 min="1"
                 placeholder="e.g., 2"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.bedrooms ? 'border-red-500' : 'border-gray-200'
-                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                className={`w-full px-4 py-3 rounded-lg border ${errors.bedrooms ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
               />
               {errors.bedrooms && (
                 <p className="mt-1 text-sm text-red-500">{errors.bedrooms}</p>
               )}
             </div>
 
-            {/* Bathrooms */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Number of Beds*
+              </label>
+              <input
+                type="number"
+                value={formData.beds}
+                onChange={(e) =>
+                  setFormData({ ...formData, beds: e.target.value })
+                }
+                min="1"
+                placeholder="e.g., 2"
+                className={`w-full px-4 py-3 rounded-lg border ${errors.beds ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              />
+              {errors.beds && (
+                <p className="mt-1 text-sm text-red-500">{errors.beds}</p>
+              )}
+            </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Number of Bathrooms*
@@ -417,9 +430,8 @@ const AccommodationListing = () => {
                 }
                 min="1"
                 placeholder="e.g., 1"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.bathrooms ? 'border-red-500' : 'border-gray-200'
-                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                className={`w-full px-4 py-3 rounded-lg border ${errors.bathrooms ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
               />
               {errors.bathrooms && (
                 <p className="mt-1 text-sm text-red-500">
@@ -428,7 +440,6 @@ const AccommodationListing = () => {
               )}
             </div>
 
-            {/* Total Area */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Total Area (sq ft)*
@@ -441,9 +452,8 @@ const AccommodationListing = () => {
                 }
                 min="100"
                 placeholder="e.g., 1200"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.area ? 'border-red-500' : 'border-gray-200'
-                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                className={`w-full px-4 py-3 rounded-lg border ${errors.area ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
               />
               {errors.area && (
                 <p className="mt-1 text-sm text-red-500">{errors.area}</p>
@@ -455,7 +465,6 @@ const AccommodationListing = () => {
       case 3:
         return (
           <div className="space-y-6">
-            {/* Amenities */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Amenities*
@@ -470,7 +479,7 @@ const AccommodationListing = () => {
                       onChange={() => handleCheckboxChange(amenity)}
                       className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
                     />
-                    <span className="text-sm text-gray-700">{amenity}</span>
+                    <span className="text-sm text-indigo-700">{amenity}</span>
                   </label>
                 ))}
               </div>
@@ -486,7 +495,6 @@ const AccommodationListing = () => {
       case 4:
         return (
           <div className="space-y-6">
-            {/* Photo Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Upload Photos*
@@ -507,12 +515,21 @@ const AccommodationListing = () => {
             {formData.photos.length > 0 && (
               <div className="grid grid-cols-3 gap-4">
                 {formData.photos.map((photo, index) => (
-                  <img
-                    key={index}
-                    src={photo}
-                    alt={`Property Photo ${index + 1}`}
-                    className="w-full h-32 object-cover rounded-lg"
-                  />
+                  <div key={index} className="relative">
+                    <img
+                      src={photo}
+                      alt={`Property Photo ${index + 1}`}
+                      className="w-full h-32 object-cover rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handlePhotoDelete(index)}
+                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none"
+                      aria-label={`Delete photo ${index + 1}`}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 ))}
               </div>
             )}
@@ -537,9 +554,8 @@ const AccommodationListing = () => {
                   }
                   min="100"
                   placeholder="e.g., 1200"
-                  className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
-                    errors.price ? 'border-red-500' : 'border-gray-200'
-                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                  className={`w-full pl-10 pr-4 py-3 rounded-lg border ${errors.price ? 'border-red-500' : 'border-gray-200'
+                    } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
                 />
               </div>
               {errors.price && (
@@ -547,10 +563,10 @@ const AccommodationListing = () => {
               )}
             </div>
 
-            {/* Deposit */}
+            {/* Security Deposit */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Deposit Amount*
+                Security Deposit Amount*
               </label>
               <div className="relative">
                 <DollarSign className="absolute left-3 top-3.5 text-gray-400" size={18} />
@@ -562,9 +578,8 @@ const AccommodationListing = () => {
                   }
                   min="100"
                   placeholder="e.g., 1200"
-                  className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
-                    errors.deposit ? 'border-red-500' : 'border-gray-200'
-                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                  className={`w-full pl-10 pr-4 py-3 rounded-lg border ${errors.deposit ? 'border-red-500' : 'border-gray-200'
+                    } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
                 />
               </div>
               {errors.deposit && (
@@ -585,9 +600,8 @@ const AccommodationListing = () => {
                 }
                 min="1"
                 placeholder="e.g., 6"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.minimumStay ? 'border-red-500' : 'border-gray-200'
-                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                className={`w-full px-4 py-3 rounded-lg border ${errors.minimumStay ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
               />
               {errors.minimumStay && (
                 <p className="mt-1 text-sm text-red-500">
@@ -631,9 +645,8 @@ const AccommodationListing = () => {
                   setFormData({ ...formData, contactName: e.target.value })
                 }
                 placeholder="Enter your name"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.contactName ? 'border-red-500' : 'border-gray-200'
-                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                className={`w-full px-4 py-3 rounded-lg border ${errors.contactName ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
               />
               {errors.contactName && (
                 <p className="mt-1 text-sm text-red-500">
@@ -654,9 +667,8 @@ const AccommodationListing = () => {
                   setFormData({ ...formData, email: e.target.value })
                 }
                 placeholder="Enter your email"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.email ? 'border-red-500' : 'border-gray-200'
-                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                className={`w-full px-4 py-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
               />
               {errors.email && (
                 <p className="mt-1 text-sm text-red-500">{errors.email}</p>
@@ -675,9 +687,8 @@ const AccommodationListing = () => {
                   setFormData({ ...formData, phone: e.target.value })
                 }
                 placeholder="Enter your phone number"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.phone ? 'border-red-500' : 'border-gray-200'
-                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                className={`w-full px-4 py-3 rounded-lg border ${errors.phone ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
               />
               {errors.phone && (
                 <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
@@ -698,9 +709,8 @@ const AccommodationListing = () => {
                     availableFrom: e.target.value,
                   })
                 }
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.availableFrom ? 'border-red-500' : 'border-gray-200'
-                } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                className={`w-full px-4 py-3 rounded-lg border ${errors.availableFrom ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
               />
               {errors.availableFrom && (
                 <p className="mt-1 text-sm text-red-500">
@@ -746,56 +756,50 @@ const AccommodationListing = () => {
           {/* Form */}
           <form onSubmit={handleSubmit}>
             <div
-              className={`transition-all duration-500 ease-in-out ${
-                currentStep === 1
+              className={`transition-all duration-500 ease-in-out ${currentStep === 1
                   ? 'max-h-full opacity-100'
                   : 'max-h-0 overflow-hidden opacity-0'
-              }`}
+                }`}
             >
               {currentStep === 1 && renderStep()}
             </div>
             <div
-              className={`transition-all duration-500 ease-in-out ${
-                currentStep === 2
+              className={`transition-all duration-500 ease-in-out ${currentStep === 2
                   ? 'max-h-full opacity-100'
                   : 'max-h-0 overflow-hidden opacity-0'
-              }`}
+                }`}
             >
               {currentStep === 2 && renderStep()}
             </div>
             <div
-              className={`transition-all duration-500 ease-in-out ${
-                currentStep === 3
+              className={`transition-all duration-500 ease-in-out ${currentStep === 3
                   ? 'max-h-full opacity-100'
                   : 'max-h-0 overflow-hidden opacity-0'
-              }`}
+                }`}
             >
               {currentStep === 3 && renderStep()}
             </div>
             <div
-              className={`transition-all duration-500 ease-in-out ${
-                currentStep === 4
+              className={`transition-all duration-500 ease-in-out ${currentStep === 4
                   ? 'max-h-full opacity-100'
                   : 'max-h-0 overflow-hidden opacity-0'
-              }`}
+                }`}
             >
               {currentStep === 4 && renderStep()}
             </div>
             <div
-              className={`transition-all duration-500 ease-in-out ${
-                currentStep === 5
+              className={`transition-all duration-500 ease-in-out ${currentStep === 5
                   ? 'max-h-full opacity-100'
                   : 'max-h-0 overflow-hidden opacity-0'
-              }`}
+                }`}
             >
               {currentStep === 5 && renderStep()}
             </div>
             <div
-              className={`transition-all duration-500 ease-in-out ${
-                currentStep === 6
+              className={`transition-all duration-500 ease-in-out ${currentStep === 6
                   ? 'max-h-full opacity-100'
                   : 'max-h-0 overflow-hidden opacity-0'
-              }`}
+                }`}
             >
               {currentStep === 6 && renderStep()}
             </div>
@@ -817,9 +821,8 @@ const AccommodationListing = () => {
                 onClick={
                   currentStep === 6 ? handleSubmit : handleNext
                 }
-                className={`flex items-center px-6 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors font-medium ${
-                  currentStep === 6 ? '' : 'ml-auto'
-                }`}
+                className={`flex items-center px-6 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors font-medium ${currentStep === 6 ? '' : 'ml-auto'
+                  }`}
               >
                 {currentStep === 6 ? 'Submit Listing' : 'Next'}
                 <ChevronRight className="ml-2" />
@@ -834,26 +837,26 @@ const AccommodationListing = () => {
             )}
           </form>
         </div>
-              {/* Features Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
-            <Link
-              key={index}
-              to="#"
-              className="bg-white p-6 rounded-xl border border-gray-100 hover:border-indigo-200 transition-all hover:shadow-lg"
-            >
-              <div className="text-indigo-600 bg-indigo-50 p-3 rounded-lg inline-block mb-4">
-                {feature.icon}
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-gray-600">{feature.description}</p>
-            </Link>
-          ))}
+        {/* Features Grid */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <Link
+                key={index}
+                to="#"
+                className="bg-white p-6 rounded-xl border border-gray-100 hover:border-indigo-200 transition-all hover:shadow-lg"
+              >
+                <div className="text-indigo-600 bg-indigo-50 p-3 rounded-lg inline-block mb-4">
+                  {feature.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
       </div>
       <Footer />
     </>

@@ -5,6 +5,7 @@ import SignUp from './pages/SignUpPage';
 import HelpCenter from './pages/HelpCenter';
 import { NotFound } from './pages/NotFoundPage';
 import AccommodationList from './pages/AccommodationListing';
+import FAQ from './pages/FAQ';
 
 
 
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="/register" element={<SignUp />} />
           <Route path="/help" element={<HelpCenter />} />
           <Route path="/list-property" element={<AccommodationList />} />
+          <Route path="/faq" element={<FAQ />} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
 
