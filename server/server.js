@@ -5,6 +5,7 @@ import cors from "cors";
 
 import universityRoutes from "./routes/universityRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import accommodationRoutes from "./routes/accommodationRoutes.js";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ mongoose
 // Routes
 app.use("/api/universities", universityRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/accommodations", accommodationRoutes);
 
 console.log("Routes setup complete");
 
