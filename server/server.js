@@ -10,6 +10,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const HOST = process.env.HOST || "localhost";
 
 // Middleware applied to all routes
 app.use(express.json());
@@ -34,7 +35,7 @@ app.get('/', (req, res) => {
   res.send('server is running');
 })
 
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`http://localhost:${PORT}/`);
+  console.log(`http://${HOST}:${PORT}`);
 })
