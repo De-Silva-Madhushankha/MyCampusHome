@@ -94,7 +94,7 @@ const PropertySearchPage = () => {
       beds: 5,
       baths: 2,
       sqm: 183,
-      address: 'Stephanstraße 26/5th floor, 10559 Berlin',
+      address: 'Bandaranayake Mawatha, Moratuwa University Area, Sri Lanka',
       image: '/api/placeholder/400/300',
       mapPosition: { x: 30, y: 40 }
     },
@@ -104,7 +104,7 @@ const PropertySearchPage = () => {
       beds: 1,
       baths: 1.5,
       sqm: 56,
-      address: 'Invalidenstraße 100, 10115 Berlin, Germany',
+      address: 'Rathmalana Road, Moratuwa, Sri Lanka',
       image: '/api/placeholder/400/300',
       mapPosition: { x: 45, y: 55 }
     },
@@ -114,7 +114,7 @@ const PropertySearchPage = () => {
       beds: 1,
       baths: 1,
       sqm: 34,
-      address: 'Lucy-Lameck-Straße 15, 12049 Berlin, Germany',
+      address: 'Galle Road, Moratuwa City Area, Sri Lanka',
       image: '/api/placeholder/400/300',
       mapPosition: { x: 60, y: 35 }
     }
@@ -122,26 +122,6 @@ const PropertySearchPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              <h1 className="text-2xl font-bold text-indigo-600">Rentberry</h1>
-              <nav className="hidden md:flex gap-4">
-                <a href="#" className="text-gray-600 hover:text-indigo-600">Payments</a>
-                <a href="#" className="text-gray-600 hover:text-indigo-600">Screening</a>
-              </nav>
-            </div>
-            <div className="flex items-center gap-4">
-              <button className="text-indigo-600 hover:text-indigo-700">Log In</button>
-              <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
-                Sign Up
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <main className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="flex-1 relative">
@@ -156,7 +136,6 @@ const PropertySearchPage = () => {
             <FilterButton label="Price" />
             <FilterButton label="Type" />
             <FilterButton label="Beds" icon={Bed} />
-            <FilterButton label="Baths" icon={Bath} />
             <button className="flex items-center gap-2 px-4 py-2 text-indigo-600 hover:bg-indigo-50 rounded-md">
               <Sliders size={20} />
               Filters
@@ -166,7 +145,7 @@ const PropertySearchPage = () => {
 
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold">
-            Berlin, Germany apartments for rent
+            Moratuwa, Molpe apartments for rent
             <span className="text-gray-500 ml-2 text-sm">36,968 listings found</span>
           </h2>
           <div className="flex items-center gap-4">

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -15,7 +16,7 @@ const Hero = () => {
         Discover your ideal apartment or boarding place with ease. CampusHome connects you to affordable and convenient living spaces near your university.
         </p>
         <button className="bg-indigo-500 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-600 active:scale-95">
-          Find a place
+          <Link to="/search">Find a place</Link>
         </button>
       </div>
       <ShuffleGrid />
