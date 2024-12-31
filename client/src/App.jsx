@@ -6,6 +6,7 @@ import HelpCenter from './pages/HelpCenter';
 import { NotFound } from './pages/NotFoundPage';
 import AccommodationList from './pages/AccommodationListing';
 import FAQ from './pages/FAQ';
+import PropertySearchPage from './pages/SearchResultPage';
 
 
 
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/help" element={<HelpCenter />} />
           <Route path="/list-property" element={<AccommodationList />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/search" element={<PropertySearchPage />} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
 
