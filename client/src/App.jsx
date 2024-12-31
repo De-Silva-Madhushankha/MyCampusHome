@@ -6,10 +6,11 @@ import HelpCenter from './pages/HelpCenter';
 import { NotFound } from './pages/NotFoundPage';
 import AccommodationList from './pages/AccommodationListing';
 import FAQ from './pages/FAQ';
+import axios from 'axios';
+import data from './data.json';
 import PropertySearchPage from './pages/SearchResultPage';
 
-
-
+axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:4000/api';
 
 export default function App() {
   return (

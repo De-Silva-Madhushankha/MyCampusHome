@@ -60,7 +60,7 @@ const SignUp = () => {
       setLoading(true);
   
       try {
-        const response = await axios.post("http://localhost:5000/api/user/register", {
+        const response = await axios.post("/user/register", {
           firstName: formData.firstName,
           lastName: formData.lastName,
           email: formData.email,

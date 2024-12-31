@@ -37,7 +37,7 @@ const UniversityGrid = () => {
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/universities");
+        const response = await axios.get("/universities");
         setUniversities(Array.isArray(response.data) ? response.data : []);
         setLoading(false);
       } catch (err) {
