@@ -18,7 +18,14 @@ const userSchema = Schema({
   password: {
     type: String,
     required: true,
-  }  
+  },
+  
+  role : {
+    type: String,
+    required: true,
+    default: 'user',
+  },
+
 });
 
 // Pre-save middleware to hash password
