@@ -186,34 +186,36 @@ const AccommodationListing = () => {
     e.preventDefault();
     if (validateStep(currentStep)) {
       try {
-        // Prepare form data
-        const submissionData = { ...formData };
-        // Handle file uploads if necessary
-        // Example: You might need to send FormData instead of JSON
-
-        // Example submission using Fetch API
-        const response = await fetch('/api/accommodations', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(submissionData),
+        const data = new FormData();
+  
+        // Append form fields
+        Object.entries(formData).forEach(([key, value]) => {
+          if (key === 'photos') {
+            value.forEach((file) => data.append('photos', file)); // Add each photo
+          } else {
+            data.append(key, value);
+          }
         });
-
-        if (response.ok) {
-          // Redirect or show success message
-          notify
-          navigate('/dashboard');
+        
+        console.log(data.getAll())
+        const response = await axios.post('/listing/list', data, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+  
+        if (response.status === 201 || response.status === 200) {
+          notify('Listing created successfully', 'success');
+          navigate('/');
         } else {
-          // Handle server errors
-          const errorData = await response.json();
-          setErrors({ submit: errorData.message || 'Submission failed' });
+          setErrors({ submit: response.data.message || 'Submission failed' });
         }
       } catch (error) {
         setErrors({ submit: 'An error occurred. Please try again.' });
       }
     }
   };
+  
 
   const handleCheckboxChange = (amenity) => {
     if (formData.amenities.includes(amenity)) {
@@ -231,21 +233,39 @@ const AccommodationListing = () => {
 
   const handlePhotoUpload = (e) => {
     const files = Array.from(e.target.files);
-    const photoURLs = files.map((file) => URL.createObjectURL(file));
-    setFormData({
-      ...formData,
-      photos: [...formData.photos, ...photoURLs],
-    });
+
+    // Debugging: Log the selected files
+    console.log('Selected files:', files);
+
+    // Validate files (e.g., check file type and size)
+    const validFiles = files.filter((file) =>
+      file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024
+    );
+
+    if (validFiles.length !== files.length) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        photos: 'Only image files are allowed. Maximum image size 5MB.',
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        photos: '',
+      }));
+    }
+
+    setFormData((prevData) => ({
+      ...prevData,
+      photos: validFiles,
+    }));
   };
 
   const handlePhotoDelete = (index) => {
     const updatedPhotos = [...formData.photos];
-    // Revoke the object URL to free up memory
-    URL.revokeObjectURL(updatedPhotos[index]);
     updatedPhotos.splice(index, 1);
     setFormData({
       ...formData,
-      photos: updatedPhotos,
+      photos : updatedPhotos,
       // Also remove from photoFiles if stored
       // photoFiles: formData.photoFiles.filter((_, i) => i !== index),
     });
@@ -534,7 +554,7 @@ const AccommodationListing = () => {
                 {formData.photos.map((photo, index) => (
                   <div key={index} className="relative">
                     <img
-                      src={photo}
+                      src={URL.createObjectURL(photo)}
                       alt={`Property Photo ${index + 1}`}
                       className="w-full h-32 object-cover rounded-lg"
                     />
