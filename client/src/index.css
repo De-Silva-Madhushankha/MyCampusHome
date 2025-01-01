@@ -24,3 +24,34 @@ input:-webkit-autofill:focus {
   -webkit-text-fill-color: #111827 !important;
   transition: background-color 5000s ease-in-out 0s;
 }
+
+/* Extra Thin Scrollbar with White Background */
+.scrollbar-thin {
+  scrollbar-width: thin; /* For Firefox */
+}
+
+/* For Webkit Browsers (Chrome, Safari, Edge) */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px; /* Extra thin scrollbar width */
+  height: 4px; /* For horizontal scrollbar */
+  background: #ffffff; /* White scrollbar track background */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #9ca3af; /* Gray thumb color */
+  border-radius: 10px; /* Rounded scrollbar thumb */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #6b7280; /* Slightly darker on hover */
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #ffffff; /* White scrollbar track */
+}
+
+.scrollbar-thin::-webkit-scrollbar-button {
+  display: none; /* Hide scrollbar up/down buttons */
+}
+
+
