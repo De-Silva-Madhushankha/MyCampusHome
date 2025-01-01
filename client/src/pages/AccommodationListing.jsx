@@ -197,7 +197,6 @@ const AccommodationListing = () => {
           }
         });
         
-        console.log(data.getAll())
         const response = await axios.post('/listing/list', data, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -205,7 +204,7 @@ const AccommodationListing = () => {
         });
   
         if (response.status === 201 || response.status === 200) {
-          notify('Listing created successfully', 'success');
+          //notify('Listing created successfully', 'success');
           navigate('/');
         } else {
           setErrors({ submit: response.data.message || 'Submission failed' });
