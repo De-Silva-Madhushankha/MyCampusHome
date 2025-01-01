@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 import { MapPin, Bed, Bath, Heart, Info, X, Clock } from 'lucide-react';
 
 const PropertyCard = ({ property, isSelected }) => {
     const [showDetails, setShowDetails] = useState(false);
+    const navigate = useNavigate()
+    const handleClick = () => {
+        navigate(`/accommodation`) // Navigate to the related apartment page
+    }
 
     const MainView = () => (
         <>
@@ -35,7 +40,10 @@ const PropertyCard = ({ property, isSelected }) => {
                 </div>
                 <p className="text-gray-500 text-sm mb-4 flex-grow">{property.address}</p>
                 <div className="flex gap-2 mt-auto">
-                    <button className="flex-1 bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition-colors">
+                    <button
+                        className="flex-1 bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition-colors"
+                        onClick={handleClick}
+                    >
                         Instant Apply
                     </button>
                     <button
@@ -101,7 +109,10 @@ const PropertyCard = ({ property, isSelected }) => {
 
             {/* Fixed Buttons */}
             <div className="flex gap-2 border-t pt-4">
-                <button className="flex-1 bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition-colors">
+                <button
+                    className="flex-1 bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition-colors"
+                    onClick={handleClick}
+                >
                     View more details
                 </button>
                 <button

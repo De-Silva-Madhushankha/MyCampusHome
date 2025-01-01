@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
-import Map from '../components/map/Map';
+import Map from '../components/maps/Map';
 import PropertyCard from '../components/cards/PropertyCard';
 
 const FilterButton = ({ label, icon: Icon }) => (
