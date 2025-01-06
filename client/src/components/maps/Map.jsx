@@ -1,11 +1,15 @@
 import React, { useRef, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+import { useSearchParams } from 'react-router-dom';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import PopupContent from './PopupContent';
 
 const Map = ({ properties, selectedProperty, onPropertySelect, onBoundsChange }) => {
   const mapRef = useRef();
+  const [searchParams] = useSearchParams();
+  const lat = searchParams.get('lat');
+  const lng = searchParams.get('lng');
 
   // Effect to handle selected property focus
   useEffect(() => {
@@ -16,6 +20,12 @@ const Map = ({ properties, selectedProperty, onPropertySelect, onBoundsChange })
       );
     }
   }, [selectedProperty]);
+
+  useEffect(() => {
+    if (mapRef.current && lat && lng) {
+      mapRef.current.setView([lat, lng], 15);
+    }
+  }, [lat, lng]);
 
   // Custom component to handle bounds change
   const MapEvents = () => {
@@ -31,7 +41,7 @@ const Map = ({ properties, selectedProperty, onPropertySelect, onBoundsChange })
   return (
     <div className="relative h-full min-h-[500px] bg-gray-100 rounded-lg overflow-hidden">
       <MapContainer
-        center={[6.7951, 79.9009]} // Default center (Moratuwa example)
+        center={[lat, lng]} // Default center (Moratuwa example)
         zoom={15}
         style={{ height: '100%', width: '100%' }}
         ref={mapRef}
@@ -47,7 +57,7 @@ const Map = ({ properties, selectedProperty, onPropertySelect, onBoundsChange })
         {/* Property Markers */}
         {properties.map((property) => (
           <Marker
-            key={property.id}
+            key={`${lat}-${lng}`}
             position={[property.mapPosition.lat, property.mapPosition.lng]}
             eventHandlers={{
               click: () => onPropertySelect(property),
@@ -70,6 +80,17 @@ const Map = ({ properties, selectedProperty, onPropertySelect, onBoundsChange })
             </Popup>
           </Marker>
         ))}
+
+        {/* Center Marker (Red Location Icon) */}
+        <Marker
+          position={[lat, lng]}
+          icon={L.icon({
+            iconUrl: 'location.png', // Red location icon image URL
+            iconSize: [40, 40], // Adjust the size of the icon
+            iconAnchor: [16, 32], // The point of the icon that will correspond to the marker's position
+            popupAnchor: [0, -32], // Adjust the popup position relative to the icon
+          })}
+        />
 
         {/* Handle map bounds changes */}
         <MapEvents />
