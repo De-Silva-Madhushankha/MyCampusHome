@@ -27,7 +27,7 @@ export default function App() {
           <Route path="/list-property" element={<AccommodationList />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/search" element={<PropertySearchPage />} />
-          <Route path="/accommodation" element={<AccommodationPage />} />
+          <Route path="/accommodation/:id" element={<AccommodationPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

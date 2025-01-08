@@ -6,20 +6,20 @@ const PropertyCard = ({ property, isSelected }) => {
     const [showDetails, setShowDetails] = useState(false);
     const navigate = useNavigate()
     const handleClick = () => {
-        navigate(`/accommodation`) // Navigate to the related apartment page
+       navigate(`/accommodation/${property._id}`) //Navigate to the related apartment page
     }
 
     const MainView = () => (
         <>
             <div className="relative">
-                <img src={property.image} alt={property.title} className="w-full h-48 object-cover" />
+                <img src={property.photos[0]} alt={property._id} className="w-full h-48 object-cover" />
                 <span className="absolute top-2 left-2 bg-indigo-600 text-white px-2 py-1 rounded text-sm">
                     Virtual Tour
                 </span>
             </div>
             <div className="p-4 flex flex-col flex-grow">
                 <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-2xl font-bold">€{property.price?.toLocaleString()}</h3>
+                    <h3 className="text-2xl font-bold">LKR {property.price?.toLocaleString()}</h3>
                     <button className="text-gray-400 hover:text-red-500">
                         <Heart size={20} />
                     </button>
@@ -31,11 +31,11 @@ const PropertyCard = ({ property, isSelected }) => {
                     </span>
                     <span className="flex items-center gap-1">
                         <Bath size={16} />
-                        {property.baths}
+                        {property.bathrooms}
                     </span>
                     <span className="flex items-center gap-1">
                         <MapPin size={16} />
-                        {property.sqm} Sq M
+                        {property.area} Sqft
                     </span>
                 </div>
                 <p className="text-gray-500 text-sm mb-4 flex-grow">{property.address}</p>
@@ -69,7 +69,7 @@ const PropertyCard = ({ property, isSelected }) => {
 
             <div className="flex items-center text-gray-500 mb-1 text-xs">
                 <Clock size={14} className="mr-1" />
-                <span>{property.listed}</span>
+                <span>{new Date(property.availableFrom).toLocaleDateString()}</span>
             </div>
 
             <div className="flex items-center text-gray-500 mb-2 text-xs">
@@ -80,18 +80,7 @@ const PropertyCard = ({ property, isSelected }) => {
             <div className="flex-1 overflow-y-auto space-y-4 mb-4 scrollbar-thin">
                 {/* Amenities */}
                 <div className="flex flex-wrap gap-2">
-                    {[
-                        'Wi-Fi',
-                        'Washing Machine',
-                        'Air Conditioning',
-                        'Study Desk',
-                        'Attached Bathroom',
-                        'Kitchen Access',
-                        'Parking',
-                        'Tv',
-                        'Garden',
-                        'Parking',
-                    ].map((amenity) => (
+                    {property.amenities.map((amenity) => (
                         <span
                             key={amenity}
                             className="bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-700"

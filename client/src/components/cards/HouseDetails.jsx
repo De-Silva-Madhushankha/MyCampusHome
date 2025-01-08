@@ -78,7 +78,7 @@ const HouseDetails = () => {
           {!showMap ? (
             <div className="relative">
               <img
-                src="/public/MapImgSample.png"
+                src="/MapImgSample.png"
                 alt="Map of the property"
                 className="w-full h-auto rounded-lg filter blur-sm"
               />

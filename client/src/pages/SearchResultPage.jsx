@@ -4,6 +4,7 @@ import Map from '../components/maps/Map';
 import PropertyCard from '../components/cards/PropertyCard';
 import Navbar from '../components/Navbar';
 import { toast } from 'react-toastify';
+import axios from "axios";
 
 const FilterButton = ({ label, icon: Icon }) => (
   <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-md hover:border-indigo-600 hover:text-indigo-600">
@@ -14,66 +15,32 @@ const FilterButton = ({ label, icon: Icon }) => (
 );
 
 const PropertySearchPage = () => {
+  const [searchParams] = useSearchParams();
   const [showMap, setShowMap] = useState(true);
+  const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState(null);
-  const [properties] = useState([
-    {
-      id: 1,
-      price: 1255,
-      beds: 5,
-      baths: 2,
-      sqm: 183,
-      address: 'Bandaranayake Mawatha, Moratuwa University Area, Sri Lanka',
-      image: "https://st2.depositphotos.com/1015412/8130/i/450/depositphotos_81301130-stock-photo-new-apartment-complex-in-suburban.jpg",
-      mapPosition: { lat: 6.7941, lng: 79.9000 }
-    },
-    {
-      id: 2,
-      price: 1850,
-      beds: 1,
-      baths: 1.5,
-      sqm: 56,
-      address: 'Rathmalana Road, Moratuwa, Sri Lanka',
-      image: "https://st2.depositphotos.com/1015412/8130/i/450/depositphotos_81301130-stock-photo-new-apartment-complex-in-suburban.jpg",
-      mapPosition: { lat: 6.7951, lng: 79.9009 }
-    },
-    {
-      id: 3,
-      price: 1410,
-      beds: 1,
-      baths: 1,
-      sqm: 34,
-      address: 'Galle Road, Moratuwa City Area, Sri Lanka',
-      image: "https://st2.depositphotos.com/1015412/8130/i/450/depositphotos_81301130-stock-photo-new-apartment-complex-in-suburban.jpg",
-      mapPosition: { lat: 6.7960, lng: 79.9018 }
-    },
-    {
-      id: 4,
-      price: 2100,
-      beds: 3,
-      baths: 2.5,
-      sqm: 120,
-      address: 'Angulana Station Road, Moratuwa, Sri Lanka',
-      image: "https://st2.depositphotos.com/1015412/8130/i/450/depositphotos_81301130-stock-photo-new-apartment-complex-in-suburban.jpg",
-      mapPosition: { lat: 6.7955, lng: 79.8995 }
-    },
-    {
-      id: 5,
-      price: 950,
-      beds: 2,
-      baths: 1,
-      sqm: 80,
-      address: 'Rawathawatte, Moratuwa, Sri Lanka',
-      image: "https://st2.depositphotos.com/1015412/8130/i/450/depositphotos_81301130-stock-photo-new-apartment-complex-in-suburban.jpg",
-      mapPosition: { lat: 6.7948, lng: 79.9020 }
-    }
-  ]);
-  const [filteredProperties, setFilteredProperties] = useState(properties);
+  const [filteredProperties, setFilteredProperties] = useState([]);
   const [filteredPropertiesCount, setFilteredPropertiesCount] = useState(0);
   const [city, setCity] = useState('');
-  const [searchParams] = useSearchParams();
+
   const lat = searchParams.get('lat');
   const lng = searchParams.get('lng');
+
+  // Fetch properties
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const response = await axios.get('/accommodation');
+        const data = await response.data;
+        setProperties(data);
+        console.log(data);
+      } catch (err) {
+        console.error('Error fetching properties:', err);
+        toast.error('Failed to fetch properties');
+      }
+    };
+    fetchProperties();
+  }, []);
 
   useEffect(() => {
     const fetchCity = async () => {
@@ -93,16 +60,30 @@ const PropertySearchPage = () => {
     fetchCity();
   }, [lat, lng]);
 
-  // Handle map bounds change
-  const handleBoundsChange = (bounds) => {
-    const filtered = properties.filter((property) => {
-      const { lat, lng } = property.mapPosition;
-      return bounds.contains([lat, lng]);
-    });
-    setFilteredProperties(filtered);
-    setFilteredPropertiesCount(filtered.length);
-  };
+  // Update filtered properties when main properties change
+  useEffect(() => {
+    setFilteredProperties(properties);
+    setFilteredPropertiesCount(properties.length);
+  }, [properties]);
 
+  const handlePropertySelect = React.useCallback((property) => {
+    requestAnimationFrame(() => {
+      setSelectedProperty(property);
+    });
+  }, []);
+
+  const handleFilteredPropertiesChange = React.useCallback((properties) => {
+    requestAnimationFrame(() => {
+      setFilteredProperties(properties);
+    });
+  }, []);
+
+  const handleFilteredPropertiesCountChange = React.useCallback((count) => {
+    requestAnimationFrame(() => {
+      setFilteredPropertiesCount(count);
+    });
+  }, []);
+  
   return (
     <>
       <Navbar />
@@ -139,9 +120,9 @@ const PropertySearchPage = () => {
               >
                 {filteredProperties.map((property) => (
                   <PropertyCard
-                    key={property.id}
+                    key={property._id}
                     property={property}
-                    isSelected={selectedProperty?.id === property.id}
+                    isSelected={selectedProperty?._id === property._id}
                   />
                 ))}
               </div>
@@ -156,8 +137,9 @@ const PropertySearchPage = () => {
                 <Map
                   properties={properties}
                   selectedProperty={selectedProperty}
-                  onPropertySelect={setSelectedProperty}
-                  onBoundsChange={handleBoundsChange}
+                  onPropertySelect={handlePropertySelect}
+                  setFilteredProperties={handleFilteredPropertiesChange}
+                  setFilteredPropertiesCount={handleFilteredPropertiesCountChange}
                 />
               </div>
             )}
