@@ -33,7 +33,6 @@ const PropertySearchPage = () => {
         const response = await axios.get('/accommodation');
         const data = await response.data;
         setProperties(data);
-        console.log(data);
       } catch (err) {
         console.error('Error fetching properties:', err);
         toast.error('Failed to fetch properties');

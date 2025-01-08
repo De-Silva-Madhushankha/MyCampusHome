@@ -533,7 +533,7 @@ const AccommodationListing = () => {
                       value={amenity}
                       checked={formData.amenities.includes(amenity)}
                       onChange={() => handleCheckboxChange(amenity)}
-                      className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                      className="h-4 w-4 text-black-600 border-gray-300 rounded"
                     />
                     <span className="text-sm text-indigo-700">{amenity}</span>
                   </label>

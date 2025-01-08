@@ -1,125 +1,241 @@
 import React, { useState } from "react";
-import { Wifi, WashingMachine, Wind, MonitorSmartphone, Bath, ChefHat, Car, Tv, TreePine } from "lucide-react";
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-
-// Custom marker icon setup
-const customIcon = L.icon({
-  iconUrl: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/map-marker-512.png',
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
-});
+import { Wifi, WashingMachine, Wind, MonitorSmartphone, Bath, ChefHat, Car, Tv, TreePine, Home, Calendar, Banknote, Phone, Mail, MapPin } from "lucide-react";
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { Card, CardContent, Typography, Grid, Box, Paper, Button, Container } from "@mui/material";
 
 const AmenityIcon = ({ Icon, text }) => (
-  <div className="flex items-center gap-3 p-3 bg-gray-100 rounded-lg">
-    <Icon className="w-5 h-5 text-gray-600" />
-    <span className="text-gray-700">{text}</span>
-  </div>
+  <Paper
+    elevation={0}
+    sx={{
+      p: .5,
+      display: 'flex',
+      alignItems: 'center',
+      gap: 1,
+      border: '1px solid #e5e7eb',
+      borderRadius: 5,
+      backgroundColor: '#f8fafc',
+      justifyContent: 'center',
+    }}
+  >
+    <Icon style={{ width: 20, height: 20, color: '#666' }} />
+    <Typography color="text.secondary">{text}</Typography>
+  </Paper>
 );
 
-const HouseDetails = () => {
+const PropertyDetails = ({ property }) => {
   const [showMap, setShowMap] = useState(false);
-  const position = [7.8774, 80.6518]; // add the latitude and longitude of the property
-  const amenities = [
-    { icon: Wifi, text: "Wi-Fi" },
-    { icon: WashingMachine, text: "Washing Machine" },
-    { icon: Wind, text: "Air Conditioning" },
-    { icon: MonitorSmartphone, text: "Study Desk" },
-    { icon: Bath, text: "Attached Bathroom" },
-    { icon: ChefHat, text: "Kitchen Access" },
-    { icon: Car, text: "Parking" },
-    { icon: Tv, text: "TV" },
-    { icon: TreePine, text: "Garden" }
-  ];
+
+  if (!property) {
+    return <Typography>Loading...</Typography>;
+  }
+
+  const position = [property.lat, property.lng];
+
+  const amenityIcons = {
+    "Wi-Fi": Wifi,
+    "Study Desk": MonitorSmartphone,
+    "Attached Bathroom": Bath,
+    "Parking": Car,
+    "Air Conditioning": Wind,
+    "Washing Machine": WashingMachine,
+    "Kitchen Access": ChefHat,
+    "TV": Tv,
+    "Garden": TreePine
+  };
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <Container maxWidth="xl" sx={{ py: 4 }}>
       {/* About This House Section */}
-      <div className="mb-12">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">About This House</h1>
-        <div className="space-y-4 text-gray-600 leading-relaxed">
-          <p>
-            Located in Kandalama, this welcoming villa lets you experience it all. With convenient onsite parking,
-            you'll be ready to make the 13-minute drive to Dambulla Cave Temple or the 16-minute drive to Sigiriya Museum.
-          </p>
-          <p>
-            After you return, you can unwind in the garden or sip a drink on the terrace. As for the great indoors,
-            you can come inside and enjoy the free WiFi and flat-screen TV.
-          </p>
-          <p>
-            This 1-bedroom, 1-bathroom rental features a sitting area, a dining area, air conditioning, and a desk.
-            Bathroom amenities include free toiletries, towels, and a hair dryer. For your convenience, there's a
-            coffee maker and an electric kettle.
-          </p>
-        </div>
-      </div>
+      <Card elevation={0} sx={{ mb: 4}}>
+        <CardContent sx={{ p: 4 }}>
+          <Typography variant="h5" sx={{ mb: 3, fontWeight: '600', color: '#1e293b', textAlign: 'center' }}>
+            About This House
+          </Typography>
+          <Typography variant="body1" sx={{ color: '#475569', lineHeight: 1.8 }}>
+            Located in {property.city}, this welcoming {property.propertyType.toLowerCase()} is conveniently situated near {property.nearestUniversity}.
+            This spacious accommodation offers {property.bedrooms} bedroom(s) and {property.bathrooms} bathroom(s),
+            spanning an area of {property.area} sq ft. Perfect for students and professionals looking for a
+            comfortable living space with modern amenities.
+          </Typography>
+        </CardContent>
+      </Card>
 
-      {/* Map View and Amenities Section */}
-      <div className="mb-12 flex justify-between items-start">
-        {/* Left Column: Amenities */}
-        <div className="w-full md:w-1/2 pr-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Amenities</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {amenities.map((amenity, index) => (
-              <AmenityIcon
-                key={index}
-                Icon={amenity.icon}
-                text={amenity.text}
-              />
-            ))}
-          </div>
-        </div>
+      {/* Two Column Layout */}
+      <Grid container spacing={2}>
+        {/* Left Column - Details */}
+        <Grid item xs={12} md={7}>
+          {/* Property Overview */}
+          <Card elevation={0} sx={{ mb: 4, border: '1px solid #e5e7eb' }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+                <Home style={{ color: '#1e293b' }} />
+                <Typography variant="h6" sx={{ fontWeight: '600', color: '#1e293b' }}>Property Overview</Typography>
+              </Box>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <Typography color="text.secondary" variant="body2">Property Type</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>{property.propertyType}</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography color="text.secondary" variant="body2">Area</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>{property.area} sq ft</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography color="text.secondary" variant="body2">Available From</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>{formatDate(property.availableFrom)}</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography color="text.secondary" variant="body2">Bedrooms</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>{property.bedrooms}</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography color="text.secondary" variant="body2">Bathrooms</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>{property.bathrooms}</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography color="text.secondary" variant="body2">Minimum Stay</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>{property.minimumStay} months</Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
 
-        {/* Right Column: Map */}
-        <div className="w-full md:w-1/2">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Location</h2>
-          {!showMap ? (
-            <div className="relative">
-              <img
-                src="/MapImgSample.png"
-                alt="Map of the property"
-                className="w-full h-auto rounded-lg filter blur-sm"
-              />
-              <button
-                onClick={() => setShowMap(true)}
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-blue-400 to-blue-600 text-white py-2 px-6 rounded-full shadow-lg font-bold hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-800 hover:shadow-xl transition-all duration-300"
-              >
-                Show this property on the map
-              </button>
-            </div>
-          ) : (
-            <div
-              className="relative rounded-lg overflow-hidden"
-              style={{
-                height: '500px', // Adjust the height as needed
-                zIndex: "1" // Lower z-index for map container
-              }}
-            >
-              <MapContainer
-                center={position} // add the latitude and longitude of the property
-                zoom={20}
-                scrollWheelZoom={true} // Enable zoom with touchpad or scroll wheel
-                className="h-full w-full"
-              >
-                <TileLayer
-                  url="https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=NyAnmJNQJ1ocTyQvNNtO"
-                  tileSize={512}
-                  zoomOffset={-1}
-                  attribution='&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-                />
-                <Marker
-                  position={position}
-                  icon={customIcon}
-                />
-              </MapContainer>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+          {/* Pricing Details */}
+          <Card elevation={0} sx={{ mb: 4, border: '1px solid #e5e7eb' }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+                <Banknote style={{ color: '#1e293b' }} />
+                <Typography variant="h6" sx={{ fontWeight: '600', color: '#1e293b' }}>Pricing Details</Typography>
+              </Box>
+              <Grid container spacing={1}>
+                <Grid item xs={4}>
+                  <Typography color="text.secondary" variant="body2">Monthly Rent</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>LKR {property.price.toLocaleString()}</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography color="text.secondary" variant="body2">Security Deposit</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>LKR {property.deposit.toLocaleString()}</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography color="text.secondary" variant="body2">Bills Included</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>{property.billsIncluded ? "Yes" : "No"}</Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+
+          {/* Amenities */}
+          <Card elevation={0} sx={{ mb: 4, border: '1px solid #e5e7eb' }}>
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h6" sx={{ mb: 3, fontWeight: '600', color: '#1e293b' }}>Available Amenities</Typography>
+              <Grid container spacing={1}>
+                {property.amenities.map((amenity, index) => {
+                  const Icon = amenityIcons[amenity] || Home;
+                  return (
+                    <Grid item xs={12} sm={3} key={index}>
+                      <AmenityIcon Icon={Icon} text={amenity} />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Right Column - Map and Contact */}
+        <Grid item xs={12} md={5}>
+          <Box sx={{ position: { md: 'sticky' }, top: { md: 24 } }}>
+            {/* Map Card */}
+            <Card elevation={0} sx={{ mb: 4, border: '1px solid #e5e7eb' }}>
+              <CardContent sx={{ p: 3 }}>
+                <Typography variant="h6" sx={{ mb: 3, fontWeight: '600', color: '#1e293b' }}>Location</Typography>
+                {!showMap ? (
+                  <Box sx={{ position: 'relative' }}>
+                    <Box
+                      component="img"
+                      src="/MapImgSample.png"
+                      alt="Map of the property"
+                      sx={{
+                        width: '100%',
+                        height: 300,
+                        objectFit: 'cover',
+                        borderRadius: 1,
+                        filter: 'blur(4px)'
+                      }}
+                    />
+                    <Button
+                      variant="contained"
+                      onClick={() => setShowMap(true)}
+                      sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        backgroundColor: '#1e40af',
+                        '&:hover': {
+                          backgroundColor: '#1e3a8a'
+                        }
+                      }}
+                    >
+                      Show Map
+                    </Button>
+                  </Box>
+                ) : (
+                  <Box sx={{ height: 400, borderRadius: 1, overflow: 'hidden' }}>
+                    <MapContainer
+                      center={position}
+                      zoom={15}
+                      scrollWheelZoom={true}
+                      style={{ height: '100%', width: '100%' }}
+                    >
+                      <TileLayer
+                        url="https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=NyAnmJNQJ1ocTyQvNNtO"
+                        tileSize={512}
+                        zoomOffset={-1}
+                        attribution='&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+                      />
+                      <Marker position={position} />
+                    </MapContainer>
+                  </Box>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Contact Information */}
+            <Card elevation={0} sx={{ border: '1px solid #e5e7eb' }}>
+              <CardContent sx={{ p: 3 }}>
+                <Typography variant="h6" sx={{ mb: 3, fontWeight: '600', color: '#1e293b' }}>Contact Information</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Phone style={{ color: '#666' }} />
+                    <Typography>{property.phone}</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Mail style={{ color: '#666' }} />
+                    <Typography>{property.email}</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                    <MapPin style={{ color: '#666', marginTop: '4px' }} />
+                    <Typography>
+                      {property.address}, {property.city}, {property.postalCode}
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
-export default HouseDetails;
+export default PropertyDetails;

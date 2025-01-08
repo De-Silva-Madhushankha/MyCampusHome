@@ -35,6 +35,13 @@ const MapEvents = ({ selectedProperty, center, onViewportChanged }) => {
     }
   }, [map, selectedProperty]);
 
+  // Update the map when `center` changes dynamically
+  React.useEffect(() => {
+    if (map && center) {
+      map.setView(center, 15, { animate: true });
+    }
+  }, [map, center]);
+
   return null;
 };
 
