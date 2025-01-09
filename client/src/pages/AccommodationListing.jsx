@@ -215,6 +215,7 @@ const AccommodationListing = () => {
         });
 
         if (response.status === 201 || response.status === 200) {
+
           toast('Listing created successfully', { type: 'success' });
           navigate('/');
         } else {
