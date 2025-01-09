@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import HomePage from './pages/HomePage';
 import SignIn from './pages/SignInPage';
 import SignUp from './pages/SignUpPage';
@@ -9,11 +11,13 @@ import FAQ from './pages/FAQ';
 import axios from 'axios';
 import data from './data.json';
 import PropertySearchPage from './pages/SearchResultPage';
+import AccommodationPage from './pages/AccommodationPage';
 
 axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:4000/api';
 
 export default function App() {
   return (
+    <>
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -23,9 +27,19 @@ export default function App() {
           <Route path="/list-property" element={<AccommodationList />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/search" element={<PropertySearchPage />} />
-          <Route path="*" element={<NotFound/>} />
+          <Route path="/accommodation/:id" element={<AccommodationPage />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
-
       </Router>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
+    </>
   );
 }

@@ -6,11 +6,12 @@ import cors from "cors";
 import universityRoutes from "./routes/universityRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import listingRoutes from "./routes/listingRoutes.js";
+import accommodationRoutes from "./routes/accommodationRoutes.js";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8080;
 const HOST = process.env.HOST || "localhost";
 
 // Middleware applied to all routes
@@ -30,6 +31,7 @@ mongoose
 app.use("/api/universities", universityRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/listing", listingRoutes);
+app.use("/api/accommodation", accommodationRoutes);
 
 console.log("Routes setup complete");
 
