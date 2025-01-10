@@ -74,7 +74,9 @@ const SignUp = () => {
             }, 2000);
         }
       } catch (err) {
-        setError(err.response?.data?.message || "Registration failed");
+        setError(err.response?.data?.message || "Already created account using this email. Please signin using this email");
+        //setError(err.response?.data?.message || "Please signin using this email");
+       // setError(err.response?.data?.message || "Registration failed");
       } finally {
         setLoading(false);
       }
@@ -83,11 +85,11 @@ const SignUp = () => {
     return (
         <section className="bg-white">
             <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-                <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
+                <section className="relative flex items-end h-32 bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
                     <img
                         alt=""
                         src="https://images.unsplash.com/photo-1570570665905-346e1b6be193?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        className="absolute inset-0 h-full w-full object-cover opacity-80"
+                        className="absolute inset-0 object-cover w-full h-full opacity-80"
                     />
 
                     <div className="hidden lg:relative lg:block lg:p-12">
@@ -120,9 +122,9 @@ const SignUp = () => {
                     className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6"
                 >
                     <div className="max-w-xl lg:max-w-3xl">
-                        <div className="relative -mt-16 block lg:hidden">
+                        <div className="relative block -mt-16 lg:hidden">
                             <a
-                                className="inline-flex size-16 items-center justify-center rounded-full bg-white text-indigo-600 sm:size-20"
+                                className="inline-flex items-center justify-center text-indigo-600 bg-white rounded-full size-16 sm:size-20"
                                 href="#"
                             >
                                 <span className="sr-only">Home</span>
@@ -148,7 +150,7 @@ const SignUp = () => {
                             </p>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="mt-8 grid grid-cols-6 gap-6">
+                        <form onSubmit={handleSubmit} className="grid grid-cols-6 gap-6 mt-8">
                             <div className="col-span-6 sm:col-span-3">
                                 <div className="relative">
                                     <input
@@ -157,7 +159,7 @@ const SignUp = () => {
                                         name="firstName"
                                         value={formData.firstName}
                                         onChange={handleChange}
-                                        className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
+                                        className="w-full px-4 py-3 text-sm placeholder-transparent bg-white border-2 border-gray-200 rounded-lg peer focus:border-indigo-600 focus:outline-none"
                                         placeholder="First Name"
                                     />
                                     <label
@@ -177,7 +179,7 @@ const SignUp = () => {
                                         name="lastName"
                                         value={formData.lastName}
                                         onChange={handleChange}
-                                        className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
+                                        className="w-full px-4 py-3 text-sm placeholder-transparent bg-white border-2 border-gray-200 rounded-lg peer focus:border-indigo-600 focus:outline-none"
                                         placeholder="Last Name"
                                     />
                                     <label
@@ -197,7 +199,7 @@ const SignUp = () => {
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
+                                        className="w-full px-4 py-3 text-sm placeholder-transparent bg-white border-2 border-gray-200 rounded-lg peer focus:border-indigo-600 focus:outline-none"
                                         placeholder="Email"
                                     />
                                     <label
@@ -217,7 +219,7 @@ const SignUp = () => {
                                         name="password"
                                         value={formData.password}
                                         onChange={handleChange}
-                                        className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
+                                        className="w-full px-4 py-3 text-sm placeholder-transparent bg-white border-2 border-gray-200 rounded-lg peer focus:border-indigo-600 focus:outline-none"
                                         placeholder="Password"
                                     />
                                     <label
@@ -237,7 +239,7 @@ const SignUp = () => {
                                         name="passwordConfirmation"
                                         value={formData.passwordConfirmation}
                                         onChange={handleChange}
-                                        className="peer w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-sm placeholder-transparent focus:border-indigo-600 focus:outline-none"
+                                        className="w-full px-4 py-3 text-sm placeholder-transparent bg-white border-2 border-gray-200 rounded-lg peer focus:border-indigo-600 focus:outline-none"
                                         placeholder="Confirm Password"
                                     />
                                     <label
@@ -256,9 +258,9 @@ const SignUp = () => {
                                             type="checkbox"
                                             id="MarketingAccept"
                                             name="marketing_accept"
-                                            className="peer sr-only"
+                                            className="sr-only peer"
                                         />
-                                        <div className="size-5 rounded border-2 border-gray-200 transition-colors peer-checked:border-indigo-600 peer-checked:bg-indigo-600 group-hover:border-gray-300"></div>
+                                        <div className="transition-colors border-2 border-gray-200 rounded size-5 peer-checked:border-indigo-600 peer-checked:bg-indigo-600 group-hover:border-gray-300"></div>
                                         <div className="absolute inset-0 hidden text-white peer-checked:block">
                                             <svg className="size-5" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -284,10 +286,10 @@ const SignUp = () => {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="group relative inline-block w-full sm:w-auto overflow-hidden rounded-lg bg-indigo-600 px-8 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                                    className="relative inline-block w-full px-8 py-3 overflow-hidden text-white bg-indigo-600 rounded-lg group sm:w-auto focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                                 >
                                     
-                                    <span className="absolute inset-0 h-full w-full scale-0 rounded-lg bg-indigo-700 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"></span>
+                                    <span className="absolute inset-0 w-full h-full transition-all duration-300 scale-0 bg-indigo-700 rounded-lg opacity-0 group-hover:scale-100 group-hover:opacity-100"></span>
                                     <span className="relative inline-block text-sm font-semibold">{loading ? "Creating an Account..." : "Create an Account"}</span>
                                 </button>
 
@@ -299,7 +301,7 @@ const SignUp = () => {
                                 
                             </div>
                             {error && (
-          <div className="col-span-6 text-red-500 text-sm">
+          <div className="col-span-6 text-sm text-red-500">
             {error}
           </div>)}
                         </form>
