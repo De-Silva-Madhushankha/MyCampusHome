@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Google as GoogleIcon, Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const SignIn = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const {user, setUser}= useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -53,6 +55,33 @@ const SignIn = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleLogin = () => {
+    window.location.href = 'http://localhost:4000/auth/google'; 
+  };
+
+  const handleLogout = () => {
+    setLoading(true);
+    fetch('http://localhost:4000/auth/logout', {
+      method: 'GET',
+      credentials: 'include', //to include credentials for cookies
+    })
+      .then((res) => {
+        if (res.ok) {
+          setUser(null);
+          navigate('/login'); // Redirect to sign-in page after logout
+        } else {
+          throw new Error('Logout failed');
+        }
+      })
+      .catch((err) => {
+        console.error('Logout Error:', err);
+        setError('Failed to logout. Please try again.');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -185,13 +214,14 @@ const SignIn = () => {
                   </span>
                 </button>
 
-                {/* <button
+                 <button
+                 onClick={handleLogin}
                   type="button"
                   className="flex w-full items-center justify-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-8 py-3 text-sm font-semibold text-gray-700 hover:border-gray-300"
                 >
                   <GoogleIcon className="h-5 w-5" />
                   Continue with Google
-                </button> */}
+                </button> 
               </div>
 
               <div className="col-span-6">

@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
 import HomePage from './pages/HomePage';
 import SignIn from './pages/SignInPage';
 import SignUp from './pages/SignUpPage';
@@ -13,12 +15,16 @@ import data from './data.json';
 import PropertySearchPage from './pages/SearchResultPage';
 import AccommodationPage from './pages/AccommodationPage';
 
+import AuthProvider from './context/AuthContext';
+
 axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:4000/api';
+axios.defaults.withCredentials = true;
+
 
 export default function App() {
   return (
-    <>
-      <Router>
+    <AuthProvider>
+    <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<SignIn />} />
@@ -40,6 +46,6 @@ export default function App() {
         draggable
         theme="colored"
       />
-    </>
+    </AuthProvider>
   );
 }

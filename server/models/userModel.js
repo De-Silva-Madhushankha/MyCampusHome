@@ -2,6 +2,9 @@ import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 
 const userSchema = Schema({
+  googleId: {
+    type: String,
+  },
   firstName: {
     type: String,
     required: true,
@@ -17,34 +20,29 @@ const userSchema = Schema({
   },
   password: {
     type: String,
-    required: true,
+    // Make password required only if googleId is not present
+    required: function () {
+      return !this.googleId;
+    },
   },
-  
-  role : {
-    type: String,
-    required: true,
-    default: 'user',
-  },
-
 });
 
-// Pre-save middleware to hash password
-userSchema.pre('save', async function(next) {
-  // Only hash the password if it has been modified (or is new)
-  if (!this.isModified('password')) return next();
-
-  try {
-    // Generate salt and hash password
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    next(error);
+// Pre-save middleware to hash password if it's set
+userSchema.pre('save', async function (next) {
+  if (this.password && this.isModified('password')) {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      this.password = await bcrypt.hash(this.password, salt);
+    } catch (error) {
+      return next(error);
+    }
   }
+  next();
 });
 
 // Method to compare passwords
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  if (!this.password) return false; // Cannot compare if no password set
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
