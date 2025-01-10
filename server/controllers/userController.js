@@ -1,4 +1,5 @@
 import User from '../models/userModel.js';
+import { generateTokenAndSetCookie} from '../utils/generateTokenAndSetCookie.js';
 
 export const addUser = async (req, res) => {
   try {
@@ -30,8 +31,15 @@ export const loginUser = async (req, res) => {
     // Don't send password in response
     const userResponse = user.toObject();
     delete userResponse.password;
-    res.send(userResponse);
-  } catch (error) {
+
+   // console.log(userResponse._id);
+   if(userResponse){
+    //Generate jwt token here
+    const token =generateTokenAndSetCookie(userResponse._id,res);
+    
+    res.status(200).send({ user: userResponse, token });
+  } 
+  }catch (error) {
     res.status(400).send(error);
   }
 };
