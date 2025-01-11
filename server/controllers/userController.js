@@ -1,5 +1,14 @@
 import User from '../models/userModel.js';
-import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
+import { generateTokenAndSetCookie } from '../utils/jwtUtils.js';
+
+export const verifyUser = async (req, res) => {
+  try {
+    const user = req.user; // Comes from authMiddleware
+    res.status(200).json({ message: "Token is valid", user });
+  } catch (error) {
+    res.status(500).json({ message: "Error verifying token", error: error.message });
+  }
+}
 
 export const addUser = async (req, res) => {
   try {
@@ -25,10 +34,17 @@ export const addUser = async (req, res) => {
     // Don't send password in response
     const userResponse = user.toObject();
     delete userResponse.password;
-
-    res.status(201).send(userResponse);
+    if (userResponse) {
+      //Generate jwt token here
+      const token = generateTokenAndSetCookie(userResponse._id, res);
+      res.status(200).send({ user: userResponse, token: token });
+    }
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    if (error.code === 11000) {
+      return res.status(400).send({ error: 'Email already exists' });
+    }
+    console.log('Error registering user:', error); // for debugging
+    res.status(400).send(error);
   }
 };
 
@@ -56,10 +72,11 @@ export const loginUser = async (req, res) => {
     const userResponse = user.toObject();
     delete userResponse.password;
 
-    // Generate JWT token
-    const token = generateTokenAndSetCookie(userResponse._id, res);
-
-    res.status(200).send({ user: userResponse, token });
+    if (userResponse) {
+      //Generate jwt token here
+      const token = generateTokenAndSetCookie(userResponse._id, res);
+      res.status(200).send({ user: userResponse, token: token });
+    }
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
@@ -70,6 +87,6 @@ export const getUser = async (req, res) => {
     const users = await User.find();
     res.send(users);
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    res.status(500).send(error);
   }
 };

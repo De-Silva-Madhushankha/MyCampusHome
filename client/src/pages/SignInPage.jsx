@@ -1,11 +1,10 @@
-import React, { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Google as GoogleIcon, Visibility, VisibilityOff } from "@mui/icons-material";
-import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useAuth } from '../contexts/AuthContext';
 
 const SignIn = () => {
-  const navigate = useNavigate();
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -40,18 +39,13 @@ const SignIn = () => {
     if (!validateForm()) return;
 
     setLoading(true);
-
     try {
-      const response = await axios.post("/user/login", {
+      await login({
         email: formData.email,
         password: formData.password
       });
-
-      if (response.data) {
-        navigate("/");
-      }
     } catch (err) {
-      setError(err.response?.data?.message || "Invalid credentials");
+      setError(err.message || "Invalid credentials");
     } finally {
       setLoading(false);
     }
@@ -112,12 +106,12 @@ const SignIn = () => {
         <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
           <div className="max-w-xl lg:max-w-3xl">
             <div className="relative -mt-16 block lg:hidden">
-              <a className="inline-flex size-16 items-center justify-center rounded-full bg-white text-indigo-600 sm:size-20" href="/">
+              <Link className="inline-flex size-16 items-center justify-center rounded-full bg-white text-indigo-600 sm:size-20" to="/">
                 <span className="sr-only">Home</span>
                 <svg className="h-8 sm:h-10" viewBox="0 0 24 24" fill="none">
                   <path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z" fill="currentColor" />
                 </svg>
-              </a>
+              </Link>
               <h1 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
                 Welcome Back
               </h1>
@@ -213,15 +207,6 @@ const SignIn = () => {
                     {loading ? "Signing in..." : "Sign in"}
                   </span>
                 </button>
-
-                 <button
-                 onClick={handleLogin}
-                  type="button"
-                  className="flex w-full items-center justify-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-8 py-3 text-sm font-semibold text-gray-700 hover:border-gray-300"
-                >
-                  <GoogleIcon className="h-5 w-5" />
-                  Continue with Google
-                </button> 
               </div>
 
               <div className="col-span-6">
