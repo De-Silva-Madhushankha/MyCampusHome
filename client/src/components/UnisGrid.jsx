@@ -109,7 +109,7 @@ const UniversityGrid = () => {
             layoutId={uni._id}
           >
             <Link
-              to={`/universities/${uni._id}`}
+              to={`/search?lat=${uni.lat}&lng=${uni.lng}`}
               className="block h-full no-underline"
             >
               <Card className="relative h-[320px] overflow-hidden bg-white shadow-lg">

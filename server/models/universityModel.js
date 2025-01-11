@@ -8,6 +8,8 @@ const universitySchema = new mongoose.Schema({
   description: { type: String },
   logo: { type: String },
   createdAt: { type: Date, default: Date.now },
+  lat:{ type: Number, required: true },
+  lng: { type: Number, required: true },
 });
 
 export default mongoose.model("University", universitySchema);

@@ -16,7 +16,7 @@ const Hero = () => {
         Discover your ideal apartment or boarding place with ease. CampusHome connects you to affordable and convenient living spaces near your university.
         </p>
         <button className="bg-indigo-500 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-600 active:scale-95">
-          <Link to="/search">Find a place</Link>
+          <Link to="/search?lat=6.7951&lng=79.9009">Find a place</Link>
         </button>
       </div>
       <ShuffleGrid />

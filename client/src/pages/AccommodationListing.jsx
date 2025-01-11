@@ -14,6 +14,11 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import MapInput from '../components/maps/MapInput';
+
+import axios from 'axios';
+import { toast } from 'react-toastify';
+
 
 const AccommodationListing = () => {
   const navigate = useNavigate();
@@ -40,6 +45,10 @@ const AccommodationListing = () => {
 
     // Photos
     photos: [],
+
+    //Location
+    lat: null,
+    lng: null,
 
     // Pricing
     price: '',
@@ -136,6 +145,10 @@ const AccommodationListing = () => {
           newErrors.photos = 'Maximum five photos only'
         break;
       case 5:
+        if (formData.lat.length === 0 || formData.lng.length === 0)
+          newErrors.coordinates = 'Coordinates are required'
+        break;
+      case 6:
         if (!formData.price)
           newErrors.price = 'Price is required';
         if (!formData.deposit)
@@ -143,7 +156,7 @@ const AccommodationListing = () => {
         if (!formData.minimumStay)
           newErrors.minimumStay = 'Minimum stay is required';
         break;
-      case 6:
+      case 7:
         if (!formData.contactName.trim())
           newErrors.contactName = 'Contact name is required';
         if (!formData.email.trim()) {
@@ -183,34 +196,38 @@ const AccommodationListing = () => {
     e.preventDefault();
     if (validateStep(currentStep)) {
       try {
-        // Prepare form data
-        const submissionData = { ...formData };
-        // Handle file uploads if necessary
-        // Example: You might need to send FormData instead of JSON
+        const data = new FormData();
 
-        // Example submission using Fetch API
-        const response = await fetch('/api/accommodations', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(submissionData),
+        // Append form fields
+        Object.entries(formData).forEach(([key, value]) => {
+          if (key === 'photos') {
+            value.forEach((file) => data.append('photos', file)); // Add each photo
+          } else {
+            data.append(key, value);
+          }
         });
 
-        if (response.ok) {
-          // Redirect or show success message
-          notify
-          navigate('/dashboard');
+        console.log('Form Data:', data);
+        const response = await axios.post('/listing/list', data, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        if (response.status === 201 || response.status === 200) {
+
+          toast('Listing created successfully', { type: 'success' });
+          navigate('/');
         } else {
-          // Handle server errors
-          const errorData = await response.json();
-          setErrors({ submit: errorData.message || 'Submission failed' });
+          setErrors({ submit: response.data.message || 'Submission failed' });
         }
       } catch (error) {
+        console.log(error);
         setErrors({ submit: 'An error occurred. Please try again.' });
       }
     }
   };
+
 
   const handleCheckboxChange = (amenity) => {
     if (formData.amenities.includes(amenity)) {
@@ -228,17 +245,35 @@ const AccommodationListing = () => {
 
   const handlePhotoUpload = (e) => {
     const files = Array.from(e.target.files);
-    const photoURLs = files.map((file) => URL.createObjectURL(file));
-    setFormData({
-      ...formData,
-      photos: [...formData.photos, ...photoURLs],
-    });
+
+    // Debugging: Log the selected files
+    console.log('Selected files:', files);
+
+    // Validate files (e.g., check file type and size)
+    const validFiles = files.filter((file) =>
+      file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024
+    );
+
+    if (validFiles.length !== files.length) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        photos: 'Only image files are allowed. Maximum image size 5MB.',
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        photos: '',
+      }));
+    }
+
+    setFormData((prevData) => ({
+      ...prevData,
+      photos: validFiles,
+    }));
   };
 
   const handlePhotoDelete = (index) => {
     const updatedPhotos = [...formData.photos];
-    // Revoke the object URL to free up memory
-    URL.revokeObjectURL(updatedPhotos[index]);
     updatedPhotos.splice(index, 1);
     setFormData({
       ...formData,
@@ -246,6 +281,14 @@ const AccommodationListing = () => {
       // Also remove from photoFiles if stored
       // photoFiles: formData.photoFiles.filter((_, i) => i !== index),
     });
+  };
+
+  const updateCoordinates = (coords) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      lat: coords.lat,
+      lng: coords.lng,
+    }));
   };
 
   const renderStep = () => {
@@ -373,8 +416,8 @@ const AccommodationListing = () => {
                       setFormData({ ...formData, propertyType: type })
                     }
                     className={`p-4 rounded-lg border-2 ${formData.propertyType === type
-                        ? 'border-indigo-600 bg-indigo-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-indigo-600 bg-indigo-50'
+                      : 'border-gray-200 hover:border-gray-300'
                       } transition-colors flex flex-col items-center`}
                   >
                     {type === 'Entire House' && <Home className="mb-2" />}
@@ -491,7 +534,7 @@ const AccommodationListing = () => {
                       value={amenity}
                       checked={formData.amenities.includes(amenity)}
                       onChange={() => handleCheckboxChange(amenity)}
-                      className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                      className="h-4 w-4 text-black-600 border-gray-300 rounded"
                     />
                     <span className="text-sm text-indigo-700">{amenity}</span>
                   </label>
@@ -531,7 +574,7 @@ const AccommodationListing = () => {
                 {formData.photos.map((photo, index) => (
                   <div key={index} className="relative">
                     <img
-                      src={photo}
+                      src={URL.createObjectURL(photo)}
                       alt={`Property Photo ${index + 1}`}
                       className="w-full h-32 object-cover rounded-lg"
                     />
@@ -551,6 +594,25 @@ const AccommodationListing = () => {
         );
 
       case 5:
+        return (
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Click on the map to add a pin.
+              </label>
+              <div className="h-96">
+                <MapInput onCoordinatesSelect={updateCoordinates} />
+              </div>
+              {errors.coordinates && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.coordinates}
+                </p>
+              )}
+            </div>
+          </div>
+        );
+
+      case 6:
         return (
           <div className="space-y-6">
             {/* Price */}
@@ -644,7 +706,7 @@ const AccommodationListing = () => {
           </div>
         );
 
-      case 6:
+      case 7:
         return (
           <div className="space-y-6">
             {/* Contact Name */}
@@ -753,7 +815,7 @@ const AccommodationListing = () => {
               <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-600 text-white font-medium">
                 {currentStep}
               </span>
-              <span>of 6</span>
+              <span>of 7</span>
             </div>
             <h2 className="text-xl font-semibold text-gray-900">
               {[
@@ -761,6 +823,7 @@ const AccommodationListing = () => {
                 'Property Details',
                 'Amenities',
                 'Photos',
+                'Location',
                 'Pricing',
                 'Contact',
               ][currentStep - 1]}
@@ -771,51 +834,59 @@ const AccommodationListing = () => {
           <form onSubmit={handleSubmit}>
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 1
-                  ? 'max-h-full opacity-100'
-                  : 'max-h-0 overflow-hidden opacity-0'
+                ? 'max-h-full opacity-100'
+                : 'max-h-0 overflow-hidden opacity-0'
                 }`}
             >
               {currentStep === 1 && renderStep()}
             </div>
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 2
-                  ? 'max-h-full opacity-100'
-                  : 'max-h-0 overflow-hidden opacity-0'
+                ? 'max-h-full opacity-100'
+                : 'max-h-0 overflow-hidden opacity-0'
                 }`}
             >
               {currentStep === 2 && renderStep()}
             </div>
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 3
-                  ? 'max-h-full opacity-100'
-                  : 'max-h-0 overflow-hidden opacity-0'
+                ? 'max-h-full opacity-100'
+                : 'max-h-0 overflow-hidden opacity-0'
                 }`}
             >
               {currentStep === 3 && renderStep()}
             </div>
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 4
-                  ? 'max-h-full opacity-100'
-                  : 'max-h-0 overflow-hidden opacity-0'
+                ? 'max-h-full opacity-100'
+                : 'max-h-0 overflow-hidden opacity-0'
                 }`}
             >
               {currentStep === 4 && renderStep()}
             </div>
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 5
-                  ? 'max-h-full opacity-100'
-                  : 'max-h-0 overflow-hidden opacity-0'
+                ? 'max-h-full opacity-100'
+                : 'max-h-0 overflow-hidden opacity-0'
                 }`}
             >
               {currentStep === 5 && renderStep()}
             </div>
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 6
-                  ? 'max-h-full opacity-100'
-                  : 'max-h-0 overflow-hidden opacity-0'
+                ? 'max-h-full opacity-100'
+                : 'max-h-0 overflow-hidden opacity-0'
                 }`}
             >
               {currentStep === 6 && renderStep()}
+            </div>
+            <div
+              className={`transition-all duration-500 ease-in-out ${currentStep === 7
+                ? 'max-h-full opacity-100'
+                : 'max-h-0 overflow-hidden opacity-0'
+                }`}
+            >
+              {currentStep === 7 && renderStep()}
             </div>
 
             {/* Navigation Buttons */}
@@ -833,12 +904,12 @@ const AccommodationListing = () => {
               <button
                 type="button"
                 onClick={
-                  currentStep === 6 ? handleSubmit : handleNext
+                  currentStep === 7 ? handleSubmit : handleNext
                 }
                 className={`flex items-center px-6 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors font-medium ${currentStep === 6 ? '' : 'ml-auto'
                   }`}
               >
-                {currentStep === 6 ? 'Submit Listing' : 'Next'}
+                {currentStep === 7 ? 'Submit Listing' : 'Next'}
                 <ChevronRight className="ml-2" />
               </button>
             </div>

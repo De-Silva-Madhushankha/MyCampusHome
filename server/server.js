@@ -5,16 +5,27 @@ import cors from "cors";
 
 import universityRoutes from "./routes/universityRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import listingRoutes from "./routes/listingRoutes.js";
+import accommodationRoutes from "./routes/accommodationRoutes.js";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8080;
 const HOST = process.env.HOST || "localhost";
+
+// CORS Configuration
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://localhost:4000'],  // Add any other allowed origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,  // Enable credentials (cookies, authorization headers, etc)
+  optionsSuccessStatus: 200
+};
 
 // Middleware applied to all routes
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Set strictQuery option
 mongoose.set('strictQuery', true);
@@ -28,6 +39,8 @@ mongoose
 // Routes
 app.use("/api/universities", universityRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/listing", listingRoutes);
+app.use("/api/accommodation", accommodationRoutes);
 
 console.log("Routes setup complete");
 
