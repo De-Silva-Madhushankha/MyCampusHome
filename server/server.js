@@ -14,9 +14,18 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const HOST = process.env.HOST || "localhost";
 
+// CORS Configuration
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://localhost:4000'],  // Add any other allowed origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,  // Enable credentials (cookies, authorization headers, etc)
+  optionsSuccessStatus: 200
+};
+
 // Middleware applied to all routes
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Set strictQuery option
 mongoose.set('strictQuery', true);

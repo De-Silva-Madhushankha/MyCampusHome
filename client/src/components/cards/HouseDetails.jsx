@@ -73,7 +73,7 @@ const PropertyDetails = ({ property }) => {
         {/* Left Column - Details */}
         <Grid item xs={12} md={7}>
           {/* Property Overview */}
-          <Card elevation={0} sx={{ mb: 4, border: '1px solid #e5e7eb' }}>
+          <Card elevation={0} sx={{ mb: 1, border: '1px solid #e5e7eb' }}>
             <CardContent sx={{ p: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
                 <Home style={{ color: '#1e293b' }} />
@@ -109,7 +109,7 @@ const PropertyDetails = ({ property }) => {
           </Card>
 
           {/* Pricing Details */}
-          <Card elevation={0} sx={{ mb: 4, border: '1px solid #e5e7eb' }}>
+          <Card elevation={0} sx={{ mb: 1, border: '1px solid #e5e7eb' }}>
             <CardContent sx={{ p: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
                 <Banknote style={{ color: '#1e293b' }} />
@@ -133,7 +133,7 @@ const PropertyDetails = ({ property }) => {
           </Card>
 
           {/* Amenities */}
-          <Card elevation={0} sx={{ mb: 4, border: '1px solid #e5e7eb' }}>
+          <Card elevation={0} sx={{ mb: 1, border: '1px solid #e5e7eb' }}>
             <CardContent sx={{ p: 3 }}>
               <Typography variant="h6" sx={{ mb: 3, fontWeight: '600', color: '#1e293b' }}>Available Amenities</Typography>
               <Grid container spacing={1}>
@@ -148,13 +148,36 @@ const PropertyDetails = ({ property }) => {
               </Grid>
             </CardContent>
           </Card>
+
+          {/* Contact Information */}
+          <Card elevation={0} sx={{ border: '1px solid #e5e7eb' }}>
+              <CardContent sx={{ p: 3 }}>
+                <Typography variant="h6" sx={{ mb: 1, fontWeight: '600', color: '#1e293b' }}>Contact Information</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Phone style={{ color: '#666' }} />
+                    <Typography>{property.phone}</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Mail style={{ color: '#666' }} />
+                    <Typography>{property.email}</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                    <MapPin style={{ color: '#666', marginTop: '4px' }} />
+                    <Typography>
+                      {property.address}, {property.city}, {property.postalCode}
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
         </Grid>
 
         {/* Right Column - Map and Contact */}
         <Grid item xs={12} md={5}>
-          <Box sx={{ position: { md: 'sticky' }, top: { md: 24 } }}>
+          <Box sx={{ top: { md: 24 } }}>
             {/* Map Card */}
-            <Card elevation={0} sx={{ mb: 4, border: '1px solid #e5e7eb' }}>
+            <Card elevation={0} sx={{ mb: 1, border: '1px solid #e5e7eb' }}>
               <CardContent sx={{ p: 3 }}>
                 <Typography variant="h6" sx={{ mb: 3, fontWeight: '600', color: '#1e293b' }}>Location</Typography>
                 {!showMap ? (
@@ -165,7 +188,7 @@ const PropertyDetails = ({ property }) => {
                       alt="Map of the property"
                       sx={{
                         width: '100%',
-                        height: 300,
+                        height: 500,
                         objectFit: 'cover',
                         borderRadius: 1,
                         filter: 'blur(4px)'
@@ -189,12 +212,12 @@ const PropertyDetails = ({ property }) => {
                     </Button>
                   </Box>
                 ) : (
-                  <Box sx={{ height: 400, borderRadius: 1, overflow: 'hidden' }}>
+                  <Box sx={{ height: 500, borderRadius: 1, overflow: 'hidden' }}>
                     <MapContainer
                       center={position}
                       zoom={15}
                       scrollWheelZoom={true}
-                      style={{ height: '100%', width: '100%' }}
+                      style={{ height: '100%', width: '100%', zIndex: 0 }} 
                     >
                       <TileLayer
                         url="https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=NyAnmJNQJ1ocTyQvNNtO"
@@ -206,29 +229,6 @@ const PropertyDetails = ({ property }) => {
                     </MapContainer>
                   </Box>
                 )}
-              </CardContent>
-            </Card>
-
-            {/* Contact Information */}
-            <Card elevation={0} sx={{ border: '1px solid #e5e7eb' }}>
-              <CardContent sx={{ p: 3 }}>
-                <Typography variant="h6" sx={{ mb: 3, fontWeight: '600', color: '#1e293b' }}>Contact Information</Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Phone style={{ color: '#666' }} />
-                    <Typography>{property.phone}</Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Mail style={{ color: '#666' }} />
-                    <Typography>{property.email}</Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                    <MapPin style={{ color: '#666', marginTop: '4px' }} />
-                    <Typography>
-                      {property.address}, {property.city}, {property.postalCode}
-                    </Typography>
-                  </Box>
-                </Box>
               </CardContent>
             </Card>
           </Box>

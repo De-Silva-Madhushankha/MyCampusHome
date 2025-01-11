@@ -1,83 +1,79 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useAuth } from '../contexts/AuthContext';
 
 const SignUp = () => {
-
+    const { register } = useAuth();
     const [formData, setFormData] = useState({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      passwordConfirmation: "",
-      acceptTerms: false
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        passwordConfirmation: "",
+        acceptTerms: false
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [success, setSuccess] = useState(false);
-    const navigate = useNavigate();
 
     const validateForm = () => {
         if (!formData.firstName || !formData.lastName) {
-          setError("All fields are required");
-          return false;
+            setError("All fields are required");
+            return false;
         }
-    
+
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(formData.email)) {
-          setError("Please enter a valid email address");
-          return false;
+            setError("Please enter a valid email address");
+            return false;
         }
-    
-        if (formData.password.length < 6) {
-          setError("Password must be at least 6 characters long");
-          return false;
+
+        if (formData.password.length < 8) {
+            setError("Password must be at least 8 characters long");
+            return false;
         }
-    
+
         if (formData.password !== formData.passwordConfirmation) {
-          setError("Passwords do not match");
-          return false;
+            setError("Passwords do not match");
+            return false;
         }
-    
+
+        if (!formData.acceptTerms) {
+            setError("You must accept the terms and conditions");
+            return false;
+        }
+
         return true;
-      };
-  
-    const handleChange = (e) => {
-      const { name, value, type, checked } = e.target;
-      setFormData(prev => ({
-        ...prev,
-        [name]: type === 'checkbox' ? checked : value
-      }));
     };
-  
+
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
+    };
+
     const handleSubmit = async (e) => {
-      e.preventDefault();
-      setError("");
+        e.preventDefault();
+        setError("");
 
-      if (!validateForm()) return;
+        if (!validateForm()) return;
 
+        setLoading(true);
 
-      setLoading(true);
-  
-      try {
-        const response = await axios.post("/user/register", {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          password: formData.password
-        });
-  
-        if (response.data) {
-            setSuccess(true);
-            setTimeout(() => {
-          navigate("/login");
-            }, 2000);
+        try {
+            await register({
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                password: formData.password,
+                passwordConfirmation: formData.passwordConfirmation
+            });
+        } catch (err) {
+            setError(err.message || "Registration failed");
+        } finally {
+            setLoading(false);
         }
-      } catch (err) {
-        setError(err.response?.data?.message || "Registration failed");
-      } finally {
-        setLoading(false);
-      }
     };
 
     return (
@@ -116,14 +112,12 @@ const SignUp = () => {
                     </div>
                 </section>
 
-                <main
-                    className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6"
-                >
+                <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
                     <div className="max-w-xl lg:max-w-3xl">
                         <div className="relative -mt-16 block lg:hidden">
                             <a
                                 className="inline-flex size-16 items-center justify-center rounded-full bg-white text-indigo-600 sm:size-20"
-                                href="#"
+                                href="/"
                             >
                                 <span className="sr-only">Home</span>
                                 <svg
@@ -254,8 +248,10 @@ const SignUp = () => {
                                     <div className="relative">
                                         <input
                                             type="checkbox"
-                                            id="MarketingAccept"
-                                            name="marketing_accept"
+                                            id="acceptTerms"
+                                            name="acceptTerms"
+                                            checked={formData.acceptTerms}
+                                            onChange={handleChange}
                                             className="peer sr-only"
                                         />
                                         <div className="size-5 rounded border-2 border-gray-200 transition-colors peer-checked:border-indigo-600 peer-checked:bg-indigo-600 group-hover:border-gray-300"></div>
@@ -266,7 +262,7 @@ const SignUp = () => {
                                         </div>
                                     </div>
                                     <span className="text-sm text-gray-700">
-                                        I want to receive emails about events, product updates and company announcements.
+                                        I accept the terms and conditions
                                     </span>
                                 </label>
                             </div>
@@ -286,22 +282,21 @@ const SignUp = () => {
                                     disabled={loading}
                                     className="group relative inline-block w-full sm:w-auto overflow-hidden rounded-lg bg-indigo-600 px-8 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                                 >
-                                    
                                     <span className="absolute inset-0 h-full w-full scale-0 rounded-lg bg-indigo-700 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"></span>
-                                    <span className="relative inline-block text-sm font-semibold">{loading ? "Creating an Account..." : "Create an Account"}</span>
+                                    <span className="relative inline-block text-sm font-semibold">
+                                        {loading ? "Creating an Account..." : "Create an Account"}
+                                    </span>
                                 </button>
 
                                 <p className="mt-4 text-sm text-gray-600 sm:mt-0">
                                     Already have an account?{' '}
                                     <Link to="/login" className="text-indigo-600 hover:text-indigo-700 hover:underline">Log in</Link>
                                 </p>
-
-                                
                             </div>
                             {error && (
-          <div className="col-span-6 text-red-500 text-sm">
-            {error}
-          </div>)}
+                                <div className="col-span-6 text-red-500 text-sm">
+                                    {error}
+                                </div>)}
                         </form>
                     </div>
                 </main>

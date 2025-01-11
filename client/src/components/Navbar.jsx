@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import { useAuth } from '../contexts/AuthContext'; // Update path as needed
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <nav className="sticky top-0 w-full z-50 bg-white shadow-md transition-all duration-300">
@@ -13,8 +21,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-4">
             <Link to="/">
-              <img src="/campus-home-logo.svg" alt="RentNearUni Logo" 
-              className="h-10 filter invert" />
+              <img 
+                src="/campus-home-logo.svg" 
+                alt="RentNearUni Logo"
+                className="h-10 filter invert" 
+              />
             </Link>
             <div className="flex-shrink-0">
               <Link to="/" className="text-2xl font-bold text-gray-700">
@@ -23,7 +34,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          <SearchBar/>
+          <SearchBar />
 
           <div className="hidden lg:flex items-center space-x-4">
             <Button
@@ -45,15 +56,35 @@ const Navbar = () => {
             <Link to="/help" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
               Help Center
             </Link>
-            <Link to="/login" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
-              Log In
-            </Link>
-            <Link to="/register" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
-              Sign Up
-            </Link>
+            {!user ? (
+              <>
+                <Link to="/login" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+                  Log In
+                </Link>
+                <Link to="/register" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+                  Register
+                </Link>
+              </>
+            ) : (
+              <Button
+                onClick={handleLogout}
+                variant="contained"
+                color="secondary"
+                sx={{
+                  backgroundColor: "#e63946",
+                  "&:hover": { backgroundColor: "#d62828" },
+                  color: "white",
+                  fontWeight: "bold",
+                  borderRadius: "8px",
+                  padding: "8px 16px",
+                  textTransform: "none",
+                }}
+              >
+                Log Out
+              </Button>
+            )}
           </div>
 
-          
           <div className="lg:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -78,7 +109,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      
       {menuOpen && (
         <div className="lg:hidden bg-white shadow-md">
           <div className="flex flex-col items-start space-y-4 px-4 py-6">
@@ -98,7 +128,7 @@ const Navbar = () => {
                 variant="contained"
                 color="primary"
                 sx={{
-                  backgroundColor: '#4e46e1', 
+                  backgroundColor: '#4e46e1',
                   '&:hover': {
                     backgroundColor: '#4e46e1',
                   },
@@ -113,15 +143,37 @@ const Navbar = () => {
                 List an Accommodation
               </Button>
             </div>
-            <Link to="/help-center" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+            <Link to="/help" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
               Help Center
             </Link>
-            <Link to="/login" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
-              Log In
-            </Link>
-            <Link to="/signup" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
-              Sign Up
-            </Link>
+            {!user ? (
+              <>
+                <Link to="/login" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+                  Log In
+                </Link>
+                <Link to="/register" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+                  Register
+                </Link>
+              </>
+            ) : (
+              <Button
+                onClick={handleLogout}
+                variant="contained"
+                color="secondary"
+                sx={{
+                  backgroundColor: "#e63946",
+                  "&:hover": { backgroundColor: "#d62828" },
+                  color: "white",
+                  fontWeight: "bold",
+                  borderRadius: "8px",
+                  padding: "8px 16px",
+                  width: "100%",
+                  textTransform: "none",
+                }}
+              >
+                Log Out
+              </Button>
+            )}
           </div>
         </div>
       )}
