@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardMedia, Typography, Chip, CircularProgress, Button } from "@mui/material";
 import { School, LocationOn, Map as MapIcon } from "@mui/icons-material";
+import { authApi } from '../contexts/AuthContext';
+
 import axios from "axios";
 
 const containerVariants = {
@@ -37,7 +39,7 @@ const UniversityGrid = () => {
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await axios.get("/universities");
+        const response = await authApi.get("/universities");
         setUniversities(Array.isArray(response.data) ? response.data : []);
         setLoading(false);
       } catch (err) {
@@ -61,8 +63,8 @@ const UniversityGrid = () => {
   );
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
+    <div className="container px-4 py-8 mx-auto">
+      <div className="flex items-center justify-between mb-8">
         <h1 className="text-5xl font-bold text-gray-900">Explore Universities</h1>
         <Button
           variant="contained"
@@ -77,7 +79,7 @@ const UniversityGrid = () => {
         </Button>
       </div>
 
-      <div className="flex gap-4 mb-8 justify-center">
+      <div className="flex justify-center gap-4 mb-8">
         {["All", "Public", "Private"].map((type) => (
           <motion.button
             key={type}
@@ -99,7 +101,7 @@ const UniversityGrid = () => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
       >
         {filteredUniversities.map((uni) => (
           <motion.div
@@ -117,7 +119,7 @@ const UniversityGrid = () => {
                   component="img"
                   image={uni.logo}
                   alt={uni.name}
-                  className="h-full w-full object-cover"
+                  className="object-cover w-full h-full"
                 />
                 
                 <motion.div
@@ -131,11 +133,11 @@ const UniversityGrid = () => {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                 >
-                  <Typography variant="h5" className="text-white font-bold mb-2">
+                  <Typography variant="h5" className="mb-2 font-bold text-white">
                     {uni.name}
                   </Typography>
 
-                  <div className="flex items-center gap-2 text-white/90 mb-3">
+                  <div className="flex items-center gap-2 mb-3 text-white/90">
                     <LocationOn fontSize="small" />
                     <Typography variant="body2">{uni.location}</Typography>
                   </div>
@@ -166,7 +168,7 @@ const UniversityGrid = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
-          className="fixed inset-0 bg-white z-50"
+          className="fixed inset-0 z-50 bg-white"
         >
           {/* Add your map component here */}
           <div className="h-full">Map Component</div>

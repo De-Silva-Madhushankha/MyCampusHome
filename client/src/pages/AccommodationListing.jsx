@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import {
   MapPin,
   Home,
@@ -15,6 +15,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import MapInput from '../components/maps/MapInput';
+import { authApi } from '../contexts/AuthContext';
 
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -108,6 +109,24 @@ const AccommodationListing = () => {
     'Shared Room',
     'Single Room',
   ];
+  const [universities, setUniversities] = useState([]);
+
+const [loading, setLoading] = useState(false); // To track loading state
+const [isSubmitted, setIsSubmitted] = useState(false); // To track successful submission
+
+
+  useEffect(() => {
+    const fetchUniversities = async () => {
+      try {
+        const response = await authApi.get('/universities');
+        setUniversities(response.data);
+      } catch (error) {
+        console.error('Error fetching universities:', error);
+      }
+    };
+  
+    fetchUniversities();
+  }, []);
 
   const validateStep = (step) => {
     const newErrors = {};
@@ -194,39 +213,61 @@ const AccommodationListing = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateStep(currentStep)) {
-      try {
-        const data = new FormData();
-
-        // Append form fields
-        Object.entries(formData).forEach(([key, value]) => {
-          if (key === 'photos') {
-            value.forEach((file) => data.append('photos', file)); // Add each photo
-          } else {
-            data.append(key, value);
-          }
-        });
-
-        console.log('Form Data:', data);
-        const response = await axios.post('/listing/list', data, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-
-        if (response.status === 201 || response.status === 200) {
-
-          toast('Listing created successfully', { type: 'success' });
-          navigate('/');
+  
+    // Validate the current step before proceeding
+    if (!validateStep(currentStep)) {
+      return;
+    }
+  
+    setLoading(true); // Set loading state to true when starting the submission process
+  
+    try {
+      const data = new FormData();
+  
+      // Append all form fields to the FormData object
+      for (const [key, value] of Object.entries(formData)) {
+        if (key === 'photos') {
+          // Handle file uploads (if `photos` is an array of files)
+          value.forEach((file) => data.append('photos', file));
         } else {
-          setErrors({ submit: response.data.message || 'Submission failed' });
+          // Append other key-value pairs
+          data.append(key, value);
         }
-      } catch (error) {
-        console.log(error);
-        setErrors({ submit: 'An error occurred. Please try again.' });
       }
+  
+      console.log('Submitting Form Data:', Object.fromEntries(data.entries()));
+  
+      // Submit the data to the backend API
+      const response = await authApi.post('/listing/list', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
+      // Handle successful response
+      if (response.status === 201 || response.status === 200) {
+        toast('Listing created successfully!', { type: 'success' });
+        setIsSubmitted(true); // Mark submission as successful
+        navigate('/'); // Redirect to the home or dashboard page
+      } else {
+        // Handle validation or other server-side errors
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          submit: response.data.message || 'Submission failed.',
+        }));
+      }
+    } catch (error) {
+      // Log error for debugging purposes
+      console.error('Error submitting form:', error);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        submit: 'An error occurred during submission. Please try again.',
+      }));
+    } finally {
+      setLoading(false); // Reset loading state when done
     }
   };
+  
 
 
   const handleCheckboxChange = (amenity) => {
@@ -297,7 +338,7 @@ const AccommodationListing = () => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Accommodation Address*
               </label>
               <div className="relative">
@@ -319,7 +360,7 @@ const AccommodationListing = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Unit/Suite (Optional)
               </label>
               <div className="relative">
@@ -331,13 +372,13 @@ const AccommodationListing = () => {
                     setFormData({ ...formData, unit: e.target.value })
                   }
                   placeholder="Enter unit or suite number"
-                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full py-3 pl-10 pr-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 City*
               </label>
               <input
@@ -356,7 +397,7 @@ const AccommodationListing = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Postal Code*
               </label>
               <input
@@ -374,29 +415,35 @@ const AccommodationListing = () => {
               )}
             </div>
 
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Nearest University*
-              </label>
-              <input
-                type="text"
-                value={formData.nearestUniversity}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    nearestUniversity: e.target.value,
-                  })
-                }
-                placeholder="Enter nearest university"
-                className={`w-full px-4 py-3 rounded-lg border ${errors.nearestUniversity ? 'border-red-500' : 'border-gray-200'
-                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
-              />
-              {errors.nearestUniversity && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.nearestUniversity}
-                </p>
-              )}
-            </div>
+  <label className="block mb-2 text-sm font-medium text-gray-700">
+    Nearest University*
+  </label>
+  <select
+    value={formData.nearestUniversity}
+    onChange={(e) =>
+      setFormData({
+        ...formData,
+        nearestUniversity: e.target.value,
+      })
+    }
+    className={`w-full px-4 py-3 rounded-lg border ${
+      errors.nearestUniversity ? 'border-red-500' : 'border-gray-200'
+    } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+  >
+    <option value="">Select a university</option>
+    {universities.map((uni) => (
+      <option key={uni._id} value={uni.name}>
+        {uni.name}
+      </option>
+    ))}
+  </select>
+  {errors.nearestUniversity && (
+    <p className="mt-1 text-sm text-red-500">{errors.nearestUniversity}</p>
+  )}
+</div>
+
           </div>
         );
 
@@ -404,7 +451,7 @@ const AccommodationListing = () => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Accommodation Type*
               </label>
               <div className="grid grid-cols-2 gap-4">
@@ -436,7 +483,7 @@ const AccommodationListing = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Number of Bedrooms*
               </label>
               <input
@@ -456,7 +503,7 @@ const AccommodationListing = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Number of Beds*
               </label>
               <input
@@ -476,7 +523,7 @@ const AccommodationListing = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Number of Bathrooms*
               </label>
               <input
@@ -498,7 +545,7 @@ const AccommodationListing = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Total Area (sq ft)*
               </label>
               <input
@@ -523,10 +570,10 @@ const AccommodationListing = () => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Amenities*
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                 {amenitiesList.map((amenity) => (
                   <label key={amenity} className="flex items-center space-x-2">
                     <input
@@ -534,7 +581,7 @@ const AccommodationListing = () => {
                       value={amenity}
                       checked={formData.amenities.includes(amenity)}
                       onChange={() => handleCheckboxChange(amenity)}
-                      className="h-4 w-4 text-black-600 border-gray-300 rounded"
+                      className="w-4 h-4 border-gray-300 rounded text-black-600"
                     />
                     <span className="text-sm text-indigo-700">{amenity}</span>
                   </label>
@@ -553,7 +600,7 @@ const AccommodationListing = () => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Upload Photos*
               </label>
               <input
@@ -576,12 +623,12 @@ const AccommodationListing = () => {
                     <img
                       src={URL.createObjectURL(photo)}
                       alt={`Property Photo ${index + 1}`}
-                      className="w-full h-32 object-cover rounded-lg"
+                      className="object-cover w-full h-32 rounded-lg"
                     />
                     <button
                       type="button"
                       onClick={() => handlePhotoDelete(index)}
-                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none"
+                      className="absolute p-1 text-white bg-red-500 rounded-full top-2 right-2 hover:bg-red-600 focus:outline-none"
                       aria-label={`Delete photo ${index + 1}`}
                     >
                       <Trash2 className="w-4 h-4" />
@@ -597,7 +644,7 @@ const AccommodationListing = () => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Click on the map to add a pin.
               </label>
               <div className="h-96">
@@ -617,7 +664,7 @@ const AccommodationListing = () => {
           <div className="space-y-6">
             {/* Price */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Price (per month)*
               </label>
               <div className="relative">
@@ -641,7 +688,7 @@ const AccommodationListing = () => {
 
             {/* Security Deposit */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Security Deposit Amount*
               </label>
               <div className="relative">
@@ -665,7 +712,7 @@ const AccommodationListing = () => {
 
             {/* Minimum Stay */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Minimum Stay (months)*
               </label>
               <input
@@ -697,9 +744,9 @@ const AccommodationListing = () => {
                     billsIncluded: !formData.billsIncluded,
                   })
                 }
-                className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                className="w-4 h-4 text-indigo-600 border-gray-300 rounded"
               />
-              <label className="ml-2 block text-sm text-gray-700">
+              <label className="block ml-2 text-sm text-gray-700">
                 Bills Included
               </label>
             </div>
@@ -711,7 +758,7 @@ const AccommodationListing = () => {
           <div className="space-y-6">
             {/* Contact Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Contact Name*
               </label>
               <input
@@ -733,7 +780,7 @@ const AccommodationListing = () => {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Email*
               </label>
               <input
@@ -753,7 +800,7 @@ const AccommodationListing = () => {
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Phone Number*
               </label>
               <input
@@ -773,7 +820,7 @@ const AccommodationListing = () => {
 
             {/* Available From */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Available From*
               </label>
               <input
@@ -807,12 +854,12 @@ const AccommodationListing = () => {
       <Navbar />
 
       {/* Multi-Step Form */}
-      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+      <div className="min-h-screen px-4 py-12 bg-gray-50 sm:px-6 lg:px-8">
+        <div className="max-w-3xl p-8 mx-auto bg-white border border-gray-100 shadow-lg rounded-2xl">
           {/* Progress Indicator */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-2 text-sm text-gray-500">
-              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-600 text-white font-medium">
+              <span className="flex items-center justify-center w-6 h-6 font-medium text-white bg-indigo-600 rounded-full">
                 {currentStep}
               </span>
               <span>of 7</span>
@@ -832,6 +879,7 @@ const AccommodationListing = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit}>
+            
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 1
                 ? 'max-h-full opacity-100'
@@ -840,6 +888,7 @@ const AccommodationListing = () => {
             >
               {currentStep === 1 && renderStep()}
             </div>
+            
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 2
                 ? 'max-h-full opacity-100'
@@ -848,6 +897,7 @@ const AccommodationListing = () => {
             >
               {currentStep === 2 && renderStep()}
             </div>
+            
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 3
                 ? 'max-h-full opacity-100'
@@ -856,6 +906,7 @@ const AccommodationListing = () => {
             >
               {currentStep === 3 && renderStep()}
             </div>
+            
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 4
                 ? 'max-h-full opacity-100'
@@ -864,6 +915,7 @@ const AccommodationListing = () => {
             >
               {currentStep === 4 && renderStep()}
             </div>
+            
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 5
                 ? 'max-h-full opacity-100'
@@ -872,6 +924,7 @@ const AccommodationListing = () => {
             >
               {currentStep === 5 && renderStep()}
             </div>
+            
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 6
                 ? 'max-h-full opacity-100'
@@ -880,6 +933,7 @@ const AccommodationListing = () => {
             >
               {currentStep === 6 && renderStep()}
             </div>
+            
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 7
                 ? 'max-h-full opacity-100'
@@ -895,23 +949,36 @@ const AccommodationListing = () => {
                 <button
                   type="button"
                   onClick={handleBack}
-                  className="flex items-center px-6 py-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors font-medium text-gray-600"
+                  disabled={loading}
+                  className="flex items-center px-6 py-3 font-medium text-gray-800 transition-colors border border-gray-200 rounded-lg hover:bg-gray-50"
                 >
-                  <ChevronRight className="transform -rotate-180 mr-2" />
+                  <ChevronRight className="mr-2 transform -rotate-180" />
                   Back
                 </button>
               )}
+              
               <button
-                type="button"
-                onClick={
-                  currentStep === 7 ? handleSubmit : handleNext
-                }
-                className={`flex items-center px-6 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors font-medium ${currentStep === 6 ? '' : 'ml-auto'
-                  }`}
-              >
-                {currentStep === 7 ? 'Submit Listing' : 'Next'}
-                <ChevronRight className="ml-2" />
-              </button>
+          type= 'button'
+          onClick={currentStep === 7 ?handleSubmit : handleNext}
+          disabled={loading && currentStep === 7}
+          className={`flex items-center px-6 py-3 rounded-lg ${
+            loading && currentStep === 7
+              ? 'bg-gray-400'
+              : 'bg-indigo-600 hover:bg-indigo-700'
+          } text-white transition-colors font-medium ${
+            currentStep < 7 ? 'ml-auto' : ''
+          }`}
+        >
+          {currentStep === 7 ? (
+            loading ? 'Submitting...' : 'Submit Listing'
+          ) : (
+            <>
+              Next
+              <ChevronRight className="ml-2" />
+            </>
+          )}
+        </button>
+              
             </div>
 
             {/* Submission Error */}
@@ -923,18 +990,18 @@ const AccommodationListing = () => {
           </form>
         </div>
         {/* Features Grid */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {features.map((feature, index) => (
               <Link
                 key={index}
                 to="#"
-                className="bg-white p-6 rounded-xl border border-gray-100 hover:border-indigo-200 transition-all hover:shadow-lg"
+                className="p-6 transition-all bg-white border border-gray-100 rounded-xl hover:border-indigo-200 hover:shadow-lg"
               >
-                <div className="text-indigo-600 bg-indigo-50 p-3 rounded-lg inline-block mb-4">
+                <div className="inline-block p-3 mb-4 text-indigo-600 rounded-lg bg-indigo-50">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900">
                   {feature.title}
                 </h3>
                 <p className="text-gray-600">{feature.description}</p>
