@@ -74,13 +74,6 @@ const SignUp = () => {
         } finally {
             setLoading(false);
         }
-      } catch (err) {
-        setError(err.response?.data?.message || "Already created account using this email. Please signin using this email");
-        //setError(err.response?.data?.message || "Please signin using this email");
-       // setError(err.response?.data?.message || "Registration failed");
-      } finally {
-        setLoading(false);
-      }
     };
 
     return (

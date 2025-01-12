@@ -24,7 +24,7 @@ export const addUser = async (req, res) => {
     }
   } catch (error) {
     if (error.code === 11000) {
-      return res.status(400).send({ error: 'Email already exists' });
+      return res.status(400).send({ message: 'Email already exists' });
     }
     console.log('Error registering user:', error); // for debugging
     res.status(400).send(error);
@@ -37,12 +37,12 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).send({ error: 'Invalid login credentials' });
+      return res.status(401).send({ message: 'Invalid login credentials' });
     }
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(401).send({ error: 'Invalid login credentials' });
+      return res.status(401).send({ message: 'Invalid login credentials' });
     }
 
     // Don't send password in response
