@@ -15,8 +15,8 @@ class AuthError extends Error {
 }
 
 // Custom axios instance for auth-related requests
-const authApi = axios.create({
-    baseURL: "http://localhost:8080/api",
+export const authApi = axios.create({
+    baseURL: "http://localhost:7000/api",
 });
 
 // Add auth token to requests
@@ -178,7 +178,7 @@ export const AuthProvider = ({ children }) => {
 
   if (state.loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex items-center justify-center h-screen">
         <CircularProgress />
       </div>
     );

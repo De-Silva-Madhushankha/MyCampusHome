@@ -5,6 +5,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RequireAuth from './components/RequireAuth';
 
+import ScrollToTop from './components/scrolltop';
+
 import HomePage from './pages/HomePage';
 import SignIn from './pages/SignInPage';
 import SignUp from './pages/SignUpPage';
@@ -16,11 +18,13 @@ import PropertySearchPage from './pages/SearchResultPage';
 import AccommodationPage from './pages/AccommodationPage';
 import Dashboard from './pages/Dashboard';
 
-axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:8080/api';
+axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:7000/api';
 
 export default function App() {
   return (
     <>
+    <ScrollToTop/>
+
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
@@ -42,6 +46,7 @@ export default function App() {
                */}
         </Route>
       </Routes>
+
       <ToastContainer
         position="top-right"
         autoClose={3000}
