@@ -1,4 +1,4 @@
-import React, { useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MapPin,
   Home,
@@ -111,8 +111,8 @@ const AccommodationListing = () => {
   ];
   const [universities, setUniversities] = useState([]);
 
-const [loading, setLoading] = useState(false); // To track loading state
-const [isSubmitted, setIsSubmitted] = useState(false); // To track successful submission
+  const [loading, setLoading] = useState(false); // To track loading state
+  const [isSubmitted, setIsSubmitted] = useState(false); // To track successful submission
 
 
   useEffect(() => {
@@ -124,7 +124,7 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
         console.error('Error fetching universities:', error);
       }
     };
-  
+
     fetchUniversities();
   }, []);
 
@@ -213,17 +213,17 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Validate the current step before proceeding
     if (!validateStep(currentStep)) {
       return;
     }
-  
+
     setLoading(true); // Set loading state to true when starting the submission process
-  
+
     try {
       const data = new FormData();
-  
+
       // Append all form fields to the FormData object
       for (const [key, value] of Object.entries(formData)) {
         if (key === 'photos') {
@@ -234,16 +234,16 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
           data.append(key, value);
         }
       }
-  
+
       console.log('Submitting Form Data:', Object.fromEntries(data.entries()));
-  
+
       // Submit the data to the backend API
       const response = await authApi.post('/listing/list', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-  
+
       // Handle successful response
       if (response.status === 201 || response.status === 200) {
         toast('Listing created successfully!', { type: 'success' });
@@ -267,7 +267,7 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
       setLoading(false); // Reset loading state when done
     }
   };
-  
+
 
 
   const handleCheckboxChange = (amenity) => {
@@ -415,34 +415,33 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
               )}
             </div>
 
-
             <div>
-  <label className="block mb-2 text-sm font-medium text-gray-700">
-    Nearest University*
-  </label>
-  <select
-    value={formData.nearestUniversity}
-    onChange={(e) =>
-      setFormData({
-        ...formData,
-        nearestUniversity: e.target.value,
-      })
-    }
-    className={`w-full px-4 py-3 rounded-lg border ${
-      errors.nearestUniversity ? 'border-red-500' : 'border-gray-200'
-    } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
-  >
-    <option value="">Select a university</option>
-    {universities.map((uni) => (
-      <option key={uni._id} value={uni.name}>
-        {uni.name}
-      </option>
-    ))}
-  </select>
-  {errors.nearestUniversity && (
-    <p className="mt-1 text-sm text-red-500">{errors.nearestUniversity}</p>
-  )}
-</div>
+              <label className="block mb-2 text-sm font-medium text-gray-700"></label>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Nearest University*
+              </label>
+              <select
+                value={formData.nearestUniversity}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    nearestUniversity: e.target.value,
+                  })
+                }
+                className={`w-full px-4 py-3 rounded-lg border ${errors.nearestUniversity ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              >
+                <option value="" className="text-gray-500">Select a university</option>
+                {universities.map((uni) => (
+                  <option key={uni._id} value={uni.name}>
+                    {uni.name}
+                  </option>
+                ))}
+              </select>
+              {errors.nearestUniversity && (
+                <p className="mt-1 text-sm text-red-500">{errors.nearestUniversity}</p>
+              )}
+            </div>
 
           </div>
         );
@@ -879,7 +878,7 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
 
           {/* Form */}
           <form onSubmit={handleSubmit}>
-            
+
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 1
                 ? 'max-h-full opacity-100'
@@ -888,7 +887,7 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
             >
               {currentStep === 1 && renderStep()}
             </div>
-            
+
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 2
                 ? 'max-h-full opacity-100'
@@ -897,7 +896,7 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
             >
               {currentStep === 2 && renderStep()}
             </div>
-            
+
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 3
                 ? 'max-h-full opacity-100'
@@ -906,7 +905,7 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
             >
               {currentStep === 3 && renderStep()}
             </div>
-            
+
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 4
                 ? 'max-h-full opacity-100'
@@ -915,7 +914,7 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
             >
               {currentStep === 4 && renderStep()}
             </div>
-            
+
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 5
                 ? 'max-h-full opacity-100'
@@ -924,7 +923,7 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
             >
               {currentStep === 5 && renderStep()}
             </div>
-            
+
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 6
                 ? 'max-h-full opacity-100'
@@ -933,7 +932,7 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
             >
               {currentStep === 6 && renderStep()}
             </div>
-            
+
             <div
               className={`transition-all duration-500 ease-in-out ${currentStep === 7
                 ? 'max-h-full opacity-100'
@@ -956,29 +955,27 @@ const [isSubmitted, setIsSubmitted] = useState(false); // To track successful su
                   Back
                 </button>
               )}
-              
+
               <button
-          type= 'button'
-          onClick={currentStep === 7 ?handleSubmit : handleNext}
-          disabled={loading && currentStep === 7}
-          className={`flex items-center px-6 py-3 rounded-lg ${
-            loading && currentStep === 7
-              ? 'bg-gray-400'
-              : 'bg-indigo-600 hover:bg-indigo-700'
-          } text-white transition-colors font-medium ${
-            currentStep < 7 ? 'ml-auto' : ''
-          }`}
-        >
-          {currentStep === 7 ? (
-            loading ? 'Submitting...' : 'Submit Listing'
-          ) : (
-            <>
-              Next
-              <ChevronRight className="ml-2" />
-            </>
-          )}
-        </button>
-              
+                type='button'
+                onClick={currentStep === 7 ? handleSubmit : handleNext}
+                disabled={loading && currentStep === 7}
+                className={`flex items-center px-6 py-3 rounded-lg ${loading && currentStep === 7
+                  ? 'bg-gray-400'
+                  : 'bg-indigo-600 hover:bg-indigo-700'
+                  } text-white transition-colors font-medium ${currentStep < 7 ? 'ml-auto' : ''
+                  }`}
+              >
+                {currentStep === 7 ? (
+                  loading ? 'Submitting...' : 'Submit Listing'
+                ) : (
+                  <>
+                    Next
+                    <ChevronRight className="ml-2" />
+                  </>
+                )}
+              </button>
+
             </div>
 
             {/* Submission Error */}

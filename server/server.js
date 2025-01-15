@@ -11,7 +11,7 @@ import accommodationRoutes from "./routes/accommodationRoutes.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 4000;
 const HOST = process.env.HOST || "localhost";
 
 // CORS Configuration
