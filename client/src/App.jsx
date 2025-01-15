@@ -31,7 +31,6 @@ export default function App() {
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/help" element={<HelpCenter />} />
-        <Route path="/list-property" element={<AccommodationList />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/search" element={<PropertySearchPage />} />
         <Route path="/accommodation/:id" element={<AccommodationPage />} />
@@ -40,6 +39,8 @@ export default function App() {
         {/* Private Routes */}
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/list-property" element={<AccommodationList />} />
+
           {/*
               <Route path="/profile" element={<Profile />} />
               <Route path="/settings" element={<Settings />} />

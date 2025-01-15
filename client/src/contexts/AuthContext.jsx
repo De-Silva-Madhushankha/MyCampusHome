@@ -93,15 +93,15 @@ export const AuthProvider = ({ children }) => {
       validatePassword(userData.password, userData.passwordConfirmation);
 
       const { data } = await authApi.post("/user/register", userData);
-      localStorage.setItem("authToken", data.token);
+      //localStorage.setItem("authToken", data.token);
       updateState({
         user: data.user,
         loading: false,
         isAuthenticated: true
       });
       
-      navigate("/dashboard");
-      toast.success("Registration successful! Welcome aboard!");
+      navigate("/login");
+      toast.success("Registration successful! Please Login!");
       return data;
     } catch (error) {
       return handleAuthError(error);
@@ -112,6 +112,10 @@ export const AuthProvider = ({ children }) => {
     try {
       const { data } = await authApi.post("/user/login", credentials);
       localStorage.setItem("authToken", data.token);
+      localStorage.setItem("logUser", data.user);
+      // we can use user data like this
+      console.log(data.user._id)
+      //----
       updateState({
         user: data.user,
         loading: false,
@@ -127,6 +131,8 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogout = useCallback(() => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("logUser");
+    
     updateState({
       user: null,
       loading: false,
