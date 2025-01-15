@@ -16,7 +16,7 @@ class AuthError extends Error {
 
 // Custom axios instance for auth-related requests
 export const authApi = axios.create({
-    baseURL: "http://localhost:7000/api",
+    baseURL: "http://localhost:4000/api",
 });
 
 // Add auth token to requests

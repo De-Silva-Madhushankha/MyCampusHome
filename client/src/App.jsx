@@ -18,7 +18,7 @@ import PropertySearchPage from './pages/SearchResultPage';
 import AccommodationPage from './pages/AccommodationPage';
 import Dashboard from './pages/Dashboard';
 
-axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:7000/api';
+axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:4000/api';
 
 export default function App() {
   return (
@@ -35,7 +35,7 @@ export default function App() {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/search" element={<PropertySearchPage />} />
         <Route path="/accommodation/:id" element={<AccommodationPage />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="/*" element={<NotFound />} />
 
         {/* Private Routes */}
         <Route element={<RequireAuth />}>
