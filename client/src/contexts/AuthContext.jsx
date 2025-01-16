@@ -136,7 +136,7 @@ export const AuthProvider = ({ children }) => {
       loading: false,
       isAuthenticated: false
     });
-    navigate("/login");
+    navigate("/sign-in");
     toast.info("Logged out successfully.");
   }, [navigate]);
 

@@ -290,13 +290,14 @@ const SignUp = () => {
 
                                 <p className="mt-4 text-sm text-gray-600 sm:mt-0">
                                     Already have an account?{' '}
-                                    <Link to="/login" className="text-indigo-600 hover:text-indigo-700 hover:underline">Log in</Link>
+                                    <Link to="/sign-in" className="text-indigo-600 hover:text-indigo-700 hover:underline">Sign in</Link>
                                 </p>
                             </div>
                             {error && (
                                 <div className="col-span-6 text-red-500 text-lg">
                                     {error}
-                                </div>)}
+                                </div>)
+                            }
                         </form>
                     </div>
                 </main>

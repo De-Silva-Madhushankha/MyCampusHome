@@ -1,5 +1,5 @@
-import axios from 'axios';
-import data from './data.json';
+// import axios from 'axios';
+// import data from './data.json';
 import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,7 +18,7 @@ import PropertySearch from './pages/SearchResult';
 import Accommodation from './pages/Accommodation';
 import Profile from './pages/Profile';
 
-axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:4000/api';
+//axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:4000/api';
 
 export default function App() {
   return (

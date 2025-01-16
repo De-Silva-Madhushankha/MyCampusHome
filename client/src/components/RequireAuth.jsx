@@ -23,7 +23,7 @@ const RequireAuth = () => {
   }
 
   // Redirect to login if user is not authenticated
-  return user ? <Outlet /> : <Navigate to="/login" replace />;
+  return user ? <Outlet /> : <Navigate to="/sign-in" replace />;
 };
 
 export default RequireAuth;
