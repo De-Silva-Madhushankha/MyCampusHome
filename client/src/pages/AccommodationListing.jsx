@@ -248,7 +248,7 @@ const AccommodationListing = () => {
       if (response.status === 201 || response.status === 200) {
         toast('Listing created successfully!', { type: 'success' });
         setIsSubmitted(true); // Mark submission as successful
-        navigate('/'); // Redirect to the home or dashboard page
+        navigate('/dashboard'); // Redirect to the home or dashboard page
       } else {
         // Handle validation or other server-side errors
         setErrors((prevErrors) => ({

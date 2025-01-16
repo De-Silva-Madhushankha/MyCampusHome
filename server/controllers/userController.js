@@ -19,7 +19,7 @@ export const addUser = async (req, res) => {
     delete userResponse.password;
     if (userResponse) {
       //Generate jwt token here
-      const token = generateTokenAndSetCookie(userResponse._id, res);
+      //const token = generateTokenAndSetCookie(userResponse._id, res);
       res.status(200).send({ user: userResponse, token: token });
     }
   } catch (error) {

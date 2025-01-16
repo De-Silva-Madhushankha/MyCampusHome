@@ -22,6 +22,7 @@ const PropertySearchPage = () => {
   const [filteredProperties, setFilteredProperties] = useState([]);
   const [filteredPropertiesCount, setFilteredPropertiesCount] = useState(0);
   const [city, setCity] = useState('');
+  const [sortOption, setSortOption] = useState('Best Match');
 
   const lat = searchParams.get('lat');
   const lng = searchParams.get('lng');
@@ -59,6 +60,19 @@ const PropertySearchPage = () => {
     fetchCity();
   }, [lat, lng]);
 
+  useEffect(() => {
+    const sortedProperties = [...properties];
+
+    if (sortOption === 'Price: Low to High') {
+      sortedProperties.sort((a, b) => a.price - b.price);
+    } else if (sortOption === 'Price: High to Low') {
+      sortedProperties.sort((a, b) => b.price - a.price);
+    }
+
+    setFilteredProperties(sortedProperties);
+    setFilteredPropertiesCount(sortedProperties.length);
+  }, [properties, sortOption]);
+
   // Update filtered properties when main properties change
   useEffect(() => {
     setFilteredProperties(properties);
@@ -86,13 +100,17 @@ const PropertySearchPage = () => {
   return (
     <>
       <Navbar />
-      <div className="flex justify-between items-center max-w-7xl mx-auto px-4 py-2">
+      <div className="flex items-center justify-between px-4 py-2 mx-auto max-w-7xl">
         <h2 className="text-xl font-semibold">
           {city} apartments for rent
-          <span className="text-gray-500 ml-2 text-sm">{filteredPropertiesCount} listings found</span>
+          <span className="ml-2 text-sm text-gray-500">{filteredPropertiesCount} listings found</span>
         </h2>
-        <div className="flex items-center gap-4">
-          <select className="border border-gray-200 rounded-md px-3 py-2">
+        <div className="flex items-center gap-4 ">
+        <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+            className="px-3 py-2 border border-gray-200 rounded-md"
+          >
             <option>Best Match</option>
             <option>Price: Low to High</option>
             <option>Price: High to Low</option>

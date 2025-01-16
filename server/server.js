@@ -16,7 +16,7 @@ const HOST = process.env.HOST || "localhost";
 
 // CORS Configuration
 const corsOptions = {
-  origin: ['http://localhost:4002', 'http://localhost:7000'],  // Add any other allowed origins
+  origin: ['http://localhost:4000', 'http://localhost:3000'],  // Add any other allowed origins
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,  // Enable credentials (cookies, authorization headers, etc)
