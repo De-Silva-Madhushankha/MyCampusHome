@@ -10,30 +10,11 @@ export const verifyUser = async (req, res) => {
   }
 }
 
-export const addUser = async (req, res) => {
-  try {
-    const user = new User(req.body);
-    await user.save();
-    // Don't send password in response
-    const userResponse = user.toObject();
-    delete userResponse.password;
-    if (userResponse) {
-      //Generate jwt token here
-      //const token = generateTokenAndSetCookie(userResponse._id, res);
-      res.status(200).send({ user: userResponse, token: token });
-    }
-  } catch (error) {
-    if (error.code === 11000) {
-      return res.status(400).send({ message: 'Email already exists' });
-    }
-    console.log('Error registering user:', error); // for debugging
-    res.status(400).send(error);
-  }
-};
 
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(email, password);
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -41,6 +22,7 @@ export const loginUser = async (req, res) => {
     }
 
     const isMatch = await user.comparePassword(password);
+
     if (!isMatch) {
       return res.status(401).send({ message: 'Invalid login credentials' });
     }

@@ -5,8 +5,8 @@ import { useAuth } from '../contexts/AuthContext';
 const SignUp = () => {
     const { register } = useAuth();
     const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
+        firstname: "",
+        lastname: "",
         email: "",
         password: "",
         passwordConfirmation: "",
@@ -16,7 +16,7 @@ const SignUp = () => {
     const [error, setError] = useState("");
 
     const validateForm = () => {
-        if (!formData.firstName || !formData.lastName) {
+        if (!formData.firstname || !formData.lastname) {
             setError("All fields are required");
             return false;
         }
@@ -63,8 +63,8 @@ const SignUp = () => {
 
         try {
             await register({
-                firstName: formData.firstName,
-                lastName: formData.lastName,
+                firstname: formData.firstname,
+                lastname: formData.lastname,
                 email: formData.email,
                 password: formData.password,
                 passwordConfirmation: formData.passwordConfirmation
@@ -148,8 +148,8 @@ const SignUp = () => {
                                     <input
                                         type="text"
                                         id="FirstName"
-                                        name="firstName"
-                                        value={formData.firstName}
+                                        name="firstname"
+                                        value={formData.firstname}
                                         onChange={handleChange}
                                         className="w-full px-4 py-3 text-sm placeholder-transparent bg-white border-2 border-gray-200 rounded-lg peer focus:border-indigo-600 focus:outline-none"
                                         placeholder="First Name"
@@ -168,8 +168,8 @@ const SignUp = () => {
                                     <input
                                         type="text"
                                         id="LastName"
-                                        name="lastName"
-                                        value={formData.lastName}
+                                        name="lastname"
+                                        value={formData.lastname}
                                         onChange={handleChange}
                                         className="w-full px-4 py-3 text-sm placeholder-transparent bg-white border-2 border-gray-200 rounded-lg peer focus:border-indigo-600 focus:outline-none"
                                         placeholder="Last Name"
@@ -294,7 +294,7 @@ const SignUp = () => {
                                 </p>
                             </div>
                             {error && (
-                                <div className="col-span-6 text-red-500 text-sm">
+                                <div className="col-span-6 text-red-500 text-lg">
                                     {error}
                                 </div>)}
                         </form>

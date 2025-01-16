@@ -7,6 +7,7 @@ import universityRoutes from "./routes/universityRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import listingRoutes from "./routes/listingRoutes.js";
 import accommodationRoutes from "./routes/accommodationRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -37,12 +38,23 @@ mongoose
   .catch((error) => console.error("MongoDB connection error:", error));
 
 // Routes
-app.use("/api/universities", universityRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/universities", universityRoutes);
 app.use("/api/listing", listingRoutes);
 app.use("/api/accommodation", accommodationRoutes);
 
 console.log("Routes setup complete");
+
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  return res.status(statusCode).json({
+    success : false,
+    message,
+    statusCode });
+})
+
 
 app.get('/', (req, res) => {
   res.send('server is running');

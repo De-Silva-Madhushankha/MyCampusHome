@@ -58,10 +58,10 @@ const Navbar = () => {
             </Link>
             {!user ? (
               <>
-                <Link to="/login" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+                <Link to="/sign-in" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
                   Log In
                 </Link>
-                <Link to="/register" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+                <Link to="/sign-up" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
                   Register
                 </Link>
               </>
