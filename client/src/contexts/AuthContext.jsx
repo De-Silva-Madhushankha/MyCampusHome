@@ -91,8 +91,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       validatePassword(userData.password, userData.passwordConfirmation);
-
-      const { data } = await authApi.post("/user/register", userData);
+      const { data } = await authApi.post("/auth/signup", userData);
       //localStorage.setItem("authToken", data.token);
       updateState({
         user: data.user,
@@ -100,8 +99,8 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: true
       });
       
-      navigate("/login");
-      toast.success("Registration successful! Please Login!");
+      navigate("/sign-in");
+      toast.success("Registration successful! Please Sign-In!");
       return data;
     } catch (error) {
       return handleAuthError(error);
@@ -121,7 +120,6 @@ export const AuthProvider = ({ children }) => {
         loading: false,
         isAuthenticated: true
       });
-      
       navigate("/dashboard");
       toast.success("Login successful!");
     } catch (error) {
@@ -138,7 +136,7 @@ export const AuthProvider = ({ children }) => {
       loading: false,
       isAuthenticated: false
     });
-    navigate("/login");
+    navigate("/sign-in");
     toast.info("Logged out successfully.");
   }, [navigate]);
 

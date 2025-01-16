@@ -1,5 +1,5 @@
-import axios from 'axios';
-import data from './data.json';
+// import axios from 'axios';
+// import data from './data.json';
 import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,18 +7,18 @@ import RequireAuth from './components/RequireAuth';
 
 import ScrollToTop from './components/scrolltop';
 
-import HomePage from './pages/HomePage';
-import SignIn from './pages/SignInPage';
-import SignUp from './pages/SignUpPage';
+import Home from './pages/Home';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 import HelpCenter from './pages/HelpCenter';
-import { NotFound } from './pages/NotFoundPage';
+import { NotFound } from './pages/NotFound';
 import AccommodationList from './pages/AccommodationListing';
 import FAQ from './pages/FAQ';
-import PropertySearchPage from './pages/SearchResultPage';
-import AccommodationPage from './pages/AccommodationPage';
-import Dashboard from './pages/Dashboard';
+import PropertySearch from './pages/SearchResult';
+import Accommodation from './pages/Accommodation';
+import Profile from './pages/Profile';
 
-axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:4000/api';
+//axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:4000/api';
 
 export default function App() {
   return (
@@ -27,18 +27,18 @@ export default function App() {
 
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<SignIn />} />
-        <Route path="/register" element={<SignUp />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
         <Route path="/help" element={<HelpCenter />} />
         <Route path="/faq" element={<FAQ />} />
-        <Route path="/search" element={<PropertySearchPage />} />
-        <Route path="/accommodation/:id" element={<AccommodationPage />} />
+        <Route path="/search" element={<PropertySearch />} />
+        <Route path="/accommodation/:id" element={<Accommodation />} />
         <Route path="/*" element={<NotFound />} />
 
         {/* Private Routes */}
         <Route element={<RequireAuth />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Profile />} />
           <Route path="/list-property" element={<AccommodationList />} />
 
           {/*

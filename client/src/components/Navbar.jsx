@@ -21,10 +21,10 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-4">
             <Link to="/">
-              <img 
-                src="/campus-home-logo.svg" 
+              <img
+                src="/campus-home-logo.svg"
                 alt="RentNearUni Logo"
-                className="h-10 filter invert" 
+                className="h-10 filter invert"
               />
             </Link>
             <div className="flex-shrink-0">
@@ -37,32 +37,35 @@ const Navbar = () => {
           <SearchBar />
 
           <div className="hidden lg:flex items-center space-x-4">
-            <Button
-              className="hover:bg-indigo-500 hover:text-white"
-              href="/list-property"
-              variant="outlined"
-              color="primary"
-              sx={{
-                color: '#4f46e5',
-                fontWeight: 'bold',
-                borderRadius: '8px',
-                border: '1px solid #4f46e5',
-                padding: '8px 16px',
-                textTransform: 'none',
-              }}
-            >
-              List an Accommodation
-            </Button>
+            <Link to="/list-property">
+              <Button
+                className="hover:bg-indigo-500 hover:text-white"
+                variant="outlined"
+                color="primary"
+                sx={{
+                  color: '#4f46e5',
+                  fontWeight: 'bold',
+                  borderRadius: '8px',
+                  border: '1px solid #4f46e5',
+                  padding: '8px 16px',
+                  textTransform: 'none',
+                }}
+              >
+                List an Accommodation
+              </Button>
+              
+            </Link>
+
             <Link to="/help" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
               Help Center
             </Link>
             {!user ? (
               <>
-                <Link to="/login" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
-                  Log In
+                <Link to="/sign-in" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+                  Sign In
                 </Link>
-                <Link to="/register" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
-                  Register
+                <Link to="/sign-up" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+                  Sign Up
                 </Link>
               </>
             ) : (

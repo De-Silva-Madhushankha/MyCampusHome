@@ -184,7 +184,7 @@ const SignIn = () => {
               <div className="col-span-6">
                 <p className="text-center text-sm text-gray-600">
                   Don't have an account?{' '}
-                  <Link to="/register" className="text-indigo-600 hover:text-indigo-700 hover:underline">
+                  <Link to="/sign-up" className="text-indigo-600 hover:text-indigo-700 hover:underline">
                     Sign up
                   </Link>
                 </p>
