@@ -88,30 +88,31 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (userData) => {
+  const signup = async (userData) => {
     try {
+
       validatePassword(userData.password, userData.passwordConfirmation);
+
       const { data } = await authApi.post("/auth/signup", userData);
-      //localStorage.setItem("authToken", data.token);
-      updateState({
-        user: data.user,
-        loading: false,
-        isAuthenticated: true
-      });
       
       navigate("/sign-in");
-      toast.success("Registration successful! Please Sign-In!");
+      toast.success("Registration successful! Please Sign in!");
       return data;
+
     } catch (error) {
       return handleAuthError(error);
     }
   };
 
-  const login = async (credentials) => {
+  const signin = async (credentials) => {
     try {
-      const { data } = await authApi.post("/user/login", credentials);
-      localStorage.setItem("authToken", data.token);
-      localStorage.setItem("logUser", data.user);
+      const { data } = await authApi.post("/auth/signin", credentials);
+      
+      //localStorage.setItem("authToken", data.access_token);
+      //sessionStorage.setItem("authToken", data.access_token);
+      // localStorage.setItem("logUser", data.user);
+      
+      
       // we can use user data like this
       console.log(data.user._id)
       //----
@@ -121,15 +122,17 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: true
       });
       navigate("/dashboard");
-      toast.success("Login successful!");
+
+      toast.success("Sign in successful!");
     } catch (error) {
       return handleAuthError(error);
     }
   };
 
   const handleLogout = useCallback(() => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("logUser");
+
+    //localStorage.removeItem("authToken");
+    //sessionStorage.removeItem("authToken");
     
     updateState({
       user: null,
@@ -172,8 +175,8 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     ...state,
-    register,
-    login,
+    signup,
+    signin,
     logout: handleLogout,
     requestPasswordReset,
     resetPassword,

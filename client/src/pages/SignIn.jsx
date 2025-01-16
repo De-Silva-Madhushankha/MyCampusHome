@@ -4,7 +4,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useAuth } from '../contexts/AuthContext';
 
 const SignIn = () => {
-  const { login } = useAuth();
+  const { signin } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -39,7 +39,7 @@ const SignIn = () => {
 
     setLoading(true);
     try {
-      await login({
+      await signin({
         email: formData.email,
         password: formData.password
       });

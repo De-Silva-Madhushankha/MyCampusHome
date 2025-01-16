@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
 
 const SignUp = () => {
-    const { register } = useAuth();
+    const { signup } = useAuth();
     const [formData, setFormData] = useState({
         firstname: "",
         lastname: "",
@@ -62,7 +62,7 @@ const SignUp = () => {
         setLoading(true);
 
         try {
-            await register({
+            await signup({
                 firstname: formData.firstname,
                 lastname: formData.lastname,
                 email: formData.email,
