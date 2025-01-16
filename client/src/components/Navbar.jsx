@@ -126,8 +126,8 @@ const Navbar = () => {
               />
             </div>
             <div className="w-full">
+              <Link to="/list-property">
               <Button
-                href="/list-property"
                 variant="contained"
                 color="primary"
                 sx={{
@@ -145,16 +145,17 @@ const Navbar = () => {
               >
                 List an Accommodation
               </Button>
+              </Link>
             </div>
             <Link to="/help" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
               Help Center
             </Link>
             {!user ? (
               <>
-                <Link to="/login" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+                <Link to="/sign-in" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
                   Log In
                 </Link>
-                <Link to="/register" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+                <Link to="/sign-up" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
                   Register
                 </Link>
               </>

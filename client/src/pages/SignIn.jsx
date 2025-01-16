@@ -1,18 +1,23 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useAuth } from '../contexts/AuthContext';
+import { signInFailure, signInStart, signInSuccess } from "../redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+//import { useAuth } from '../contexts/AuthContext'; 
+
 
 const SignIn = () => {
-  const { signin } = useAuth();
+  //const { signin } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const {loading, error} = useSelector(state => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -25,7 +30,7 @@ const SignIn = () => {
   const validateForm = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      setError("Please enter a valid email address");
+      dispatch(signInFailure("Invalid email address"));
       return false;
     }
     return true;
@@ -33,21 +38,35 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-
     if (!validateForm()) return;
 
-    setLoading(true);
+    dispatch(signInStart());
+
     try {
-      await signin({
-        email: formData.email,
-        password: formData.password
+      // await signin({
+      //   email: formData.email,
+      //   password: formData.password
+      // });
+      const res = await fetch('api/auth/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
       });
+      const data = await res.json();
+      if (data.success == false) {
+        //toast.error(data.message);
+        dispatch(signInFailure(data.message));
+        return;
+      }
+      dispatch(signInSuccess(data));
+      navigate("/");
+      toast.success("Sign in successful!");
     } catch (err) {
-      setError(err.message || "Invalid credentials");
-    } finally {
-      setLoading(false);
+      dispatch(signInFailure(err));
     }
+
   };
 
   return (

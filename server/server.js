@@ -1,32 +1,34 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import cors from "cors";
+// import cors from "cors";
 
 import universityRoutes from "./routes/universityRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import listingRoutes from "./routes/listingRoutes.js";
 import accommodationRoutes from "./routes/accommodationRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import CookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || "localhost";
 
-// CORS Configuration
-const corsOptions = {
-  origin: ['http://localhost:4000', 'http://localhost:3000'],  // Add any other allowed origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,  // Enable credentials (cookies, authorization headers, etc)
-  optionsSuccessStatus: 200
-};
+
+// const corsOptions = {
+//   origin: ['http://localhost:4000', 'http://localhost:3000', 'http://localhost:5173' ], 
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+//   credentials: true,  // Enable credentials (cookies, authorization headers, etc)
+//   optionsSuccessStatus: 200
+// };
 
 // Middleware applied to all routes
 app.use(express.json());
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(CookieParser());
 
 // Set strictQuery option
 mongoose.set('strictQuery', true);
