@@ -3,11 +3,11 @@ import { Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
-import { useAuth } from '../contexts/AuthContext'; // Update path as needed
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -53,13 +53,13 @@ const Navbar = () => {
               >
                 List an Accommodation
               </Button>
-              
+
             </Link>
 
             <Link to="/help" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
               Help Center
             </Link>
-            {!user ? (
+            {!currentUser ? (
               <>
                 <Link to="/sign-in" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
                   Sign In
@@ -69,7 +69,11 @@ const Navbar = () => {
                 </Link>
               </>
             ) : (
-              <Button
+              <>
+                <Link to="/dashboard" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+                  <img src={currentUser.profilePicture} alt="User" className="w-9 h-9 rounded-full object-cover"></img>
+                </Link>
+                {/* <Button
                 onClick={handleLogout}
                 variant="contained"
                 color="secondary"
@@ -84,7 +88,9 @@ const Navbar = () => {
                 }}
               >
                 Log Out
-              </Button>
+              </Button> */}
+              </>
+
             )}
           </div>
 
@@ -127,24 +133,24 @@ const Navbar = () => {
             </div>
             <div className="w-full">
               <Link to="/list-property">
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{
-                  backgroundColor: '#4e46e1',
-                  '&:hover': {
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{
                     backgroundColor: '#4e46e1',
-                  },
-                  color: 'white',
-                  fontWeight: 'bold',
-                  borderRadius: '8px',
-                  padding: '8px 16px',
-                  textTransform: 'none',
-                  width: '100%',
-                }}
-              >
-                List an Accommodation
-              </Button>
+                    '&:hover': {
+                      backgroundColor: '#4e46e1',
+                    },
+                    color: 'white',
+                    fontWeight: 'bold',
+                    borderRadius: '8px',
+                    padding: '8px 16px',
+                    textTransform: 'none',
+                    width: '100%',
+                  }}
+                >
+                  List an Accommodation
+                </Button>
               </Link>
             </div>
             <Link to="/help" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">

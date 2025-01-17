@@ -12,17 +12,19 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import HelpCenter from './pages/HelpCenter';
 import { NotFound } from './pages/NotFound';
-import AccommodationList from './pages/AccommodationListing';
+import AccommodationListing from './pages/AccommodationListing';
 import FAQ from './pages/FAQ';
 import PropertySearch from './pages/SearchResult';
 import Accommodation from './pages/Accommodation';
 import Profile from './pages/Profile';
+import PrivateRoute from './components/PrivateRoute';
 
 //axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:4000/api';
 
 export default function App() {
   return (
     <>
+
     <ScrollToTop/>
 
       <Routes>
@@ -37,12 +39,11 @@ export default function App() {
         <Route path="/*" element={<NotFound />} />
 
         {/* Private Routes */}
-        <Route element={<RequireAuth />}>
+        <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Profile />} />
-          <Route path="/list-property" element={<AccommodationList />} />
-
+          <Route path="/list-property" element={<AccommodationListing />} />
           {/*
-              <Route path="/profile" element={<Profile />} />
+              
               <Route path="/settings" element={<Settings />} />
                */}
         </Route>
@@ -57,6 +58,7 @@ export default function App() {
         draggable
         theme="colored"
       />
+
     </>
   );
 }
