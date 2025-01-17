@@ -1,5 +1,5 @@
 {
-  "name": "RentNearUni",
+  "name": "MyCampusHomeLK",
   "version": "1.0.0",
   "description": "A comprehensive platform specialized in finding apartments, boarding houses, rooms for rent near Sri Lankan Universities ",
   "main": "index.js",
@@ -15,7 +15,7 @@
     "start": "concurrently \"npm run server\"  \"npm run client\""
   },
   "keywords": [],
-  "author": "Madhushankha De Silva",
+  "author": ["Madhushankha De Silva", "Chamoda Pramudika", "Nimash Dilshan"],
   "license": "ISC",
   "dependencies": {
     "concurrently": "^6.2.2"

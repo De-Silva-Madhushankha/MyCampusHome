@@ -182,12 +182,6 @@ const SignIn = () => {
                 </Link>
               </div>
 
-              {error && (
-                <div className="col-span-10 text-red-500 text-sm bg-red-50 p-3 rounded-lg">
-                  {error}
-                </div>
-              )}
-
               <div className="col-span-10 space-y-5">
                 <button
                   type="submit"
@@ -211,6 +205,14 @@ const SignIn = () => {
                   </Link>
                 </p>
               </div>
+
+              {error && (
+                <div className="col-span-10 text-red-500 text-sm bg-red-50 p-3 rounded-lg">
+                  {error}
+                </div>
+              )}
+
+
             </form>
           </div>
         </main>

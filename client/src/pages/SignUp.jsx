@@ -297,7 +297,7 @@ const SignUp = () => {
                                     <Link to="/sign-in" className="text-indigo-600 hover:text-indigo-700 hover:underline">Sign in</Link>
                             </p>
                             {error && (
-                                <div className="col-span-6 text-red-500 text-lg">
+                                <div className="col-span-6 text-red-500 text-md">
                                     {error}
                                 </div>)
                             }
