@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import bcryptjs from 'bcryptjs';
 
 const userSchema = Schema({
   firstname: {
@@ -18,6 +17,10 @@ const userSchema = Schema({
   password: {
     type: String,
     required: true,
+  },
+  profilePicture: {
+    type: String,
+    default: "https://ipac.svkkl.cz/arl-kl/en/csg/?repo=klrepo&key=52084842018"
   },
   
   role : {

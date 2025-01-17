@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
+import OAuth from "../components/OAuth";
 
 const SignUp = () => {
     const { signup } = useAuth();
@@ -283,18 +284,20 @@ const SignUp = () => {
                                     className="relative inline-block w-full px-8 py-3 overflow-hidden text-white bg-indigo-600 rounded-lg group sm:w-auto focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                                 >
                                     <span className="absolute inset-0 h-full w-full scale-0 rounded-lg bg-indigo-700 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"></span>
-                                    <span className="relative inline-block text-sm font-semibold">
+                                    <span className="relative inline-block text-md font-semibold">
                                         {loading ? "Creating an Account..." : "Create an Account"}
                                     </span>
                                 </button>
 
-                                <p className="mt-4 text-sm text-gray-600 sm:mt-0">
+                                <OAuth />
+                            </div>
+                            
+                            <p className="col-span-6 sm:flex sm:items-center sm:gap-4 mt-4 text-sm text-gray-600 sm:mt-0">
                                     Already have an account?{' '}
                                     <Link to="/sign-in" className="text-indigo-600 hover:text-indigo-700 hover:underline">Sign in</Link>
-                                </p>
-                            </div>
+                            </p>
                             {error && (
-                                <div className="col-span-6 text-red-500 text-lg">
+                                <div className="col-span-6 text-red-500 text-md">
                                     {error}
                                 </div>)
                             }
