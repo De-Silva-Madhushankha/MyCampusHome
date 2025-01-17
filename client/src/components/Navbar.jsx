@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import { useSelector } from 'react-redux';
+import AccountDropdown from "./ProfileDropdown";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -70,9 +71,10 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link to="/dashboard" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+                <AccountDropdown />
+                {/* <Link to="/dashboard" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
                   <img src={currentUser.profilePicture} alt="User" className="w-9 h-9 rounded-full object-cover"></img>
-                </Link>
+                </Link> */}
                 {/* <Button
                 onClick={handleLogout}
                 variant="contained"
@@ -156,7 +158,7 @@ const Navbar = () => {
             <Link to="/help" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
               Help Center
             </Link>
-            {!user ? (
+            {!currentUser ? (
               <>
                 <Link to="/sign-in" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
                   Log In
@@ -166,23 +168,28 @@ const Navbar = () => {
                 </Link>
               </>
             ) : (
-              <Button
-                onClick={handleLogout}
-                variant="contained"
-                color="secondary"
-                sx={{
-                  backgroundColor: "#e63946",
-                  "&:hover": { backgroundColor: "#d62828" },
-                  color: "white",
-                  fontWeight: "bold",
-                  borderRadius: "8px",
-                  padding: "8px 16px",
-                  width: "100%",
-                  textTransform: "none",
-                }}
-              >
-                Log Out
-              </Button>
+
+              <AccountDropdown />
+              // <Link to="/dashboard" className="text-sm flex justify-center font-medium text-gray-800 hover:underline cursor-pointer">
+              //     <img src={currentUser.profilePicture} alt="User" className="w-9 h-9 rounded-full object-cover"></img>
+              //   </Link>
+              // <Button
+              //   onClick={handleLogout}
+              //   variant="contained"
+              //   color="secondary"
+              //   sx={{
+              //     backgroundColor: "#e63946",
+              //     "&:hover": { backgroundColor: "#d62828" },
+              //     color: "white",
+              //     fontWeight: "bold",
+              //     borderRadius: "8px",
+              //     padding: "8px 16px",
+              //     width: "100%",
+              //     textTransform: "none",
+              //   }}
+              // >
+              //   Log Out
+              // </Button>
             )}
           </div>
         </div>
