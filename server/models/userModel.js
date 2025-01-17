@@ -29,11 +29,6 @@ const userSchema = Schema({
 }, { timestamps: true });
 
 
-// Method to compare passwords
-userSchema.methods.comparePassword = async function(candidatePassword) {
-  return await bcryptjs.compare(candidatePassword, this.password);
-};
-
 const User = model('User', userSchema);
 
 export default User;
