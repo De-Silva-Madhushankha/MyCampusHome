@@ -5,6 +5,7 @@ import PropertyCard from '../components/cards/PropertyCard';
 import Navbar from '../components/Navbar';
 import { toast } from 'react-toastify';
 import axios from "axios";
+import { authApi } from '../contexts/AuthContext';
 
 const FilterButton = ({ label, icon: Icon }) => (
   <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-md hover:border-indigo-600 hover:text-indigo-600">
@@ -31,9 +32,14 @@ const PropertySearchPage = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get('/accommodation');
+        const response = await authApi.get('/accommodation');
         const data = await response.data;
-        setProperties(data);
+        if (Array.isArray(data)) {
+          setProperties(data);
+        } else {
+          console.error('API response is not an array:', data);
+          toast.error('Unexpected API response');
+        }
       } catch (err) {
         console.error('Error fetching properties:', err);
         toast.error('Failed to fetch properties');
@@ -61,7 +67,7 @@ const PropertySearchPage = () => {
   }, [lat, lng]);
 
   useEffect(() => {
-    const sortedProperties = [...properties];
+    const sortedProperties = [...filteredProperties];
 
     if (sortOption === 'Price: Low to High') {
       sortedProperties.sort((a, b) => a.price - b.price);
@@ -135,13 +141,14 @@ const PropertySearchPage = () => {
                 className={`grid gap-6 ${showMap ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2' : 'grid-cols-4'
                   }`}
               >
-                {filteredProperties.map((property) => (
-                  <PropertyCard
-                    key={property._id}
-                    property={property}
-                    isSelected={selectedProperty?._id === property._id}
-                  />
-                ))}
+               {Array.isArray(filteredProperties) && filteredProperties.map((property) => (
+  <PropertyCard
+    key={property._id}
+    property={property}
+    isSelected={selectedProperty?._id === property._id}
+  />
+))}
+
               </div>
             </div>
 
