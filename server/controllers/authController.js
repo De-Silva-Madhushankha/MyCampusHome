@@ -45,12 +45,11 @@ export const signin = async (req, res, next) => {
       return next(errorHandler(401, 'Invalid credentials'));
     }
 
-    const userResponse = validUser.toObject();
-    delete userResponse.password; // Remove password from response
+    const { password: hashedPassword, ...rest } = validUser._doc;
 
-    if (userResponse) {
-      const token = generateTokenAndSetCookie(userResponse._id, res);
-      res.status(200).send({ user: userResponse });
+    if (validUser) {
+      const token = generateTokenAndSetCookie(validUser._id, res);
+      res.status(200).json(rest);
     }
   } catch (error) {
     next(error);

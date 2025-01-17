@@ -4,6 +4,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { signInFailure, signInStart, signInSuccess } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import OAuth from "../components/OAuth";
 //import { useAuth } from '../contexts/AuthContext'; 
 
 
@@ -187,22 +188,24 @@ const SignIn = () => {
                 </div>
               )}
 
-              <div className="col-span-10 space-y-4">
+              <div className="col-span-10 space-y-5">
                 <button
                   type="submit"
                   disabled={loading}
                   className="group relative inline-block w-full overflow-hidden rounded-lg bg-indigo-600 px-8 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                 >
                   <span className="absolute inset-0 h-full w-full scale-0 rounded-lg bg-indigo-700 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"></span>
-                  <span className="relative inline-block text-sm font-semibold">
+                  <span className="relative inline-block text-md font-semibold">
                     {loading ? "Signing in..." : "Sign in"}
                   </span>
                 </button>
+
+                <OAuth />
               </div>
 
-              <div className="col-span-6">
+              <div className="col-span-6 items-center justify-center">
                 <p className="text-center text-sm text-gray-600">
-                  Don't have an account?{' '}
+                  Don't have an account? {'  '}
                   <Link to="/sign-up" className="text-indigo-600 hover:text-indigo-700 hover:underline">
                     Sign up
                   </Link>
