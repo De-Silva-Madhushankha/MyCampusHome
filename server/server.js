@@ -8,13 +8,21 @@ import userRoutes from "./routes/userRoutes.js";
 import listingRoutes from "./routes/listingRoutes.js";
 import accommodationRoutes from "./routes/accommodationRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
-import CookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
+import path from 'path';
 
 dotenv.config();
 
+const __dirname = path.resolve();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || "localhost";
+
+// app.use(express.static(path.join(__dirname, '/client/dist')));
+
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/client/dist/index.html'));
+// });
 
 
 const corsOptions = {
@@ -28,7 +36,7 @@ const corsOptions = {
 // Middleware applied to all routes
 app.use(express.json());
 app.use(cors(corsOptions));
-app.use(CookieParser());
+app.use(cookieParser());
 
 // Set strictQuery option
 mongoose.set('strictQuery', true);

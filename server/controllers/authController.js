@@ -1,7 +1,7 @@
 import User from '../models/userModel.js';
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/errorHandler.js';
-import { generateTokenAndSetCookie } from '../utils/jwtUtils.js';
+import { generateTokenAndSetCookie, clearCookie } from '../utils/jwtUtils.js';
 
 export const signup = async (req, res, next) => {
 
@@ -85,4 +85,8 @@ export const google = async (req, res, next) => {
   catch (error) {
     next(error);
   }
+}
+
+export const signout = (req, res,) => {
+  clearCookie(res);
 }

@@ -1,5 +1,5 @@
 {
-    "name": "rent-near-uni-server",
+    "name": "My Campus Home LK- Backend",
     "version": "1.0.0",
     "main": "server.js",
     "type": "module",
@@ -10,7 +10,7 @@
     "keywords": [],
     "author": "Madhushankha De Silva",
     "license": "ISC",
-    "description": "backend for rent-near-uni",
+    "description": "backend for My Campus Home LK",
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.20.3",
