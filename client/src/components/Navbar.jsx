@@ -11,10 +11,10 @@ const Navbar = () => {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
+  // const handleLogout = () => {
+  //   logout();
+  //   navigate("/");
+  // };
 
   return (
     <nav className="sticky top-0 w-full z-50 bg-white shadow-md transition-all duration-300">
@@ -55,6 +55,9 @@ const Navbar = () => {
                 List an Accommodation
               </Button>
 
+            </Link>
+            <Link to="/about" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+              About
             </Link>
 
             <Link to="/help" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
