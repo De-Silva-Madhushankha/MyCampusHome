@@ -1,19 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { signOut } from "../redux/user/userSlice";
 
 export default function AccountDropdown() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { currentUser } = useSelector((state) => state.user);
   const trigger = useRef(null);
   const dropdown = useRef(null);
+
+  
   const handleSignOut = async () => {
     try {
       await fetch("/api/auth/signout");
       dispatch(signOut());
       toast.info("Sign Out Successful");
+      navigate("/sign-in");
     } catch (error) {
       console.log(error);
     }
