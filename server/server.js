@@ -8,7 +8,7 @@ import userRoutes from "./routes/userRoutes.js";
 import listingRoutes from "./routes/listingRoutes.js";
 import accommodationRoutes from "./routes/accommodationRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
-import CookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -28,7 +28,7 @@ const corsOptions = {
 // Middleware applied to all routes
 app.use(express.json());
 app.use(cors(corsOptions));
-app.use(CookieParser());
+app.use(cookieParser());
 
 // Set strictQuery option
 mongoose.set('strictQuery', true);
