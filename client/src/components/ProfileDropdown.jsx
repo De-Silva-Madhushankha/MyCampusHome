@@ -46,19 +46,19 @@ export default function AccountDropdown() {
   });
 
   return (
-    <section className="bg-gray-2 py-20 dark:bg-dark">
+    <section className="py-20 bg-gray-2 dark:bg-dark">
       <div className="container">
         <div className="flex justify-center">
           <div className="relative inline-block">
             <button
               ref={trigger}
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className=" inline-flex h-12 items-center justify-center gap-2 rounded-lg py-3 text-base font-medium text-dark dark:bg-dark-2 dark:text-white"
+              className="inline-flex items-center justify-center h-12 gap-2 py-3 text-base font-medium rounded-lg text-dark dark:bg-dark-2 dark:text-white"
             >
               <img
                 src={currentUser.profilePicture}
                 alt="User"
-                className="w-9 h-9 rounded-full object-cover"
+                className="object-cover rounded-full w-9 h-9"
               ></img>
             </button>
             <div
