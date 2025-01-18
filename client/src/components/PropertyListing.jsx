@@ -23,7 +23,9 @@ const PropertyListing = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <>
+    <div className="grid flex-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
       {properties.map((property) => (
         <div key={property.id} className="bg-white rounded-lg shadow-md overflow-hidden">
           <img src={property.image} alt={property.title} className="w-full h-48 object-cover" />
@@ -41,7 +43,8 @@ const PropertyListing = () => {
           </div>
         </div>
       ))}
-    </div>
+    </div></>
+    
   );
 };
 

@@ -18,6 +18,11 @@ const userSchema = Schema({
     type: String,
     required: true,
   },
+  
+  phoneNumber: {
+    type: String,
+  },
+
   profilePicture: {
     type: String,
     default: "https://ipac.svkkl.cz/arl-kl/en/csg/?repo=klrepo&key=52084842018"

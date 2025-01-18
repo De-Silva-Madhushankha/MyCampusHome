@@ -34,8 +34,9 @@ export const verifyToken = (req, res, next) => {
 
 // Clear JWT token from cookie
 export const clearCookie = (res) => {
-  res.clearCookie('token');
+  res.clearCookie('access_token').status(200).json({ message: 'Signout successfully' });
 };
+
 
 // Get user ID from JWT token
 export const getUserIdFromToken = (token) => {

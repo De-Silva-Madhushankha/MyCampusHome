@@ -18,6 +18,7 @@ import PropertySearch from './pages/SearchResult';
 import Accommodation from './pages/Accommodation';
 import Profile from './pages/Profile';
 import PrivateRoute from './components/PrivateRoute';
+import About from './pages/About';
 
 //axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:4000/api';
 
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/help" element={<HelpCenter />} />
+        <Route path="/about" element={<About />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/search" element={<PropertySearch />} />
         <Route path="/accommodation/:id" element={<Accommodation />} />

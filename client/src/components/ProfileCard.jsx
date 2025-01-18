@@ -108,6 +108,7 @@ export default function Profile() {
         try {
             await fetch('/api/auth/signout');
             dispatch(signOut())
+            toast.info('Sign out successfully!');
         } catch (error) {
             console.log(error);
         }

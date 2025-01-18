@@ -28,6 +28,18 @@ export const updateUser = async (req, res, next) => {
   }
 }
 
+export const deleteUser = async (req, res, next) => {
+  if (req.params.id !== req.user.id) {
+    return next(errorHandler(403, 'Forbidden'));
+  }
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+}
+
 
 
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function AccountDropdown() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -12,6 +13,7 @@ export default function AccountDropdown() {
     try {
       await fetch("/api/auth/signout");
       dispatch(signOut());
+      toast.info("Sign Out Successful");
     } catch (error) {
       console.log(error);
     }
@@ -177,7 +179,7 @@ export default function AccountDropdown() {
                         fill="currentColor"
                       />
                     </svg>
-                    Log out
+                    Sign out
                   </span>
                 </button>
               </div>
