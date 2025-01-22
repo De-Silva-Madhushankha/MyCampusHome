@@ -4,7 +4,7 @@ import { errorHandler } from './errorHandler.js';
 export const generateTokenAndSetCookie = (userId, res) => {
 
   const token = jwt.sign({ id: userId }, process.env.JWT_SECRET, {
-    expiresIn: '1d', 
+    expiresIn: '1d',
   });
 
   res.cookie('access_token', token, {
@@ -21,15 +21,15 @@ export const generateTokenAndSetCookie = (userId, res) => {
 // Verify JWT token
 export const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
+  console.log(req.cookies);
 
   if (!token) return next(errorHandler(401, 'Unauthorized!'));
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) return next(errorHandler(403, 'Forbidden!'));
-      req.user = user;
-      next();
+    if (err) return next(errorHandler(403, 'Forbidden!'));
+    req.user = user;
+    next();
   });
-
 }
 
 // Clear JWT token from cookie

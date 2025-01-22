@@ -1,9 +1,7 @@
-// import axios from 'axios';
-// import data from './data.json';
+import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import RequireAuth from './components/RequireAuth';
 
 import ScrollToTop from './components/scrolltop';
 
@@ -20,14 +18,12 @@ import Profile from './pages/Profile';
 import PrivateRoute from './components/PrivateRoute';
 import About from './pages/About';
 
-//axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:4000/api';
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'http://localhost:4000/api';
 
 export default function App() {
   return (
     <>
-
-    <ScrollToTop/>
-
+      <ScrollToTop />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
@@ -45,9 +41,8 @@ export default function App() {
           <Route path="/dashboard" element={<Profile />} />
           <Route path="/list-property" element={<AccommodationListing />} />
           {/*
-              
               <Route path="/settings" element={<Settings />} />
-               */}
+          */}
         </Route>
       </Routes>
 
@@ -60,7 +55,6 @@ export default function App() {
         draggable
         theme="colored"
       />
-
     </>
   );
 }

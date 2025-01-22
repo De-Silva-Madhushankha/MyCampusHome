@@ -5,18 +5,16 @@ import { signInFailure, signInStart, signInSuccess } from "../redux/user/userSli
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import OAuth from "../components/OAuth";
-//import { useAuth } from '../contexts/AuthContext'; 
-
+import axios from 'axios';
 
 const SignIn = () => {
-  //const { signin } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false
   });
-  const {loading, error} = useSelector(state => state.user);
+  const { loading, error } = useSelector(state => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -44,30 +42,22 @@ const SignIn = () => {
     dispatch(signInStart());
 
     try {
-      // await signin({
-      //   email: formData.email,
-      //   password: formData.password
-      // });
-      const res = await fetch('api/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+      const res = await axios.post('/auth/signin', formData,{
+        withCredentials: true
       });
-      const data = await res.json();
-      if (data.success == false) {
-        //toast.error(data.message);
+      const data = res.data;
+      if (data.success === false) {
         dispatch(signInFailure(data.message));
         return;
       }
-      dispatch(signInSuccess(data));
-      navigate("/");
-      toast.success("Sign in successful!");
-    } catch (err) {
-      dispatch(signInFailure(err));
-    }
 
+      dispatch(signInSuccess(data));
+      navigate('/');
+      toast.success('Sign in successful!');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'An error occurred');
+      dispatch(signInFailure(err.response?.data?.message || 'An error occurred'));
+    }
   };
 
   return (

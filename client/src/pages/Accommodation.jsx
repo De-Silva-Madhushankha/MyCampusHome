@@ -4,7 +4,7 @@ import { Box, Typography, Stack } from "@mui/material";
 import Navbar from "../components/Navbar";
 import AccommodationGallery from "../components/gallery/AccommodationGallery";
 import PriceCard from "../components/cards/PriceCard";
-import HouseDetails from "../components/cards/HouseDetails";
+import PropertyDetails from "../components/cards/PropertyDetails";
 import Footer from "../components/Footer";
 import axios from "axios";
 
@@ -16,7 +16,8 @@ const AccommodationPage = () => {
     const fetchAccommodation = async () => {
       try {
         const response = await axios.get(`/accommodation/${id}`);
-        setAccommodation(response.data);
+        const data = response.data;
+        setAccommodation(data);
       } catch (err) {
         console.error("Error fetching accommodation:", err);
       }
@@ -53,8 +54,8 @@ const AccommodationPage = () => {
         />
 
         {/* Content Layer - Text and Details */}
-        <Box 
-          component="div" 
+        <Box
+          component="div"
           className="relative z-10 p-5 flex justify-center h-full text-white text-center"
         >
           <Stack
@@ -101,7 +102,7 @@ const AccommodationPage = () => {
                   }}
                 >
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                    Available From: {accommodation?.availableFrom 
+                    Available From: {accommodation?.availableFrom
                       ? new Date(accommodation.availableFrom).toDateString()
                       : "Not specified"}
                   </Typography>
@@ -133,8 +134,8 @@ const AccommodationPage = () => {
       {/* Gallery Section */}
       <AccommodationGallery photos={accommodation?.photos} />
 
-      {/* House Details Section */}
-      <HouseDetails property={accommodation} />
+      {/* Property Details Section */}
+      <PropertyDetails property={accommodation} />
 
       <Footer />
     </Box>

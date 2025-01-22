@@ -1,12 +1,13 @@
 import { useSelector } from 'react-redux';
 import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     getDownloadURL,
     getStorage,
     ref,
     uploadBytesResumable,
 } from 'firebase/storage';
-import { app } from '../firebase';
+import { app } from '../config/firebase';
 import { useDispatch } from 'react-redux';
 import {
     updateUserStart,
@@ -18,6 +19,7 @@ import {
     signOut,
 } from '../redux/user/userSlice';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 export default function Profile() {
     const dispatch = useDispatch();
@@ -27,6 +29,7 @@ export default function Profile() {
     const [imageError, setImageError] = useState(false);
     const [formData, setFormData] = useState({});
     const [updateSuccess, setUpdateSuccess] = useState(false);
+    const navigate = useNavigate();
 
     const { currentUser, loading, error } = useSelector((state) => state.user);
 
@@ -66,53 +69,60 @@ export default function Profile() {
         e.preventDefault();
         try {
             dispatch(updateUserStart());
-            const res = await fetch(`/api/user/update/${currentUser._id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+
+            const { data } = await axios.post(`/user/update/${currentUser._id}`, formData, {
+                withCredentials: true,
             });
-            const data = await res.json();
+
             if (data.success === false) {
                 dispatch(updateUserFailure(data));
+                console.log(data);
+                toast.error('Something went wrong!');
                 return;
             }
+
             dispatch(updateUserSuccess(data));
             setUpdateSuccess(true);
             toast.success('User is updated successfully!');
-            
         } catch (error) {
+            console.log(error);
             dispatch(updateUserFailure(error));
+            toast.error('Something went wrong!');
         }
     };
 
     const handleDeleteAccount = async () => {
         try {
             dispatch(deleteUserStart());
-            const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-                method: 'DELETE',
-            });
-            const data = await res.json();
+            const res = await axios.delete(`/user/delete/${currentUser._id}`);
+            const data = res.data;
             if (data.success === false) {
+                toast.error('Something went wrong!');
                 dispatch(deleteUserFailure(data));
                 return;
             }
             dispatch(deleteUserSuccess(data));
+            navigate('/sign-in');
+            toast.success('Account deleted successfully!');
         } catch (error) {
+            console.log(error);
+            toast.error('Something went wrong!');
             dispatch(deleteUserFailure(error));
         }
     };
 
     const handleSignOut = async () => {
         try {
-            await fetch('/api/auth/signout');
-            dispatch(signOut())
-            toast.info('Sign out successfully!');
+            await axios.get('/auth/signout', { withCredentials: true });
+            dispatch(signOut());
+            navigate("/sign-in");
+            toast.info("Sign Out Successful");
         } catch (error) {
+            toast.error("Something went wrong!");
             console.log(error);
         }
     };
+
     return (
         <div className='p-3 max-w-lg mx-auto'>
             <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>

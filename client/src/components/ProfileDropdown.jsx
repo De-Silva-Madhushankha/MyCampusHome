@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { signOut } from "../redux/user/userSlice";
+import axios from "axios";
 
 export default function AccountDropdown() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -14,14 +15,15 @@ export default function AccountDropdown() {
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
-  
+
   const handleSignOut = async () => {
     try {
-      await fetch("/api/auth/signout");
+      await axios.get('/auth/signout', { withCredentials: true });
       dispatch(signOut());
-      toast.info("Sign Out Successful");
       navigate("/sign-in");
+      toast.info("Sign Out Successful");
     } catch (error) {
+      toast.error("Something went wrong!");
       console.log(error);
     }
   };
@@ -72,9 +74,8 @@ export default function AccountDropdown() {
               ref={dropdown}
               onFocus={() => setDropdownOpen(true)}
               onBlur={() => setDropdownOpen(false)}
-              className={`absolute right-0 top-full w-[240px] divide-y divide-stroke overflow-hidden rounded-lg bg-white dark:divide-dark-3 dark:bg-dark-2 ${
-                dropdownOpen ? "block" : "hidden"
-              }`}
+              className={`absolute right-0 top-full w-[240px] divide-y divide-stroke overflow-hidden rounded-lg bg-white dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block" : "hidden"
+                }`}
             >
               <div>
                 <Link

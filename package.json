@@ -13,14 +13,16 @@
     "server": "cd server && npm run devStart",
     "client": "cd client && npm start",
     "start": "concurrently \"npm run server\"  \"npm run client\"",
-    "build" : "npm run install-server && npm run install-client && npm run build-client"
+    "build": "npm run install-server && npm run install-client && npm run build-client"
   },
   "keywords": [],
-  "author": ["Madhushankha De Silva", "Chamoda Pramudika", "Nimash Dilshan"],
+  "author": [
+    "Madhushankha De Silva",
+    "Chamoda Pramudika",
+    "Nimash Dilshan"
+  ],
   "license": "ISC",
   "dependencies": {
     "concurrently": "^6.2.2"
-  },
-  "devDependencies": {
   }
 }

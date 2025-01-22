@@ -15,8 +15,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import MapInput from '../components/maps/MapInput';
-import { authApi } from '../contexts/AuthContext';
-
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -118,7 +116,7 @@ const AccommodationListing = () => {
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await authApi.get('/universities');
+        const response = await axios.get('/universities');
         setUniversities(response.data);
       } catch (error) {
         console.error('Error fetching universities:', error);
@@ -238,7 +236,7 @@ const AccommodationListing = () => {
       console.log('Submitting Form Data:', Object.fromEntries(data.entries()));
 
       // Submit the data to the backend API
-      const response = await authApi.post('/listing/list', data, {
+      const response = await axios.post('/listing/list', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
