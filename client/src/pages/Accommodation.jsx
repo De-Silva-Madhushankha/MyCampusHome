@@ -30,103 +30,57 @@ const AccommodationPage = () => {
   };
 
   return (
-    <Box component="div" className="relative">
+    <div className="relative">
       <Navbar />
       {/* Banner Section with Details */}
-      <Box component="div" className="h-[50vh] relative overflow-hidden">
-        <Box
-          component="div"
-          className="absolute inset-0 bg-cover bg-center"
-          sx={{
-            backgroundImage: accommodation?.photos?.length > 0
-              ? `url(${accommodation.photos[0]})`
-              : "url(https://img.freepik.com/free-photo/woman-showing-with-one-hand-mini-house-real-state-concept-ai-generative_123827-24098.jpg)",
-            filter: "blur(5px)",
-            zIndex: 0,
+      <div className="h-[50vh] relative overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center blur-sm z-0"
+          style={{
+            backgroundImage: `url(${accommodation?.photos?.length > 0
+              ? accommodation.photos[0]
+              : "https://img.freepik.com/free-photo/woman-showing-with-one-hand-mini-house-real-state-concept-ai-generative_123827-24098.jpg"
+              })`,
           }}
         />
-
         {/* Overlay Layer for Text Contrast */}
-        <Box
-          component="div"
-          className="absolute inset-0 bg-black bg-opacity-30"
-          sx={{ zIndex: 1 }}
-        />
+        <div className="absolute inset-0 bg-black bg-opacity-30 z-1" />
 
-        {/* Content Layer - Text and Details */}
-        <Box
-          component="div"
-          className="relative z-10 p-5 flex justify-center h-full text-white text-center"
-        >
-          <Stack
-            spacing={2}
-            alignItems="center"
-            justifyContent="center"
-            sx={{ width: '100%' }}
-          >
-            <Typography
-              variant="h2"
-              className="font-black"
-              sx={{ fontWeight: 600 }}
-            >
-              {accommodation?.name || "The Bell Farm Eco Resort"}
-            </Typography>
+        <div className="relative z-10 p-5 flex h-full justify-center items-center  text-white text-center">
+          <div className="w-full flex flex-col items-center space-y-4">
+            <h2 className="text-5xl font-bold">
+              {accommodation?.title || `${accommodation?.propertyType} for Rent`}
+            </h2>
 
-            <Stack spacing={1} alignItems="center">
+            <div className="flex flex-col items-center space-y-3">
               {/* Address */}
-              <Box
-                component="div"
-                sx={{
-                  backgroundColor: "rgba(0, 0, 0, 0.1)",
-                  borderRadius: '9999px',
-                  px: 4,
-                  py: 2,
-                  width: 'fit-content'
-                }}
-              >
-                <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                  {accommodation?.address || "Address not available"}, {accommodation?.city || "City not available"}
-                </Typography>
-              </Box>
+              <div className="bg-black/10 rounded-full px-6 py-2">
+                <p className="text-base font-semibold">
+                  {accommodation?.address || "Address not available"},{" "}
+                  {accommodation?.city || "City not available"}
+                </p>
+              </div>
 
               {/* Listed Date and Viewers */}
-              <Stack direction="row" spacing={2} justifyContent="center">
-                <Box
-                  component="div"
-                  sx={{
-                    backgroundColor: "rgba(0, 0, 0, 0.1)",
-                    borderRadius: '9999px',
-                    px: 4,
-                    py: 2,
-                    width: 'fit-content'
-                  }}
-                >
-                  <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                    Available From: {accommodation?.availableFrom
+              <div className="flex flex-row justify-center space-x-4">
+                {/* Available From */}
+                <div className="bg-black/10 rounded-full px-6 py-2">
+                  <p className="text-sm font-semibold">
+                    Available From:{" "}
+                    {accommodation?.availableFrom
                       ? new Date(accommodation.availableFrom).toDateString()
                       : "Not specified"}
-                  </Typography>
-                </Box>
+                  </p>
+                </div>
 
-                <Box
-                  component="div"
-                  sx={{
-                    backgroundColor: "rgba(0, 0, 0, 0.1)",
-                    borderRadius: '9999px',
-                    px: 4,
-                    py: 2,
-                    width: 'fit-content'
-                  }}
-                >
-                  <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                    Viewers: 16
-                  </Typography>
-                </Box>
-              </Stack>
-            </Stack>
-          </Stack>
-        </Box>
-      </Box>
+                {/* Viewers */}
+                <div className="bg-black/10 rounded-full px-6 py-2">
+                  <p className="text-sm font-semibold">Viewers: 16</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Price Card positioned fixed */}
       <PriceCard price={accommodation?.price || 2500} onApply={handleApply} />
@@ -138,7 +92,7 @@ const AccommodationPage = () => {
       <PropertyDetails property={accommodation} />
 
       <Footer />
-    </Box>
+    </div>
   );
 };
 

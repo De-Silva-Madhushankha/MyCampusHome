@@ -4,7 +4,6 @@ import {
   Home,
   DollarSign,
   Camera,
-  CheckSquare,
   Users,
   FileText,
   Trash2,
@@ -17,13 +16,19 @@ import Footer from '../components/Footer';
 import MapInput from '../components/maps/MapInput';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 
 const AccommodationListing = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
+    //Name and Description
+    title: '',
+    description: '',
+
     // Location
     address: '',
     unit: '',
@@ -56,8 +61,8 @@ const AccommodationListing = () => {
     minimumStay: '',
 
     // Contact
-    contactName: '',
-    email: '',
+    contactName: currentUser.firstname + " " + currentUser.lastname,
+    email: currentUser.email,
     phone: '',
     availableFrom: '',
   });
@@ -108,7 +113,6 @@ const AccommodationListing = () => {
     'Single Room',
   ];
   const [universities, setUniversities] = useState([]);
-
   const [loading, setLoading] = useState(false); // To track loading state
   const [isSubmitted, setIsSubmitted] = useState(false); // To track successful submission
 
@@ -232,6 +236,9 @@ const AccommodationListing = () => {
           data.append(key, value);
         }
       }
+      
+      // Append the user _id to the FormData
+      data.append('userId', currentUser._id);
 
       console.log('Submitting Form Data:', Object.fromEntries(data.entries()));
 
@@ -337,6 +344,25 @@ const AccommodationListing = () => {
           <div className="space-y-6">
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
+                Accommodation Title*
+              </label>
+              <input
+                type="text"
+                value={formData.title}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
+                placeholder="Enter title or short description"
+                className={`w-full px-4 py-3 rounded-lg border ${errors.title ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              />
+              {errors.title && (
+                <p className="mt-1 text-sm text-red-500">{errors.title}</p>
+              )}
+            </div>
+            
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Accommodation Address*
               </label>
               <div className="relative">
@@ -414,7 +440,6 @@ const AccommodationListing = () => {
             </div>
 
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-700"></label>
               <label className="block mb-2 text-sm font-medium text-gray-700">
                 Nearest University*
               </label>
@@ -438,6 +463,24 @@ const AccommodationListing = () => {
               </select>
               {errors.nearestUniversity && (
                 <p className="mt-1 text-sm text-red-500">{errors.nearestUniversity}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Description*
+              </label>
+              <textarea
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+                placeholder="Enter a detailed description"
+                className={`w-full px-4 py-3 rounded-lg border ${errors.description ? 'border-red-500' : 'border-gray-200'
+                  } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              />
+              {errors.description && (
+                <p className="mt-1 text-sm text-red-500">{errors.description}</p>
               )}
             </div>
 
@@ -580,7 +623,7 @@ const AccommodationListing = () => {
                       onChange={() => handleCheckboxChange(amenity)}
                       className="w-4 h-4 border-gray-300 rounded text-black-600"
                     />
-                    <span className="text-sm text-indigo-700">{amenity}</span>
+                    <span className="text-sm">{amenity}</span>
                   </label>
                 ))}
               </div>

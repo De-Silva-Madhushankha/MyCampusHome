@@ -92,6 +92,16 @@ const accommodationSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Reference to the User model
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["Available", "Occupied"],
+    default: "Available",
+  },
 }, { timestamps: true });
 
 export default mongoose.model("Accommodation", accommodationSchema);

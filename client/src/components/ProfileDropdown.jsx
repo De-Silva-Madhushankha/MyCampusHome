@@ -55,14 +55,14 @@ export default function AccountDropdown() {
   });
 
   return (
-    <section className="py-20 bg-gray-2 dark:bg-dark">
+    <section className="py-20 bg-gray-2">
       <div className="container">
         <div className="flex justify-center">
           <div className="relative inline-block">
             <button
               ref={trigger}
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="inline-flex items-center justify-center h-12 gap-2 py-3 text-base font-medium rounded-lg text-dark dark:bg-dark-2 dark:text-white"
+              className="inline-flex items-center justify-center h-12 gap-2 py-3 text-base font-medium rounded-lg"
             >
               <img
                 src={currentUser.profilePicture}
@@ -74,13 +74,13 @@ export default function AccountDropdown() {
               ref={dropdown}
               onFocus={() => setDropdownOpen(true)}
               onBlur={() => setDropdownOpen(false)}
-              className={`absolute right-0 top-full w-[240px] divide-y divide-stroke overflow-hidden rounded-lg bg-white dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block" : "hidden"
+              className={`absolute left-1/2 top-full w-[200px] transform -translate-x-1/2 divide-y divide-stroke overflow-hidden rounded-lg bg-white shadow-lg ${dropdownOpen ? "block" : "hidden"
                 }`}
             >
               <div>
                 <Link
                   to="/dashboard"
-                  className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                  className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50"
                 >
                   <span className="flex items-center gap-2">
                     <svg
@@ -104,7 +104,7 @@ export default function AccountDropdown() {
                 </Link>
                 <Link
                   to="/settings"
-                  className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                  className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50"
                 >
                   <span className="flex items-center gap-2">
                     <svg
@@ -136,7 +136,7 @@ export default function AccountDropdown() {
 
                 <Link
                   to="/support"
-                  className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                  className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50"
                 >
                   <span className="flex items-center gap-2">
                     <svg
@@ -166,11 +166,13 @@ export default function AccountDropdown() {
                     Support
                   </span>
                 </Link>
+              </div>
+              <div>
                 <button
                   onClick={handleSignOut}
-                  className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                  className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50"
                 >
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-2 text-red-500">
                     <svg
                       width="16"
                       height="16"
