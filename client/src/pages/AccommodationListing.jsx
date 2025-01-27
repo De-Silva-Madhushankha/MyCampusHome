@@ -63,7 +63,7 @@ const AccommodationListing = () => {
     // Contact
     contactName: currentUser.firstname + " " + currentUser.lastname,
     email: currentUser.email,
-    phone: '',
+    phone: currentUser.phoneNumber,
     availableFrom: '',
   });
 

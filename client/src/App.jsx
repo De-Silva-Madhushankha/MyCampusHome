@@ -17,6 +17,7 @@ import Accommodation from './pages/Accommodation';
 import Profile from './pages/Profile';
 import PrivateRoute from './components/PrivateRoute';
 import About from './pages/About';
+import AccommodationEdit from './pages/AccommodationEdit';
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'http://localhost:4000/api';
 
@@ -40,6 +41,7 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Profile />} />
           <Route path="/list-property" element={<AccommodationListing />} />
+          <Route path="/edit-accommodation/:id" element={<AccommodationEdit />} />
           {/*
               <Route path="/settings" element={<Settings />} />
           */}

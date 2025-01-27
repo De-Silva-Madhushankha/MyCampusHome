@@ -50,7 +50,7 @@ const PropertyListing = () => {
   };
 
   return (
-    <div className="grid flex-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid flex-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-white border border-gray-100 shadow-lg rounded-2xl p-6">
       <h2 className="col-span-3 text-xl font-semibold text-gray-800">Your Accommodations</h2>
       {accommodations.length === 0 && (
         <div className="col-span-3 text-center text-gray-600">

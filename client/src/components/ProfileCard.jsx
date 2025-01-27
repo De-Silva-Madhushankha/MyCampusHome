@@ -130,7 +130,7 @@ export default function Profile() {
     };
 
     return (
-        <div className='p-3 max-w-lg mx-auto'>
+        <div className='p-6 max-w-lg mx-auto bg-white border border-gray-100 shadow-lg rounded-2xl'>
             <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
             <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
                 <input
@@ -202,6 +202,19 @@ export default function Profile() {
                 <TextField
                     fullWidth
                     variant="outlined"
+                    label="Mobile Number"
+                    defaultValue={currentUser.phoneNumber}
+                    onChange={handleChange}
+                    id="phoneNumber"
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '20px',
+                        },
+                    }}
+                />     
+                <TextField
+                    fullWidth
+                    variant="outlined"
                     label="Password"
                     type="password"
                     onChange={handleChange}
@@ -211,7 +224,7 @@ export default function Profile() {
                             borderRadius: '20px',
                         },
                     }}
-                />
+                />  
 
                 <button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
                     {loading ? 'Loading...' : 'Update'}
@@ -235,18 +248,6 @@ export default function Profile() {
                     Sign Out
                 </button>
             </div>
-
-            {/* Error and Success Messages */}
-            {error && (
-                <p className="text-red-500 text-center mt-4">
-                    Something went wrong!
-                </p>
-            )}
-            {updateSuccess && (
-                <p className="text-green-500 text-center mt-4">
-                    User updated successfully!
-                </p>
-            )}
         </div>
     );
 }

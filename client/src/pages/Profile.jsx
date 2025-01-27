@@ -4,6 +4,7 @@ import ProfileCard from '../components/ProfileCard';
 import PropertyListing from '../components/PropertyListing';
 import Analytics from '../components/Analytics';
 import { Container, Grid2 as Grid, Card, CardContent, Typography } from '@mui/material';
+import Footer from '../components/Footer';
 
 const Profile = () => {
   return (
@@ -13,18 +14,10 @@ const Profile = () => {
       <Container maxWidth="lg" className="py-8">
         <Grid container spacing={2}>
           <Grid size={4}>
-            <Card className="shadow-sm">
-              <CardContent>
-                <ProfileCard />
-              </CardContent>
-            </Card>
+            <ProfileCard />
           </Grid>
           <Grid size={8}>
-            <Card className="shadow-sm">
-              <CardContent>
-                <PropertyListing />
-              </CardContent>
-            </Card>
+            <PropertyListing />
           </Grid>
         </Grid>
 
@@ -40,6 +33,7 @@ const Profile = () => {
           </Card>
         </div>
       </Container>
+      <Footer />
     </div>
   );
 };
