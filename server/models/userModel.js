@@ -20,6 +20,7 @@ const userSchema = Schema({
   },
   phoneNumber: {
     type: String,
+    default: "+94722526652", 
   },
   profilePicture: {
     type: String,
