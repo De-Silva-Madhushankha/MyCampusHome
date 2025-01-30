@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Typography, Stack } from "@mui/material";
 import Navbar from "../components/Navbar";
 import AccommodationGallery from "../components/gallery/AccommodationGallery";
 import PriceCard from "../components/cards/PriceCard";
@@ -83,7 +82,7 @@ const AccommodationPage = () => {
       </div>
 
       {/* Price Card positioned fixed */}
-      <PriceCard price={accommodation?.price || 2500} onApply={handleApply} />
+      <PriceCard price={accommodation?.price || "Not specified"} onApply={handleApply} />
 
       {/* Gallery Section */}
       <AccommodationGallery photos={accommodation?.photos} />

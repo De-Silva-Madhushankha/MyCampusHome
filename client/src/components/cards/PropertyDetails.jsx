@@ -52,10 +52,10 @@ const PropertyDetails = ({ property }) => {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* About This House Section */}
-      <Card elevation={0} sx={{ mb: 4 }}>
-        <CardContent sx={{ p: 4 }}>
+      <Card elevation={0}>
+        <CardContent>
           <Typography variant="h5" sx={{ mb: 3, fontWeight: '600', color: '#1e293b', textAlign: 'center' }}>
             About
           </Typography>
