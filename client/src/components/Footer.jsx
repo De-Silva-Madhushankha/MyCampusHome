@@ -16,7 +16,7 @@ const Footer = () => {
                                 <i className="fab fa-facebook"></i>
                             </Link>
                             <Link
-                                href="mailto:campushomelk@gmail.com"
+                                to="mailto:campushomelk@gmail.com"
                                 className="text-gray-400 hover:text-gray-200 text-2xl"
                                 aria-label="Email Us"
                             >
@@ -30,7 +30,7 @@ const Footer = () => {
                     <div>
                         <h3 className="text-gray-200 font-semibold mb-4">For Tenants</h3>
                         <ul className="space-y-2">
-                            <li><Link to='/' className="hover:text-gray-100">Apply Online</Link></li>
+                            <li><Link to='/apply-online' className="hover:text-gray-100">Apply Online</Link></li>
                             <li><Link to='/' className="hover:text-gray-100">Schedule Tour</Link></li>
                             <li><Link to='/' className="hover:text-gray-100">Negotiate Rent</Link></li>
                             <li><Link to='/' className="hover:text-gray-100">Pay Rent</Link></li>
@@ -63,7 +63,7 @@ const Footer = () => {
                     <div>
                         <h3 className="text-gray-200 font-semibold mb-4">Company</h3>
                         <ul className="space-y-2">
-                            <li><Link to='/' className="hover:text-gray-100">About Us</Link></li>
+                            <li><Link to='/about' className="hover:text-gray-100">About Us</Link></li>
                             <li><Link to='/' className="hover:text-gray-100">Our News</Link></li>
                             <li><Link to='/' className="hover:text-gray-100">For Partners</Link></li>
                             <li><Link to='/' className="hover:text-gray-100">For Investors</Link></li>
