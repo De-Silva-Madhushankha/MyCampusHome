@@ -124,13 +124,13 @@ const AccommodationEdit = () => {
                 </Typography>
                 <form onSubmit={handleSubmit} className="space-y-6">
 
-                    <TextField label="Title" name="title" fullWidth variant="outlined" required
+                    <TextField label="Title" name="title" fullWidth variant="outlined"
                         value={formData.title || ''}
                         onChange={handleChange}
                         sx={textFieldSx}
                     />
 
-                    <TextField label="Description" name="description" multiline rows={4} fullWidth variant="outlined" required
+                    <TextField label="Description" name="description" multiline rows={4} fullWidth variant="outlined"
                         value={formData.description || ''}
                         onChange={handleChange}
                         sx={textFieldSx}
@@ -209,7 +209,7 @@ const AccommodationEdit = () => {
                         sx={textFieldSx}
                     />
 
-                    <Button type="submit" variant="contained" color="primary" fullWidth>
+                    <Button type="submit" variant="contained" sx={{ bgcolor: 'indigo-600' }} fullWidth>
                         Update Accommodation
                     </Button>
                 </form>
