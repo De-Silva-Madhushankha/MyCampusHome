@@ -18,8 +18,12 @@ import Profile from './pages/Profile';
 import PrivateRoute from './components/PrivateRoute';
 import About from './pages/About';
 import AccommodationEdit from './pages/AccommodationEdit';
+import ForgotPasswordOTP from './pages/ForgotPasswordOTP';
+import VerifyOTP from './pages/VerifyOTP';
+import ResetPasswordOTP from './pages/ResetPasswordOTP';
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'http://localhost:4000/api';
+
 
 export default function App() {
   return (
@@ -36,6 +40,11 @@ export default function App() {
         <Route path="/search" element={<PropertySearch />} />
         <Route path="/accommodation/:id" element={<Accommodation />} />
         <Route path="/*" element={<NotFound />} />
+
+        <Route path="/forgot-password-otp" element={<ForgotPasswordOTP />} />
+        <Route path="/verify-otp" element={<VerifyOTP />} />
+        <Route path="/reset-password-otp" element={<ResetPasswordOTP />} />
+
 
         {/* Private Routes */}
         <Route element={<PrivateRoute />}>
