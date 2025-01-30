@@ -5,7 +5,6 @@ import PropertyCard from '../components/cards/PropertyCard';
 import Navbar from '../components/Navbar';
 import { toast } from 'react-toastify';
 import axios from "axios";
-import { authApi } from '../contexts/AuthContext';
 
 const FilterButton = ({ label, icon: Icon }) => (
   <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-md hover:border-indigo-600 hover:text-indigo-600">
@@ -32,7 +31,7 @@ const PropertySearchPage = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await authApi.get('/accommodation');
+        const response = await axios.get('/accommodation');
         const data = await response.data;
         if (Array.isArray(data)) {
           setProperties(data);
@@ -51,18 +50,22 @@ const PropertySearchPage = () => {
   useEffect(() => {
     const fetchCity = async () => {
       try {
-        const response = await fetch(
-          `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=20c065102b7d44bdbe501361452f21be`
-        );
-        const data = await response.json();
+        const response = await axios.get(
+          `https://api.opencagedata.com/geocode/v1/json`, {
+          params: {
+            q: `${lat}+${lng}`,
+            key: import.meta.env.VITE_OPENCAGE_API_KEY, // Use the key from .env
+          }
+        });
+
+        const data = response.data;
         const components = data?.results[0]?.components;
-        setCity(components?.city || components?.town || components?.village || 'Unkown Location');
+        setCity(components?.city || components?.town || components?.village || 'Unknown Location');
       } catch (err) {
         console.error('Error fetching city name:', err);
         toast.error('Failed to fetch city name');
       }
     };
-
     fetchCity();
   }, [lat, lng]);
 
@@ -102,7 +105,7 @@ const PropertySearchPage = () => {
       setFilteredPropertiesCount(count);
     });
   }, []);
-  
+
   return (
     <>
       <Navbar />
@@ -112,7 +115,7 @@ const PropertySearchPage = () => {
           <span className="ml-2 text-sm text-gray-500">{filteredPropertiesCount} listings found</span>
         </h2>
         <div className="flex items-center gap-4 ">
-        <select
+          <select
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
             className="px-3 py-2 border border-gray-200 rounded-md"
@@ -141,13 +144,13 @@ const PropertySearchPage = () => {
                 className={`grid gap-6 ${showMap ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2' : 'grid-cols-4'
                   }`}
               >
-               {Array.isArray(filteredProperties) && filteredProperties.map((property) => (
-  <PropertyCard
-    key={property._id}
-    property={property}
-    isSelected={selectedProperty?._id === property._id}
-  />
-))}
+                {Array.isArray(filteredProperties) && filteredProperties.map((property) => (
+                  <PropertyCard
+                    key={property._id}
+                    property={property}
+                    isSelected={selectedProperty?._id === property._id}
+                  />
+                ))}
 
               </div>
             </div>

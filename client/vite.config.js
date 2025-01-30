@@ -6,9 +6,14 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:4000',
+        changeOrigin: true,
         secure: false,
       }
-    }
+    },
+    headers: {
+      'Cross-Origin-Opener-Policy': 'unsafe-none',
+      'Cross-Origin-Embedder-Policy': 'unsafe-none'
+    },
   },
   plugins: [react()],
 })
