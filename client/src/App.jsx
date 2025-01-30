@@ -24,6 +24,7 @@ import ResetPasswordOTP from './pages/ResetPasswordOTP';
 import ApplyOnline from './pages/ApplyOnline';
 import ScheduleTour from './pages/ScheduleTour';
 import NegotiateRent from './pages/NegotiateRent';
+import PayRent from './pages/PayRent';
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'http://localhost:4000/api';
 
@@ -45,6 +46,8 @@ export default function App() {
         <Route path="/apply-online" element={<ApplyOnline />} />
         <Route path="/schedule-tour" element={<ScheduleTour />} />
         <Route path="/negotiate-rent" element={<NegotiateRent />} />
+        <Route path="/pay-rent" element={<PayRent />} />
+
         
         <Route path="/*" element={<NotFound />} />
 
