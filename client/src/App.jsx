@@ -21,6 +21,7 @@ import AccommodationEdit from './pages/AccommodationEdit';
 import ForgotPasswordOTP from './pages/ForgotPasswordOTP';
 import VerifyOTP from './pages/VerifyOTP';
 import ResetPasswordOTP from './pages/ResetPasswordOTP';
+import ApplyOnline from './pages/ApplyOnline';
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'http://localhost:4000/api';
 
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="/dashboard" element={<Profile />} />
           <Route path="/list-property" element={<AccommodationListing />} />
           <Route path="/edit-accommodation/:id" element={<AccommodationEdit />} />
+          <Route path="/apply-online" element={<ApplyOnline />} />
           {/*
               <Route path="/settings" element={<Settings />} />
           */}
@@ -59,7 +61,7 @@ export default function App() {
 
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={1000}
         hideProgressBar={false}
         closeOnClick
         pauseOnHover
