@@ -31,8 +31,8 @@ const Footer = () => {
                         <h3 className="text-gray-200 font-semibold mb-4">For Tenants</h3>
                         <ul className="space-y-2">
                             <li><Link to='/apply-online' className="hover:text-gray-100">Apply Online</Link></li>
-                            <li><Link to='/' className="hover:text-gray-100">Schedule Tour</Link></li>
-                            <li><Link to='/' className="hover:text-gray-100">Negotiate Rent</Link></li>
+                            <li><Link to='/schedule-tour' className="hover:text-gray-100">Schedule Tour</Link></li>
+                            <li><Link to='/negotiate-rent' className="hover:text-gray-100">Negotiate Rent</Link></li>
                             <li><Link to='/' className="hover:text-gray-100">Pay Rent</Link></li>
                             <li><Link to='/' className="hover:text-gray-100" >Maintenance Request</Link></li>
                         </ul>
