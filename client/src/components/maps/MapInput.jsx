@@ -46,7 +46,14 @@ const SearchField = ({ onSearchResult }) => {
                 if (onSearchResult) {
                     onSearchResult([lat, lng]);
                 }
+            } else if (result?.location?.x && result?.location?.y) {
+                const { x, y } = result.location;
+                map.setView([y, x], 13); // Set zoom level to 13 for better clarity
+                if (onSearchResult) {
+                    onSearchResult([y, x]);
+                }
             } else {
+                console.log('Invalid search result location:', result);
                 toast.error('Invalid search result location');
             }
         });
