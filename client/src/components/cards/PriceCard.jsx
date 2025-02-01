@@ -1,9 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Heart } from "lucide-react";
 
-const PriceCard = ({ price, onApply }) => {
+const PriceCard = ({ price, setApplyModalOpen }) => {
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
-    <div className="fixed top-24 right-8 w-64 bg-white shadow-xl rounded-lg text-center z-50">
+    <div className="w-52 bg-white shadow-xl rounded-lg text-center z-50">
       {/* Save Section */}
       <div className="flex justify-center items-center pt-4 mb-4">
         <Heart className="text-gray-500 hover:text-red-500 transition-colors duration-300" />
@@ -19,12 +22,18 @@ const PriceCard = ({ price, onApply }) => {
       </div>
 
       {/* Apply Button */}
-      <div
-        className="bg-orange-500 hover:bg-orange-600 text-white py-4 cursor-pointer rounded-b-lg transition-colors duration-300"
-        onClick={onApply}
-      >
-        Apply
-      </div>
+      {currentUser ? (
+        <div
+          className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 cursor-pointer rounded-b-lg transition-colors duration-300"
+          onClick={() => setApplyModalOpen(true)}
+        >
+          Apply
+        </div>
+      ) : (
+        <div className="bg-gray-300 text-white font-bold py-4 cursor-not-allowed rounded-b-lg">
+          Signin to Apply
+        </div>
+      )}
     </div>
   );
 };

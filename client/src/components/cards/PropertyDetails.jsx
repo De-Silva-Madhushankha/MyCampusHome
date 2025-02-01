@@ -18,7 +18,7 @@ const AmenityIcon = ({ Icon, text }) => (
     }}
   >
     <Icon style={{ width: 20, height: 20, color: '#666' }} />
-    <Typography color="text.secondary">{text}</Typography>
+    <Typography color="text.secondary" variant="body2">{text}</Typography>
   </Paper>
 );
 
