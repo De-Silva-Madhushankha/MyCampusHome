@@ -31,6 +31,10 @@ const userSchema = Schema({
     required: true,
     default: 'user',
   },
+  FavoriteAccommodations: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Accommodation',
+  },
 
 }, { timestamps: true });
 

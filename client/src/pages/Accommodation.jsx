@@ -85,7 +85,7 @@ const AccommodationPage = () => {
 
           {/* Price Card (Right Aligned) */}
           <div className="self-center">
-            <PriceCard price={accommodation?.price || "Not specified"} setApplyModalOpen={setApplyModalOpen} />
+            <PriceCard accommodation={accommodation} setApplyModalOpen={setApplyModalOpen} />
           </div>
         </div>
       </div>
