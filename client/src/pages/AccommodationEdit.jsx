@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
     Container,
@@ -58,6 +58,7 @@ const AccommodationEdit = () => {
         phone: '',
     });
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAccommodation = async () => {
@@ -106,6 +107,7 @@ const AccommodationEdit = () => {
         try {
             const response = await axios.put(`/accommodation/${id}`, formData);
             if (response.status === 200) {
+                navigate(`/dashboard`);
                 toast.success('Accommodation updated successfully');
             }
         } catch (error) {
