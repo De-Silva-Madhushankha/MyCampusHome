@@ -99,7 +99,7 @@ export default function AccountDropdown() {
                         fill="currentColor"
                       />
                     </svg>
-                    View profile
+                    Dashboard
                   </span>
                 </Link>
                 <Link

@@ -5,16 +5,28 @@ import { Link, useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import { useSelector } from 'react-redux';
 import AccountDropdown from "./ProfileDropdown";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { signOut } from "../redux/user/userSlice";
+import axios from "axios";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // const handleLogout = () => {
-  //   logout();
-  //   navigate("/");
-  // };
+  const handleSignOut = async () => {
+    try {
+      await axios.get('/auth/signout', { withCredentials: true });
+      dispatch(signOut());
+      navigate("/sign-in");
+      toast.info("Sign Out Successful");
+    } catch (error) {
+      toast.error("Something went wrong!");
+      console.log(error);
+    }
+  };
 
   return (
     <nav className="sticky top-0 w-full z-50 bg-white shadow-md transition-all duration-300">
@@ -54,12 +66,10 @@ const Navbar = () => {
               >
                 List an Accommodation
               </Button>
-
             </Link>
             <Link to="/about" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
               About
             </Link>
-
             <Link to="/help" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
               Help Center
             </Link>
@@ -73,29 +83,7 @@ const Navbar = () => {
                 </Link>
               </>
             ) : (
-              <>
-                <AccountDropdown />
-                {/* <Link to="/dashboard" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
-                  <img src={currentUser.profilePicture} alt="User" className="w-9 h-9 rounded-full object-cover"></img>
-                </Link> */}
-                {/* <Button
-                onClick={handleLogout}
-                variant="contained"
-                color="secondary"
-                sx={{
-                  backgroundColor: "#e63946",
-                  "&:hover": { backgroundColor: "#d62828" },
-                  color: "white",
-                  fontWeight: "bold",
-                  borderRadius: "8px",
-                  padding: "8px 16px",
-                  textTransform: "none",
-                }}
-              >
-                Log Out
-              </Button> */}
-              </>
-
+              <AccountDropdown />
             )}
           </div>
 
@@ -171,28 +159,23 @@ const Navbar = () => {
                 </Link>
               </>
             ) : (
-
-              <AccountDropdown />
-              // <Link to="/dashboard" className="text-sm flex justify-center font-medium text-gray-800 hover:underline cursor-pointer">
-              //     <img src={currentUser.profilePicture} alt="User" className="w-9 h-9 rounded-full object-cover"></img>
-              //   </Link>
-              // <Button
-              //   onClick={handleLogout}
-              //   variant="contained"
-              //   color="secondary"
-              //   sx={{
-              //     backgroundColor: "#e63946",
-              //     "&:hover": { backgroundColor: "#d62828" },
-              //     color: "white",
-              //     fontWeight: "bold",
-              //     borderRadius: "8px",
-              //     padding: "8px 16px",
-              //     width: "100%",
-              //     textTransform: "none",
-              //   }}
-              // >
-              //   Log Out
-              // </Button>
+              <>
+                <Link to="/dashboard" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+                  Dashboard
+                </Link>
+                <Link to="/settings" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+                  Settings
+                </Link>
+                <Link to="/support" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+                  Support
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="text-sm font-medium text-red-500 hover:underline cursor-pointer w-full text-center"
+                >
+                  Sign Out
+                </button>
+              </>
             )}
           </div>
         </div>
