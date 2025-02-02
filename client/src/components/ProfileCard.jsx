@@ -100,7 +100,7 @@ export default function Profile() {
     const handleDeleteAccount = async () => {
         try {
             dispatch(deleteUserStart());
-            const res = await axios.delete(`/user/delete/${currentUser._id}`);
+            const res = await axios.delete(`/user/delete/${currentUser._id}`,{ withCredentials: true });
             const data = res.data;
             if (data.success === false) {
                 toast.error('Something went wrong!');

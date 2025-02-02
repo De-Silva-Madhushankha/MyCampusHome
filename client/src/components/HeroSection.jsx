@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
   const handleFindPlaceClick = () => {
-    // Scroll down by a specific number of pixels smoothly
     window.scrollBy({
-      top: 500, // Adjust this value to control how much you want to scroll down
+      top: 600,
       behavior: "smooth",
     });
   };
