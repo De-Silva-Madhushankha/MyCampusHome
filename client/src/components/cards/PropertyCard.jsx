@@ -64,7 +64,7 @@ const PropertyCard = ({ property, isSelected }) => {
             </div>
 
             <span className="text-black text-sm font-bold mb-2 block">
-                Available: <span className="text-green-500">Right Now</span>
+                Availablity: <span className={property.status === 'Occupied' ? 'text-red-500' : 'text-green-500'}>{property.status}</span>
             </span>
 
             <div className="flex items-center text-gray-500 mb-1 text-xs">

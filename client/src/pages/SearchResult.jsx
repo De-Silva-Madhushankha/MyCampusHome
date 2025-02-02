@@ -132,13 +132,13 @@ const PropertySearchPage = () => {
           </button>
         </div>
       </div>
-      <div className="bg-gray-50">
-        <main className="max-w-7xl mx-auto px-4 py-6 h-[calc(100vh-130px)]">
+      <div>
+        <main className="max-w-7xl mx-auto px-4 py-4 h-[calc(100vh-130px)]">
           <div className={`flex gap-6 h-full ${showMap ? '' : 'w-full'}`}>
             {/* Left Column: Property Cards */}
             <div
               className={`${showMap ? 'w-1/2' : 'w-full'
-                } h-full overflow-y-auto border border-gray-200 rounded-md bg-white shadow-sm p-4`}
+                } h-full overflow-y-auto border border-gray-100 rounded-2xl bg-white shadow-lg p-4`}
             >
               <div
                 className={`grid gap-6 ${showMap ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2' : 'grid-cols-4'
