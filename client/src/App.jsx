@@ -21,6 +21,10 @@ import AccommodationEdit from './pages/AccommodationEdit';
 import ForgotPasswordOTP from './pages/ForgotPasswordOTP';
 import VerifyOTP from './pages/VerifyOTP';
 import ResetPasswordOTP from './pages/ResetPasswordOTP';
+import ApplyOnline from './pages/ApplyOnline';
+import ScheduleTour from './pages/ScheduleTour';
+import NegotiateRent from './pages/NegotiateRent';
+import PayRent from './pages/PayRent';
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'http://localhost:4000/api';
 
@@ -39,6 +43,12 @@ export default function App() {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/search" element={<PropertySearch />} />
         <Route path="/accommodation/:id" element={<Accommodation />} />
+        <Route path="/apply-online" element={<ApplyOnline />} />
+        <Route path="/schedule-tour" element={<ScheduleTour />} />
+        <Route path="/negotiate-rent" element={<NegotiateRent />} />
+        <Route path="/pay-rent" element={<PayRent />} />
+
+        
         <Route path="/*" element={<NotFound />} />
 
         <Route path="/forgot-password-otp" element={<ForgotPasswordOTP />} />
@@ -51,6 +61,7 @@ export default function App() {
           <Route path="/dashboard" element={<Profile />} />
           <Route path="/list-property" element={<AccommodationListing />} />
           <Route path="/edit-accommodation/:id" element={<AccommodationEdit />} />
+          
           {/*
               <Route path="/settings" element={<Settings />} />
           */}
@@ -59,7 +70,7 @@ export default function App() {
 
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={1000}
         hideProgressBar={false}
         closeOnClick
         pauseOnHover

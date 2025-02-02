@@ -78,7 +78,7 @@ const UniversityGrid = () => {
       </div>
 
       <div className="flex justify-center gap-4 mb-8">
-        {["All", "Public", "Private"].map((type) => (
+        {["All", "State", "Private"].map((type) => (
           <motion.button
             key={type}
             onClick={() => setFilter(type)}

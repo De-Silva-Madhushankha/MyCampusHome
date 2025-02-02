@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const universitySchema = new mongoose.Schema({
   id : { type : Number, required : true },
   name: { type: String, required: true },
-  type: { type: String, enum: ["Public", "Private"], required: true },
+  type: { type: String, enum: ["State", "Private"], required: true },
   location: { type: String, required: true },
   description: { type: String },
   logo: { type: String },
