@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardMedia, Typography, Chip, CircularProgress, Button } from "@mui/material";
 import { School, LocationOn, Map as MapIcon } from "@mui/icons-material";
-import { authApi } from '../contexts/AuthContext';
-
 import axios from "axios";
 
 const containerVariants = {
@@ -39,7 +37,7 @@ const UniversityGrid = () => {
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await authApi.get("/universities");
+        const response = await axios.get("/universities");
         setUniversities(Array.isArray(response.data) ? response.data : []);
         setLoading(false);
       } catch (err) {
@@ -80,7 +78,7 @@ const UniversityGrid = () => {
       </div>
 
       <div className="flex justify-center gap-4 mb-8">
-        {["All", "Public", "Private"].map((type) => (
+        {["All", "State", "Private"].map((type) => (
           <motion.button
             key={type}
             onClick={() => setFilter(type)}

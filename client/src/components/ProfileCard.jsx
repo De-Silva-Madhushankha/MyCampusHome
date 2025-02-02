@@ -1,12 +1,13 @@
 import { useSelector } from 'react-redux';
 import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     getDownloadURL,
     getStorage,
     ref,
     uploadBytesResumable,
 } from 'firebase/storage';
-import { app } from '../firebase';
+import { app } from '../config/firebase';
 import { useDispatch } from 'react-redux';
 import {
     updateUserStart,
@@ -18,6 +19,13 @@ import {
     signOut,
 } from '../redux/user/userSlice';
 import { toast } from 'react-toastify';
+import axios from 'axios';
+
+import { TextField } from '@mui/material';
+import {
+    Delete as DeleteIcon,
+    Logout as LogoutIcon
+} from '@mui/icons-material';
 
 export default function Profile() {
     const dispatch = useDispatch();
@@ -27,6 +35,7 @@ export default function Profile() {
     const [imageError, setImageError] = useState(false);
     const [formData, setFormData] = useState({});
     const [updateSuccess, setUpdateSuccess] = useState(false);
+    const navigate = useNavigate();
 
     const { currentUser, loading, error } = useSelector((state) => state.user);
 
@@ -66,55 +75,62 @@ export default function Profile() {
         e.preventDefault();
         try {
             dispatch(updateUserStart());
-            const res = await fetch(`/api/user/update/${currentUser._id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+
+            const { data } = await axios.post(`/user/update/${currentUser._id}`, formData, {
+                withCredentials: true,
             });
-            const data = await res.json();
+
             if (data.success === false) {
                 dispatch(updateUserFailure(data));
+                console.log(data);
+                toast.error('Something went wrong!');
                 return;
             }
+
             dispatch(updateUserSuccess(data));
             setUpdateSuccess(true);
             toast.success('User is updated successfully!');
-            
         } catch (error) {
+            console.log(error);
             dispatch(updateUserFailure(error));
+            toast.error('Something went wrong!');
         }
     };
 
     const handleDeleteAccount = async () => {
         try {
             dispatch(deleteUserStart());
-            const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-                method: 'DELETE',
-            });
-            const data = await res.json();
+            const res = await axios.delete(`/user/delete/${currentUser._id}`,{ withCredentials: true });
+            const data = res.data;
             if (data.success === false) {
+                toast.error('Something went wrong!');
                 dispatch(deleteUserFailure(data));
                 return;
             }
             dispatch(deleteUserSuccess(data));
+            navigate('/sign-in');
+            toast.success('Account deleted successfully!');
         } catch (error) {
+            console.log(error);
+            toast.error('Something went wrong!');
             dispatch(deleteUserFailure(error));
         }
     };
 
     const handleSignOut = async () => {
         try {
-            await fetch('/api/auth/signout');
-            dispatch(signOut())
-            toast.info('Sign out successfully!');
+            await axios.get('/auth/signout', { withCredentials: true });
+            dispatch(signOut());
+            navigate("/sign-in");
+            toast.info("Sign Out Successful");
         } catch (error) {
+            toast.error("Something went wrong!");
             console.log(error);
         }
     };
+
     return (
-        <div className='p-3 max-w-lg mx-auto'>
+        <div className='p-6 max-w-lg mx-auto bg-white border border-gray-100 shadow-lg rounded-2xl'>
             <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
             <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
                 <input
@@ -143,56 +159,95 @@ export default function Profile() {
                         ''
                     )}
                 </p>
-                <input
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="First Name"
                     defaultValue={currentUser.firstname}
-                    type='text'
-                    id='firstname'
-                    placeholder='Firstname'
-                    className='bg-slate-100 rounded-lg p-3'
                     onChange={handleChange}
+                    id="firstname"
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '20px',
+                        },
+                    }}
                 />
-                <input
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Last Name"
                     defaultValue={currentUser.lastname}
-                    type='text'
-                    id='lastname'
-                    placeholder='Lasstname'
-                    className='bg-slate-100 rounded-lg p-3'
                     onChange={handleChange}
+                    id="lastname"
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '20px',
+                        },
+                    }}
                 />
-                <input
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Email"
+                    type="email"
                     defaultValue={currentUser.email}
-                    type='email'
-                    id='email'
-                    placeholder='Email'
-                    className='bg-slate-100 rounded-lg p-3'
                     onChange={handleChange}
+                    id="email"
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '20px',
+                        },
+                    }}
                 />
-                <input
-                    type='password'
-                    id='password'
-                    placeholder='Password'
-                    className='bg-slate-100 rounded-lg p-3'
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Mobile Number"
+                    defaultValue={currentUser.phoneNumber}
                     onChange={handleChange}
-                />
+                    id="phoneNumber"
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '20px',
+                        },
+                    }}
+                />     
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Password"
+                    type="password"
+                    onChange={handleChange}
+                    id="password"
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '20px',
+                        },
+                    }}
+                />  
+
                 <button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
                     {loading ? 'Loading...' : 'Update'}
                 </button>
             </form>
-            <div className='flex justify-between mt-5'>
-                <span
+
+            {/* Account Actions */}
+            <div className="flex justify-between mt-6 space-x-4">
+                <button
                     onClick={handleDeleteAccount}
-                    className='text-red-700 cursor-pointer'
+                    className="flex items-center px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600"
                 >
+                    <DeleteIcon className="mr-2" />
                     Delete Account
-                </span>
-                <span onClick={handleSignOut} className='text-red-700 cursor-pointer'>
-                    Sign out
-                </span>
+                </button>
+                <button
+                    onClick={handleSignOut}
+                    className="flex items-center px-4 py-2 text-white bg-indigo-500 rounded-lg hover:bg-indigo-600"
+                >
+                    <LogoutIcon className="mr-2" />
+                    Sign Out
+                </button>
             </div>
-            <p className='text-red-700 mt-5'>{error && 'Something went wrong!'}</p>
-            <p className='text-green-700 mt-5'>
-                {updateSuccess && 'User is updated successfully!'}
-            </p>
         </div>
     );
 }

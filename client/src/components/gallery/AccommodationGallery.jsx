@@ -9,7 +9,7 @@ const AccommodationGallery = ({ photos = [] }) => {
   const hasMoreImages = remainingImages.length > 0;
 
   return (
-    <div className="max-w-5xl mx-auto p-4">
+    <div className="max-w-5xl mx-auto p-4 -mt-16">
       <div className="space-y-4">
         {/* Initial images (up to 3) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

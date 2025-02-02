@@ -1,9 +1,7 @@
-// import axios from 'axios';
-// import data from './data.json';
+import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import RequireAuth from './components/RequireAuth';
 
 import ScrollToTop from './components/scrolltop';
 
@@ -19,21 +17,22 @@ import Accommodation from './pages/Accommodation';
 import Profile from './pages/Profile';
 import PrivateRoute from './components/PrivateRoute';
 import About from './pages/About';
-
-
+import AccommodationEdit from './pages/AccommodationEdit';
 import ForgotPasswordOTP from './pages/ForgotPasswordOTP';
 import VerifyOTP from './pages/VerifyOTP';
 import ResetPasswordOTP from './pages/ResetPasswordOTP';
+import ApplyOnline from './pages/ApplyOnline';
+import ScheduleTour from './pages/ScheduleTour';
+import NegotiateRent from './pages/NegotiateRent';
+import PayRent from './pages/PayRent';
 
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'http://localhost:4000/api';
 
-//axios.defaults.baseURL = data.REACT_APP_BASE_URL || 'http://localhost:4000/api';
 
 export default function App() {
   return (
     <>
-
-    <ScrollToTop/>
-
+      <ScrollToTop />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
@@ -44,6 +43,12 @@ export default function App() {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/search" element={<PropertySearch />} />
         <Route path="/accommodation/:id" element={<Accommodation />} />
+        <Route path="/apply-online" element={<ApplyOnline />} />
+        <Route path="/schedule-tour" element={<ScheduleTour />} />
+        <Route path="/negotiate-rent" element={<NegotiateRent />} />
+        <Route path="/pay-rent" element={<PayRent />} />
+
+        
         <Route path="/*" element={<NotFound />} />
 
         <Route path="/forgot-password-otp" element={<ForgotPasswordOTP />} />
@@ -55,23 +60,23 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Profile />} />
           <Route path="/list-property" element={<AccommodationListing />} />
+          <Route path="/edit-accommodation/:id" element={<AccommodationEdit />} />
+          
           {/*
-              
               <Route path="/settings" element={<Settings />} />
-               */}
+          */}
         </Route>
       </Routes>
 
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={1000}
         hideProgressBar={false}
         closeOnClick
         pauseOnHover
         draggable
         theme="colored"
       />
-
     </>
   );
 }

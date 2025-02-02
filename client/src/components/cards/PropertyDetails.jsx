@@ -18,7 +18,7 @@ const AmenityIcon = ({ Icon, text }) => (
     }}
   >
     <Icon style={{ width: 20, height: 20, color: '#666' }} />
-    <Typography color="text.secondary">{text}</Typography>
+    <Typography color="text.secondary" variant="body2">{text}</Typography>
   </Paper>
 );
 
@@ -52,18 +52,21 @@ const PropertyDetails = ({ property }) => {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* About This House Section */}
-      <Card elevation={0} sx={{ mb: 4}}>
-        <CardContent sx={{ p: 4 }}>
+      <Card elevation={0}>
+        <CardContent>
           <Typography variant="h5" sx={{ mb: 3, fontWeight: '600', color: '#1e293b', textAlign: 'center' }}>
-            About This House
+            About
           </Typography>
           <Typography variant="body1" sx={{ color: '#475569', lineHeight: 1.8 }}>
-            Located in {property.city}, this welcoming {property.propertyType.toLowerCase()} is conveniently situated near {property.nearestUniversity}.
-            This spacious accommodation offers {property.bedrooms} bedroom(s) and {property.bathrooms} bathroom(s),
-            spanning an area of {property.area} sq ft. Perfect for students and professionals looking for a
-            comfortable living space with modern amenities.
+            {property.description ||
+              `Located in the vibrant city of ${property.city}, this inviting ${property.propertyType.toLowerCase()} is ideally 
+              situated near the renowned ${property.nearestUniversity}. Spanning a generous ${property.area} sq ft, this property 
+              offers ${property.bedrooms} bedroom(s) and ${property.bathrooms} bathroom(s), making it a perfect choice for students 
+              and professionals alike.
+              `
+            }
           </Typography>
         </CardContent>
       </Card>
@@ -151,26 +154,26 @@ const PropertyDetails = ({ property }) => {
 
           {/* Contact Information */}
           <Card elevation={0} sx={{ border: '1px solid #e5e7eb' }}>
-              <CardContent sx={{ p: 3 }}>
-                <Typography variant="h6" sx={{ mb: 1, fontWeight: '600', color: '#1e293b' }}>Contact Information</Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Phone style={{ color: '#666' }} />
-                    <Typography>{property.phone}</Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Mail style={{ color: '#666' }} />
-                    <Typography>{property.email}</Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                    <MapPin style={{ color: '#666', marginTop: '4px' }} />
-                    <Typography>
-                      {property.address}, {property.city}, {property.postalCode}
-                    </Typography>
-                  </Box>
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h6" sx={{ mb: 1, fontWeight: '600', color: '#1e293b' }}>Contact Information</Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Phone style={{ color: '#666' }} />
+                  <Typography>{property.phone}</Typography>
                 </Box>
-              </CardContent>
-            </Card>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Mail style={{ color: '#666' }} />
+                  <Typography>{property.email}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                  <MapPin style={{ color: '#666', marginTop: '4px' }} />
+                  <Typography>
+                    {property.address}, {property.city}, {property.postalCode}
+                  </Typography>
+                </Box>
+              </Box>
+            </CardContent>
+          </Card>
         </Grid>
 
         {/* Right Column - Map and Contact */}
@@ -217,7 +220,7 @@ const PropertyDetails = ({ property }) => {
                       center={position}
                       zoom={15}
                       scrollWheelZoom={true}
-                      style={{ height: '100%', width: '100%', zIndex: 0 }} 
+                      style={{ height: '100%', width: '100%', zIndex: 0 }}
                     >
                       <TileLayer
                         url="https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=NyAnmJNQJ1ocTyQvNNtO"

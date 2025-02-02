@@ -1,6 +1,14 @@
 import mongoose from "mongoose";
 
 const accommodationSchema = mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
   address: {
     type: String,
     required: true,
@@ -91,6 +99,16 @@ const accommodationSchema = mongoose.Schema({
   availableFrom: {
     type: Date,
     required: true,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Reference to the User model
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["Available", "Occupied"],
+    default: "Available",
   },
 }, { timestamps: true });
 

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from '../contexts/AuthContext';
+import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const SignUp = () => {
-    const { signup } = useAuth();
     const [formData, setFormData] = useState({
         firstname: "",
         lastname: "",
@@ -15,6 +15,7 @@ const SignUp = () => {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const validateForm = () => {
         if (!formData.firstname || !formData.lastname) {
@@ -63,13 +64,9 @@ const SignUp = () => {
         setLoading(true);
 
         try {
-            await signup({
-                firstname: formData.firstname,
-                lastname: formData.lastname,
-                email: formData.email,
-                password: formData.password,
-                passwordConfirmation: formData.passwordConfirmation
-            });
+            await axios.post("/auth/signup", formData);
+            navigate("/sign-in");
+            toast.success("Registration successful! Please Sign in!");
         } catch (err) {
             setError(err.message || "Registration failed");
         } finally {
@@ -291,10 +288,10 @@ const SignUp = () => {
 
                                 <OAuth />
                             </div>
-                            
+
                             <p className="col-span-6 sm:flex sm:items-center sm:gap-4 mt-4 text-sm text-gray-600 sm:mt-0">
-                                    Already have an account?{' '}
-                                    <Link to="/sign-in" className="text-indigo-600 hover:text-indigo-700 hover:underline">Sign in</Link>
+                                Already have an account?{' '}
+                                <Link to="/sign-in" className="text-indigo-600 hover:text-indigo-700 hover:underline">Sign in</Link>
                             </p>
                             {error && (
                                 <div className="col-span-6 text-red-500 text-md">
