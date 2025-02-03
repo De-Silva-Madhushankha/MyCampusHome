@@ -49,7 +49,7 @@ const Navbar = () => {
 
           <SearchBar />
 
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="flex max-h-1 items-center space-x-4">
             <Link to="/list-property">
               <Button
                 className="hover:bg-indigo-500 hover:text-white"
