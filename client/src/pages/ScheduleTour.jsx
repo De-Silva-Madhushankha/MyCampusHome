@@ -9,7 +9,7 @@ const ScheduleTour = () => {
 
     <>
       <Navbar />
-      <Hero />
+      <Hero txt1={"Online Tour Scheduling"} txt3={"Request a tour and find your perfect rental"}/>
       <section className="py-10 bg-white">
         <div className="container mx-auto px-6 lg:px-20">
 
@@ -68,22 +68,6 @@ const ScheduleTour = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Need More Information Section */}
-          <div className="mt-5 text-center">
-            <h3 className="mb-4 text-xl font-semibold">Need More Information?</h3>
-            <div className="space-y-2">
-              <a href="#" className="block text-purple-600 hover:underline">
-                How to Schedule a Property Tour
-              </a>
-              <a href="#" className="block text-purple-600 hover:underline">
-                How to Apply for a Rental
-              </a>
-              <a href="#" className="block text-purple-600 hover:underline">
-                How Custom Offers Work
-              </a>
             </div>
           </div>
 
