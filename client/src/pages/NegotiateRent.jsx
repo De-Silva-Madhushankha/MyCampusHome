@@ -8,7 +8,7 @@ const NegotiateRent = () => {
   return (
     <>
       <Navbar />
-      <Hero />
+      <Hero txt1="Test"/>
 
       <section className="container mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
         <div>

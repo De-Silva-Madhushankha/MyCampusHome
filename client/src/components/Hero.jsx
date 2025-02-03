@@ -1,4 +1,4 @@
-const Hero = () => {
+const Hero = ({txt1, txt2, txt3}) => {
     return (
         <section className="relative overflow-hidden">
         <div
@@ -12,12 +12,12 @@ const Hero = () => {
         <div className="relative container text-center py-24 md:py-32">
           <div className="max-w-3xl mx-auto text-center text-white">
             <h1 className="text-4xl text-center md:text-5xl lg:text-6xl  font-bold mb-6">
-              New Approach to
+              {txt1}
               <br />
-              Application Process
+              {txt2}
             </h1>
             <p className="text-lg text-center md:text-xl opacity-90">
-              Complete your rental application once and use it until you're home.
+              {txt3}
             </p>
           </div>
         </div>

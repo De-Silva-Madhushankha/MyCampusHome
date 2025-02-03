@@ -11,7 +11,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="grid items-center w-full max-w-6xl grid-cols-1 px-5 py-8 mx-auto mt-12 md:grid-cols-2 gap-45">
+    <section className="grid items-center w-full max-w-6xl grid-cols-1 px-5 mx-auto md:grid-cols-2 gap-45">
       <div className="w-full space-y-4 md:w-3/4">
         <span className="block mb-4 text-xs font-medium text-indigo-500 md:text-sm">
           Find Rent Relax
