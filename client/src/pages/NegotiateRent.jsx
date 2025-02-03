@@ -6,10 +6,9 @@ const NegotiateRent = () => {
   return (
     <>
       <Navbar />
-      <Hero />
+      <Hero txt1="Test"/>
       <section className="py-10 bg-white">
         <div className="container mx-auto px-6 lg:px-36">
-
           {/* Submit Your Offer Info*/}
           <div className="grid md:grid-cols-2 gap-16 items-center mb-10">
             <div className="relative flex justify-center">
