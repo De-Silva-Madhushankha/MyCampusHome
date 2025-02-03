@@ -13,7 +13,7 @@ const Hero = ({txt1, txt2, txt3}) => {
           <div className="max-w-3xl mx-auto text-center text-white">
             <h1 className="text-4xl text-center md:text-5xl lg:text-6xl  font-bold mb-6">
               {txt1}
-              <br />
+              <br/>
               {txt2}
             </h1>
             <p className="text-lg text-center md:text-xl opacity-90">
