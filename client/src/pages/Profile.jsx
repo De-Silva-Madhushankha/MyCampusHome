@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import ProfileCard from '../components/ProfileCard';
 import PropertyListing from '../components/PropertyListing';
 import FavoriteAccommodations from '../components/FavoriteAccommodations';
-import Analytics from '../components/Analytics';
+// import Analytics from '../components/Analytics';
 import {
   Container,
   Grid2 as Grid,
@@ -77,17 +77,7 @@ const Profile = () => {
           </Grid>
         </Grid>
 
-        {/* Analytics Section */}
-        <div className="mt-12">
-          <Typography variant="h5" component="h2" className="font-semibold text-gray-800 mb-4">
-            Analytics
-          </Typography>
-          <Card className="rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <CardContent>
-              <Analytics />
-            </CardContent>
-          </Card>
-        </div>
+
       </Container>
       <Footer />
     </div>
