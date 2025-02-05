@@ -11,8 +11,8 @@ export const generateTokenAndSetCookie = (userId, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', // Secure in production
     sameSite: 'lax', // CSRF protection
-    expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // 1 day
-    maxAge: 1 * 24 * 60 * 60 * 1000, // 1 days
+    expires: new Date(Date.now() +  6 * 60 * 60 * 1000), // 1 day
+    maxAge: 1 * 6 * 60 * 60 * 1000, // 1 days
   });
 
   return token;

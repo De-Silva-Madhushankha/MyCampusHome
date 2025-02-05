@@ -66,16 +66,16 @@ const NegotiateRent = () => {
               </p>
             </div>
             <div className="relative flex justify-center">
-              <div class="bg-gray-100 p-4 rounded-xl shadow-lg w-72">
-                <div class="bg-white p-4 rounded-lg border-l-4 border-yellow-500 shadow-sm">
-                  <h3 class="font-semibold">Applicant #1</h3>
-                  <p class="text-gray-500">Rent Offer</p>
-                  <p class="text-xl font-bold">LKR 1,975</p>
+              <div className="bg-gray-100 p-4 rounded-xl shadow-lg w-72">
+                <div className="bg-white p-4 rounded-lg border-l-4 border-yellow-500 shadow-sm">
+                  <h3 className="font-semibold">Applicant #1</h3>
+                  <p className="text-gray-500">Rent Offer</p>
+                  <p className="text-xl font-bold">LKR 1,975</p>
                 </div>
-                <div class="bg-white p-4 rounded-lg border-l-4 border-green-500 shadow-sm mt-4 opacity-70">
-                  <h3 class="font-semibold">Applicant #2</h3>
-                  <p class="text-gray-500">Rent Offer</p>
-                  <p class="text-xl font-bold">LKR 1,850</p>
+                <div className="bg-white p-4 rounded-lg border-l-4 border-green-500 shadow-sm mt-4 opacity-70">
+                  <h3 className="font-semibold">Applicant #2</h3>
+                  <p className="text-gray-500">Rent Offer</p>
+                  <p className="text-xl font-bold">LKR 1,850</p>
                 </div>
               </div>
             </div>
@@ -83,22 +83,22 @@ const NegotiateRent = () => {
 
           <div className="grid md:grid-cols-2 gap-16 items-center mb-10">
             <div className="relative flex justify-center">
-              <div class="bg-white p-4 rounded-xl shadow-lg w-72">
-                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
-                  <h3 class="font-semibold text-lg">Your application was approved</h3>
-                  <p class="text-gray-500 text-sm">No. 464, T.B. Jaya Mawatha, Colombo 10.</p>
-                  <div class="flex justify-center gap-4 text-gray-600 mt-4">
+              <div className="bg-white p-4 rounded-xl shadow-lg w-72">
+                <div className="bg-white p-6 rounded-lg shadow-sm text-center">
+                  <h3 className="font-semibold text-lg">Your application was approved</h3>
+                  <p className="text-gray-500 text-sm">No. 464, T.B. Jaya Mawatha, Colombo 10.</p>
+                  <div className="flex justify-center gap-4 text-gray-600 mt-4">
                     <span>&#128719; 1 Bed</span>
                     <span>&#128705; 1 Bath</span>
                     <span>&#128206; 935 Sq Ft</span>
                   </div>
                 </div>
-                <div class="w-full bg-green-500 text-center text-white font-semibold py-2 rounded-lg mt-4">Move In</div>
+                <div className="w-full bg-green-500 text-center text-white font-semibold py-2 rounded-lg mt-4">Move In</div>
               </div>
             </div>
-            <div class="max-w-md text-center md:text-left">
-              <h2 class="text-2xl font-bold">Rent Your Dream Home</h2>
-              <p class="text-gray-600 mt-2">
+            <div className="max-w-md text-center md:text-left">
+              <h2 className="text-2xl font-bold">Rent Your Dream Home</h2>
+              <p className="text-gray-600 mt-2">
                 Ready to apply? Great! Be careful to make a custom offer that will set you apart from the competition.
                 A strong proposal will put you in the lead with your landlord. However, it’s not only a favorable price that matters.
               </p>
