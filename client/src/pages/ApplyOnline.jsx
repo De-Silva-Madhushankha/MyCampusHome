@@ -6,7 +6,7 @@ const ApplyOnline = () => {
   return (
     <>
       <Navbar />
-      <Hero />
+      <Hero txt1={"New Approach to"} txt2={"Application Process"} txt3={"Complete your rental application once and use it until you’re home."}/>
       <section className="py-10 bg-white">
         <div className="container mx-auto px-6 lg:px-20">
           {/* Analyze Competition Section */}

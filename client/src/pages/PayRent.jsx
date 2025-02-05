@@ -41,7 +41,7 @@ const PayRent = () => {
   return (
     <>
       <Navbar />
-      <Hero />
+      <Hero txt1="Online Rent Payments"/>
       <section className="w-full max-w-6xl mx-auto px-4 space-y-24 py-16">
         <FeatureSection
           title="Convenient Rental Payments"
