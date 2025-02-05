@@ -6,7 +6,7 @@ const NegotiateRent = () => {
   return (
     <>
       <Navbar />
-      <Hero txt1="Test"/>
+      <Hero txt1={"Submit Your"} txt2={"Custom Offer"} txt3={"Stand out from the crowd with the right offer."}/>
       <section className="py-10 bg-white">
         <div className="container mx-auto px-6 lg:px-36">
           {/* Submit Your Offer Info*/}
