@@ -36,15 +36,15 @@ const TourDatePicker = ({ setDate, setTourModalOpen }) => {
         }`}
     >
       {/* Header Section */}
-      <div className="flex justify-center items-center pt-4 mb-4">
+      <div className="flex items-center justify-center pt-4 mb-4">
         <House className="text-gray-500" />
         <span className="ml-2 text-sm font-medium text-gray-500">Tour Date</span>
       </div>
 
-      <hr className="border-gray-200 my-4" />
+      <hr className="my-4 border-gray-200" />
 
       {/* Date Selector */}
-      <div className="flex items-center justify-center space-x-2 mb-6">
+      <div className="flex items-center justify-center mb-6 space-x-2">
         <ChevronLeft
           className={`text-gray-500 cursor-pointer hover:text-gray-700 ${selectedDate.isSame(dayjs(), "day") ? "opacity-50 cursor-not-allowed" : ""
             }`}
@@ -64,7 +64,7 @@ const TourDatePicker = ({ setDate, setTourModalOpen }) => {
       {/* Schedule Button */}
       {currentUser ? (
         <div
-          className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 cursor-pointer rounded-b-lg transition-colors duration-300"
+          className="py-4 font-bold text-white transition-colors duration-300 bg-indigo-600 rounded-b-lg cursor-pointer hover:bg-indigo-700"
           onClick={() => {
             setDate(selectedDate);
             setTourModalOpen(true);
@@ -74,7 +74,7 @@ const TourDatePicker = ({ setDate, setTourModalOpen }) => {
         </div>
       ) : (
           <button
-            className="bg-gray-300 text-white font-bold py-4 w-full rounded-b-lg cursor-not-allowed"
+            className="w-full py-4 font-bold text-white bg-gray-300 rounded-b-lg cursor-not-allowed"
             disabled
           >
             Signin to Schedule
