@@ -145,10 +145,10 @@ const UniversityGrid = () => {
                     label={uni.type}
                     size="small"
                     sx={{
-                      bgcolor: uni.type === "Public" 
+                      bgcolor: uni.type === "State" 
                         ? "rgb(167, 243, 208)" 
                         : "rgb(253, 230, 138)",
-                      color: uni.type === "Public" 
+                      color: uni.type === "State" 
                         ? "rgb(6, 95, 70)" 
                         : "rgb(146, 64, 14)",
                       '& .MuiChip-icon': { color: 'inherit' }
@@ -168,7 +168,7 @@ const UniversityGrid = () => {
           exit={{ opacity: 0, y: 20 }}
           className="fixed inset-0 z-50 bg-white"
         >
-          {/* Add your map component here */}
+          {/* map component goes here */}
           <div className="h-full">Map Component</div>
         </motion.div>
       )}

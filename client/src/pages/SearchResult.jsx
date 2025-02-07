@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Map from '../components/maps/Map';
 import PropertyCard from '../components/cards/PropertyCard';
 import Navbar from '../components/Navbar';
 import { toast } from 'react-toastify';
 import axios from "axios";
+import Footer from '../components/Footer';
 
 const FilterButton = ({ label, icon: Icon }) => (
   <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-md hover:border-indigo-600 hover:text-indigo-600">
@@ -32,7 +33,7 @@ const PropertySearchPage = () => {
     const fetchProperties = async () => {
       try {
         const response = await axios.get('/accommodation');
-        const data = await response.data;
+        const data = response.data;
         if (Array.isArray(data)) {
           setProperties(data);
         } else {
@@ -88,19 +89,19 @@ const PropertySearchPage = () => {
     setFilteredPropertiesCount(properties.length);
   }, [properties]);
 
-  const handlePropertySelect = React.useCallback((property) => {
+  const handlePropertySelect = useCallback((property) => {
     requestAnimationFrame(() => {
       setSelectedProperty(property);
     });
   }, []);
 
-  const handleFilteredPropertiesChange = React.useCallback((properties) => {
+  const handleFilteredPropertiesChange = useCallback((properties) => {
     requestAnimationFrame(() => {
       setFilteredProperties(properties);
     });
   }, []);
 
-  const handleFilteredPropertiesCountChange = React.useCallback((count) => {
+  const handleFilteredPropertiesCountChange = useCallback((count) => {
     requestAnimationFrame(() => {
       setFilteredPropertiesCount(count);
     });
@@ -109,16 +110,16 @@ const PropertySearchPage = () => {
   return (
     <>
       <Navbar />
-      <div className="flex items-center justify-between px-4 py-2 mx-auto max-w-7xl">
-        <h2 className="text-xl font-semibold">
+      <div className="flex items-center justify-between px-4 mt-8 py-3 mx-auto max-w-7xl">
+        <h2 className="text-2xl font-semibold">
           {city} apartments for rent
-          <span className="ml-2 text-sm text-gray-500">{filteredPropertiesCount} listings found</span>
+          <span className="ml-2 text-sm text-gray-700">{filteredPropertiesCount} listings found</span>
         </h2>
-        <div className="flex items-center gap-4 ">
+        <div className="flex items-center gap-4">
           <select
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-md"
+            className="flex items-center px-3 py-2 border border-gray-200 rounded-md hover:border-indigo-600 hover:text-indigo-600"
           >
             <option>Best Match</option>
             <option>Price: Low to High</option>
@@ -126,14 +127,14 @@ const PropertySearchPage = () => {
           </select>
           <button
             onClick={() => setShowMap(!showMap)}
-            className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-md hover:border-indigo-600 hover:text-indigo-600"
+            className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-md hover:cursor-pointer hover:border-indigo-600 hover:text-indigo-600"
           >
             {showMap ? 'Hide Map' : 'Show Map'}
           </button>
         </div>
       </div>
       <div>
-        <main className="max-w-7xl mx-auto px-4 py-4 h-[calc(100vh-130px)]">
+        <main className="max-w-7xl mx-auto mb-8 px-4 py-4 h-[calc(100vh-130px)]">
           <div className={`flex gap-6 h-full ${showMap ? '' : 'w-full'}`}>
             {/* Left Column: Property Cards */}
             <div
@@ -173,6 +174,7 @@ const PropertySearchPage = () => {
           </div>
         </main>
       </div>
+      <Footer />
     </>
   );
 };

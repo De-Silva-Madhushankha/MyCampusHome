@@ -1,25 +1,64 @@
-import React from 'react';
-import Navbar from '../components/Navbar';
+import { Mail, Phone, Download } from "lucide-react";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 
+const AboutContactPage = () => {
+  return (
+    <>
+      <Navbar />
+      <div className="bg-gray-100 text-gray-800">
+        {/* About Us */}
+        <section className="text-center py-16 px-4 bg-gradient-to-b from-white to-indigo-50">
+          <h2 className="text-4xl font-bold mb-4">About Us</h2>
+          <p className="max-w-2xl mx-auto text-lg text-gray-600">
+            MyCampusHome is a transparent and secure home rental platform that connects tenants and landlords.
+          </p>
+          <div className="flex flex-wrap justify-center gap-6 mt-8">
+            {["web-demo-01.png", "web-demo-02.png", "web-demo-03.png"].map((src, index) => (
+              <div key={index} className="w-64 h-40 bg-gray-300 flex items-center justify-center rounded-lg shadow-lg overflow-hidden group relative">
+                <img
+                  src={src}
+                  alt="Web Demo"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
 
-export default function About() {
-    return (
-        <>
-            <Navbar />
-            <div className='px-4 py-12 max-w-2xl mx-auto'>
-                <h1 className='text-3xl font-bold  mb-4 text-slate-800'>About</h1>
-                <p className='mb-4 text-slate-700'>
-                    At MyCampusHome, we make finding a place to live as easy as studying for finals (maybe even easier). Our goal is to provide a one-stop platform for students seeking accommodations near their university.
+        {/* Our Team */}
+        <section className="bg-white text-center py-16 px-4">
+          <h2 className="text-4xl font-bold mb-4">Our Team</h2>
+          <p className="max-w-2xl mx-auto text-lg text-gray-600">
+            Meet the team that invented the platform! We brought together the most talented people around the globe.
+          </p>
+          <div className="flex flex-wrap justify-center gap-6 mt-6">
+            <div className="w-20 h-20 bg-gray-300 rounded-full overflow-hidden">
+              <img src="Member_01.png" alt="" className="w-full h-full object-cover" />
+            </div>
+            <div className="w-20 h-20 bg-gray-300 rounded-full overflow-hidden">
+              <img src="Member_02.jpg" alt="" className="w-full h-full object-cover" />
+            </div>
+            <div className="w-20 h-20 bg-gray-300 rounded-full overflow-hidden">
+              <img src="Member_03.jpg" alt="" className="w-full h-full object-cover" />
+            </div>
+          </div>
+        </section>
 
-                </p>
-                <p className='mb-4 text-slate-700'>
+        {/* Contact Us */}
+        <section className="text-center py-16 px-4">
+          <h2 className="text-4xl font-bold mb-4">Contact Us</h2>
+          <p className="max-w-2xl mx-auto text-lg text-gray-600">We're here for you 24/7. Reach out anytime!</p>
+          <div className="flex justify-center gap-8 mt-8">
+            <div className="flex items-center gap-2 text-lg"><Mail /> Email Us</div>
+            <div className="flex items-center gap-2 text-lg"><Phone /> +94 112 641 059</div>
+          </div>
+          <p className="mt-6 text-gray-600">201, Bandaranayake Mawatha, Moratuwa, 10400</p>
+        </section>
+      </div>
+      <Footer />
+    </>
+  );
+};
 
-                    From affordable rooms to stylish apartments, we bring together a variety of listings tailored for student life. With a user-friendly interface and helpful resources, MyCampusHome is your trusted companion in finding the perfect spot to call home.
-                </p>
-                <p className='mb-4 text-slate-700'>
-                    Whether you’re a first-year student or finishing your degree, MyCampusHome is here to connect you with your ideal living space. Start your search today and discover why students trust us for their housing needs!
-                </p>
-            </div></>
-
-    );
-}
+export default AboutContactPage;

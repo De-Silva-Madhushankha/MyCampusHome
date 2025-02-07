@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Search, ChevronRight, Settings, CreditCard, Users, Home, FileText, User, ArrowRight } from 'lucide-react';
 import {Link} from 'react-router-dom';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
 
 const categories = [
   {
@@ -52,32 +54,10 @@ const HelpCenter = () => {
   return (
     <div className="min-h-screen bg-white">
 
-      <nav className="bg-white border-b border-gray-300 fixed top-0 w-full z-50 backdrop-blur-lg bg-white/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <Link
-                to="/" 
-                className="flex items-center space-x-4 ">
-              <img 
-                src="/campus-home-logo.svg" 
-                alt="Logo" 
-                className="h-10 w-auto filter invert"
-              />
-                <span className="text-2xl font-bold text-gray-700 ">MyCampusHome</span>
-            </Link>
-            <div className="flex items-center gap-6">
-              <select className="bg-transparent text-sm text-gray-600 focus:outline-none focus:ring-0 border-none font-medium">
-                <option value="en">English</option>
-                <option value="es">Español</option>
-                <option value="fr">Français</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
-      <header className="pt-16 bg-gradient-to-b from-white to-indigo-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+      <header className="bg-gradient-to-b from-white to-indigo-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-28">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 text-center mb-4 tracking-tight">
             How can we help you?
           </h1>
@@ -139,32 +119,7 @@ const HelpCenter = () => {
         </div>
       </main>
 
-      <footer className="bg-gray-50 border-t border-gray-100 mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex flex-col items-center gap-8">
-          <Link
-                to="/" 
-                className="flex items-center space-x-4 ">
-              <img 
-                src="/campus-home-logo.svg" 
-                alt="Logo" 
-                className="h-10 w-auto filter invert"
-              />
-                <span className="text-2xl font-bold text-gray-700 ">MyCampusHome</span>
-            </Link>
-            <nav className="flex flex-wrap justify-center gap-8 text-sm">
-              <a href="#" className="text-gray-600 hover:text-indigo-600 transition-colors duration-200">About Us</a>
-              <a href="#" className="text-gray-600 hover:text-indigo-600 transition-colors duration-200">Blog</a>
-              <a href="#" className="text-gray-600 hover:text-indigo-600 transition-colors duration-200">News</a>
-              <a href="#" className="text-gray-600 hover:text-indigo-600 transition-colors duration-200">Contact</a>
-            </nav>
-            <div className="h-px w-full max-w-sm bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-            <p className="text-sm text-gray-500 text-center">
-              © {new Date().getFullYear()} MyCampusHome, Inc. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
