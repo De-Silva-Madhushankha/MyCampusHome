@@ -2,12 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import { format } from "date-fns"; // Importing date-fns to format the date
+import { format } from "date-fns";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
 const socket = io("http://localhost:4000", {
   transports: ["websocket", "polling"],
-  withCredentials: true
+  withCredentials: true,
 });
 
 const Chat = () => {
@@ -25,15 +25,10 @@ const Chat = () => {
 
   const { accomodationUserId, message } = location.state || {};
 
-  console.log(accomodationUserId);
-  console.log(message);
-
   const receiver = state?.receiver || { _id: accomodationUserId };
-  console.log(receiver._id);
 
-  //get userID from local storage-----------------------------------------------------
+  // Get userID from local storage
   const userDataString = localStorage.getItem("persist:root");
-
   let userId = null;
   if (userDataString) {
     const persistedData = JSON.parse(userDataString);
@@ -223,17 +218,21 @@ const Chat = () => {
   const groupedMessages = groupMessagesByDate(messages);
 
   return (
-    <div className="flex w-full h-screen overflow-hidden bg-gray-100">
-      <div className="flex items-center justify-start p-4 transition-all duration-500 ease-in-out bg-indigo-500 border border-gray-200 rounded-lg hover:bg-gray-300">
-        <button
-          onClick={() => navigate('/')}
-          className="flex items-center px-6 py-3 font-semibold text-indigo-600 transition-all duration-300 ease-in-out transform bg-white border border-indigo-600 shadow-md rounded-xl hover:bg-indigo-600 hover:text-white hover:scale-105 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-          <span className="mr-2 text-lg">&larr;</span> Back to Home
-        </button>
-      </div>
+    <div className="flex flex-col w-full h-screen overflow-hidden bg-gray-100 md:flex-row">
+      {/* Back Button */}
+      {/* Back Button - Now visible on all screen sizes */}
+<div className="flex items-center justify-start p-4 transition-all duration-500 ease-in-out bg-indigo-500 border border-gray-200 rounded-lg hover:bg-gray-300">
+  <button
+    onClick={() => navigate('/')}
+    className="flex items-center px-6 py-3 font-semibold text-indigo-600 transition-all duration-300 ease-in-out transform bg-white border border-indigo-600 shadow-md rounded-xl hover:bg-indigo-600 hover:text-white hover:scale-105 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+  >
+    <span className="mr-2 text-lg">&larr;</span> Back to Home
+  </button>
+</div>
 
-      <div className="w-1/3 p-4 bg-white border-r">
+
+      {/* Conversations Sidebar */}
+      <div className="w-full p-4 bg-white border-r md:w-1/3">
         <h2 className="mb-4 text-xl font-bold">Chats</h2>
         <input
           type="text"
@@ -278,7 +277,8 @@ const Chat = () => {
         )}
       </div>
 
-      <div className="flex flex-col w-2/3 h-screen p-4 overflow-hidden">
+      {/* Chat Window */}
+      <div className="flex flex-col w-full h-screen p-4 overflow-hidden md:w-2/3">
         <h2 className="p-2 mb-4 text-xl font-bold text-center bg-indigo-400 rounded shadow-md">
           {receiver?.email || "Select a conversation"}
         </h2>
@@ -286,7 +286,9 @@ const Chat = () => {
         <div className="flex flex-col flex-grow gap-2 p-4 overflow-y-auto bg-white rounded shadow-md no-scrollbar">
           {groupedMessages.map((group) => (
             <div key={group.date} className="space-y-2">
-              <div className="text-xs font-semibold text-center text-gray-500">{format(new Date(group.date), "MMMM dd, yyyy")}</div>
+              <div className="text-xs font-semibold text-center text-gray-500">
+                {format(new Date(group.date), "MMMM dd, yyyy")}
+              </div>
               {group.messages.map((msg, index) => {
                 const formattedTime = format(new Date(msg.createdAt), "hh:mm a");
                 return (
@@ -314,6 +316,7 @@ const Chat = () => {
           <div ref={messagesEndRef} />
         </div>
 
+        {/* Message Input */}
         <div className="flex items-center p-2 mt-4 bg-white border-indigo-600 rounded-lg shadow-md">
           <input
             type="text"
