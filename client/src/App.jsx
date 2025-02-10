@@ -26,6 +26,10 @@ import ScheduleTour from './pages/ScheduleTour';
 import NegotiateRent from './pages/NegotiateRent';
 import PayRent from './pages/PayRent';
 
+
+import NewChat from './pages/newChat';
+
+
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'http://localhost:4000/api';
 
 
@@ -56,11 +60,18 @@ export default function App() {
         <Route path="/reset-password-otp" element={<ResetPasswordOTP />} />
 
 
+
+       
+
+
         {/* Private Routes */}
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Profile />} />
           <Route path="/list-property" element={<AccommodationListing />} />
           <Route path="/edit-accommodation/:id" element={<AccommodationEdit />} />
+
+          <Route path="/newchat/:userID" element={<NewChat />} />
+          <Route path="/newchat/:userID/:conversationId" element={<NewChat />} />
           
           {/*
               <Route path="/settings" element={<Settings />} />
@@ -80,3 +91,4 @@ export default function App() {
     </>
   );
 }
+

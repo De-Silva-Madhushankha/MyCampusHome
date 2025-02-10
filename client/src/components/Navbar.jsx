@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link, useNavigate } from 'react-router-dom';
@@ -15,6 +15,20 @@ const Navbar = () => {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    if (currentUser) {
+      const userDataString = localStorage.getItem("persist:root");
+      if (userDataString) {
+        // Parse the stringified JSON to an object
+        const persistedData = JSON.parse(userDataString);
+        // Access the user object and then the currentUser's _id
+        const userData = JSON.parse(persistedData.user);
+        setUserId(userData.currentUser._id);
+      }
+    }
+  }, [currentUser]);
 
   const handleSignOut = async () => {
     try {
@@ -29,10 +43,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 w-full z-50 bg-white shadow-md transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="sticky top-0 z-50 w-full transition-all duration-300 bg-white shadow-md">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center space-x-4 px-2">
+          <div className="flex items-center px-2 space-x-4">
             <Link to="/">
               <img
                 src="/campus-home-logo.svg"
@@ -49,7 +63,7 @@ const Navbar = () => {
 
           <SearchBar />
 
-          <div className="flex max-h-1 items-center space-x-4">
+          <div className="flex items-center space-x-4 max-h-1">
             <Link to="/list-property">
               <Button
                 className="hover:bg-indigo-500 hover:text-white"
@@ -67,30 +81,35 @@ const Navbar = () => {
                 List an Accommodation
               </Button>
             </Link>
-            <Link to="/about" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+            <Link to="/about" className="text-sm font-medium text-gray-800 cursor-pointer hover:underline">
               About
             </Link>
-            <Link to="/help" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+            <Link to="/help" className="text-sm font-medium text-gray-800 cursor-pointer hover:underline">
               Help Center
             </Link>
             {!currentUser ? (
               <>
-                <Link to="/sign-in" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+                <Link to="/sign-in" className="text-sm font-medium text-gray-800 cursor-pointer hover:underline">
                   Sign In
                 </Link>
-                <Link to="/sign-up" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer">
+                <Link to="/sign-up" className="text-sm font-medium text-gray-800 cursor-pointer hover:underline">
                   Sign Up
                 </Link>
               </>
             ) : (
-              <AccountDropdown />
+              <>
+                <Link to={`/newchat/${userId}`} className="text-sm font-medium text-gray-800 cursor-pointer hover:underline">
+                  Messages
+                </Link>
+                <AccountDropdown />
+              </>
             )}
           </div>
 
           <div className="lg:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="p-2 rounded-md text-gray-800 hover:bg-gray-200"
+              className="p-2 text-gray-800 rounded-md hover:bg-gray-200"
             >
               <svg
                 className="w-6 h-6"
@@ -112,16 +131,16 @@ const Navbar = () => {
       </div>
 
       {menuOpen && (
-        <div className="lg:hidden bg-white shadow-md">
-          <div className="flex flex-col items-start space-y-4 px-4 py-6">
+        <div className="bg-white shadow-md lg:hidden">
+          <div className="flex flex-col items-start px-4 py-6 space-y-4">
             <div className="relative w-full">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <SearchIcon className="text-gray-700" />
               </div>
               <input
                 type="text"
                 placeholder="Type in City, address, or ZIP code"
-                className="block w-full pl-10 px-4 py-2 text-sm rounded-md bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-grey-200"
+                className="block w-full px-4 py-2 pl-10 text-sm text-gray-700 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-grey-200"
               />
             </div>
             <div className="w-full">
@@ -146,32 +165,33 @@ const Navbar = () => {
                 </Button>
               </Link>
             </div>
-            <Link to="/help" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+            <Link to="/help" className="w-full text-sm font-medium text-center text-gray-800 cursor-pointer hover:underline">
               Help Center
             </Link>
+            
             {!currentUser ? (
               <>
-                <Link to="/sign-in" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+                <Link to="/sign-in" className="w-full text-sm font-medium text-center text-gray-800 cursor-pointer hover:underline">
                   Log In
                 </Link>
-                <Link to="/sign-up" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+                <Link to="/sign-up" className="w-full text-sm font-medium text-center text-gray-800 cursor-pointer hover:underline">
                   Register
                 </Link>
               </>
             ) : (
               <>
-                <Link to="/dashboard" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+                <Link to="/dashboard" className="w-full text-sm font-medium text-center text-gray-800 cursor-pointer hover:underline">
                   Dashboard
                 </Link>
-                <Link to="/settings" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+                <Link to="/settings" className="w-full text-sm font-medium text-center text-gray-800 cursor-pointer hover:underline">
                   Settings
                 </Link>
-                <Link to="/support" className="text-sm font-medium text-gray-800 hover:underline cursor-pointer w-full text-center">
+                <Link to="/support" className="w-full text-sm font-medium text-center text-gray-800 cursor-pointer hover:underline">
                   Support
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="text-sm font-medium text-red-500 hover:underline cursor-pointer w-full text-center"
+                  className="w-full text-sm font-medium text-center text-red-500 cursor-pointer hover:underline"
                 >
                   Sign Out
                 </button>

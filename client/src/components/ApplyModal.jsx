@@ -55,19 +55,19 @@ const ApplyModal = ({ isOpen, onClose, accommodation }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
             <button
-                className="absolute top-8 right-8 w-10 h-10 flex items-center justify-center rounded-full shadow-lg hover:bg-gray-200 z-50"
+                className="absolute z-50 flex items-center justify-center w-10 h-10 rounded-full shadow-lg top-8 right-8 hover:bg-gray-200"
                 onClick={onClose}
             >
                 ✖
             </button>
             <div className="fixed inset-0 flex items-center justify-center">
-                <div className="bg-white p-6 rounded-lg shadow-2xl w-1/3 flex flex-col">
-                    <h2 className="text-xl font-semibold text-center mb-3">Apply for Accommodation</h2>
+                <div className="flex flex-col w-1/3 p-6 bg-white rounded-lg shadow-2xl">
+                    <h2 className="mb-3 text-xl font-semibold text-center">Apply for Accommodation</h2>
 
                     <p className="text-lg font-medium">{currentUser?.firstname} {currentUser?.lastname}</p>
-                    <p className="text-gray-500 text-sm">{currentUser?.email}</p>
+                    <p className="text-sm text-gray-500">{currentUser?.email}</p>
 
                     <div className="mt-4">
                         <label className="block font-semibold text-gray-700">Phone Number</label>
@@ -77,9 +77,9 @@ const ApplyModal = ({ isOpen, onClose, accommodation }) => {
                             placeholder="Enter Phone Number"
                             value={form.phoneNumber}
                             onChange={handleChange}
-                            className="border p-2 w-full rounded-lg mt-2 focus:ring-2 focus:ring-purple-500 outline-none"
+                            className="w-full p-2 mt-2 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
                         />
-                        {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
+                        {errors.phoneNumber && <p className="text-sm text-red-500">{errors.phoneNumber}</p>}
                     </div>
 
                     <div className="mt-4">
@@ -89,15 +89,15 @@ const ApplyModal = ({ isOpen, onClose, accommodation }) => {
                             name="moveInDate"
                             value={form.moveInDate}
                             onChange={handleChange}
-                            className="border p-2 w-full rounded-lg mt-1 focus:ring-2 focus:ring-purple-500 outline-none"
+                            className="w-full p-2 mt-1 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
                         />
-                        {errors.moveInDate && <p className="text-red-500 text-sm">{errors.moveInDate}</p>}
+                        {errors.moveInDate && <p className="text-sm text-red-500">{errors.moveInDate}</p>}
 
                         <select
                             name="term"
                             value={form.term}
                             onChange={handleChange}
-                            className="border p-2 w-full rounded-lg mt-2 focus:ring-2 focus:ring-purple-500 outline-none"
+                            className="w-full p-2 mt-2 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
                         >
                             <option>1 Month</option>
                             <option>6 Months</option>
@@ -113,7 +113,7 @@ const ApplyModal = ({ isOpen, onClose, accommodation }) => {
                                 name="notes"
                                 checked={form.notes}
                                 onChange={handleChange}
-                                className="mr-2 w-4 h-4"
+                                className="w-4 h-4 mr-2"
                             />
                             <span className="text-gray-700">Add Notes</span>
                         </label>
@@ -127,13 +127,13 @@ const ApplyModal = ({ isOpen, onClose, accommodation }) => {
                                 placeholder="Enter additional notes..."
                                 value={form.noteText}
                                 onChange={handleChange}
-                                className="border p-2 w-full rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+                                className="w-full p-2 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
                             ></textarea>
                         </div>
                     )}
 
                     <button
-                        className="w-full bg-purple-500 text-white py-2 rounded mt-4 hover:bg-purple-600"
+                        className="w-full py-2 mt-4 text-white bg-indigo-500 rounded hover:bg-indigo-600"
                         onClick={handleSubmit}
                     >
                         Submit
