@@ -2,31 +2,26 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import http from "http";
+import { Server } from "socket.io";
 
 import universityRoutes from "./routes/universityRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import listingRoutes from "./routes/listingRoutes.js";
 import accommodationRoutes from "./routes/accommodationRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
-import cookieParser from "cookie-parser";
-import path from 'path';
+import messageRoutes from './routes/messageRoutes.js';
+import conversationRoutes from './routes/conversationRoutes.js';
 
 dotenv.config();
 
-const __dirname = path.resolve();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || "localhost";
 
-// app.use(express.static(path.join(__dirname, '/client/dist')));
-
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '/client/dist/index.html'));
-// });
-
-
 const corsOptions = {
-  origin: ['http://localhost:4000', 'http://localhost:3000', 'http://localhost:5173' ], 
+  origin: ['http://localhost:4002', 'http://localhost:3000', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,  // Enable credentials (cookies, authorization headers, etc)
@@ -37,9 +32,6 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(cookieParser());
-
-// Set strictQuery option
-mongoose.set('strictQuery', true);
 
 // MongoDB Connection
 mongoose
@@ -53,24 +45,32 @@ app.use("/api/auth", authRoutes);
 app.use("/api/universities", universityRoutes);
 app.use("/api/listing", listingRoutes);
 app.use("/api/accommodation", accommodationRoutes);
-
-console.log("Routes setup complete");
-
-app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
-  return res.status(statusCode).json({
-    success : false,
-    message,
-    statusCode });
-})
+app.use("/api/conversations", conversationRoutes);
+app.use("/api/messages", messageRoutes);
 
 
-app.get('/', (req, res) => {
-  res.send('server is running');
-})
 
-app.listen(PORT, HOST, () => {
+
+// Set up the HTTP server and Socket.IO
+const server = http.createServer(app); // `app` is your Express app instance
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:5173', // Adjust based on your frontend's URL
+    methods: ['GET', 'POST'],
+    credentials: true
+  }
+});
+
+io.on('connection', (socket) => {
+  console.log('A user connected');
+  socket.on('sendMessage', (messageData) => {
+    socket.to(messageData.receiver).emit('receiveMessage', messageData);
+  });
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
+
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`http://${HOST}:${PORT}`);
-})
+});
