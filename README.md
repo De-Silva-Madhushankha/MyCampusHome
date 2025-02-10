@@ -24,8 +24,8 @@ Here are some screenshots of the MyCampusHome application:
 ### Accommodation Listing
 ![Accommodation Search Screenshot](screenshots/listing.jpeg)
 
-### Booking Confirmation
-![Booking Confirmation Screenshot](screenshots/booking.png)
+### Profile Page
+![Profile Page Screenshot](screenshots/web-demo-03.png)
 
 ## Tech Stack
 
