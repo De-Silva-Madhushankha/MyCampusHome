@@ -5,7 +5,7 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { format } from "date-fns";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
-const socket = io("https://mycampushome-production.up.railway.app", {
+const socket = io(import.meta.env.VITE_BASE_URL, {
   transports: ["websocket", "polling"],
   withCredentials: true,
 });
@@ -43,8 +43,8 @@ const Chat = () => {
       try {
         setLoading(true);
         const url = searchQuery
-          ? `/api/conversations/search/${userId}?searchQuery=${searchQuery}`
-          : `/api/conversations/${userId}`;
+          ? `${import.meta.env.VITE_BASE_URL}/conversations/search/${userId}?searchQuery=${searchQuery}`
+          : `${import.meta.env.VITE_BASE_URL}/conversations/${userId}`;
 
         const res = await fetch(url);
         if (!res.ok) throw new Error("Failed to load conversations");
@@ -66,7 +66,7 @@ const Chat = () => {
 
     const fetchMessages = async () => {
       try {
-        const response = await fetch(`/api/messages/${conversationId}`);
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/messages/${conversationId}`);
         if (!response.ok) throw new Error("Failed to fetch messages");
         setMessages(await response.json());
       } catch (error) {
@@ -100,7 +100,7 @@ const Chat = () => {
     if (!newMessage.trim() || !receiver) return;
     const messageData = { sender: userId, receiver: receiver._id, message: newMessage };
     try {
-      const response = await fetch("/api/messages/send", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/messages/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(messageData),
@@ -112,7 +112,7 @@ const Chat = () => {
       setNewMessage("");
 
       if (!conversationId) {
-        const updatedConversations = await fetch(`/api/conversations/${userId}`);
+        const updatedConversations = await fetch(`${import.meta.env.VITE_BASE_URL}/conversations/${userId}`);
         if (!updatedConversations.ok) throw new Error("Failed to fetch conversations");
         const conversationsData = await updatedConversations.json();
 
@@ -133,7 +133,7 @@ const Chat = () => {
 
   const deleteMessage = async (messageId) => {
     try {
-      const response = await fetch(`/api/messages/${messageId}`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/messages/${messageId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId }),
@@ -178,7 +178,7 @@ const Chat = () => {
 
   const deleteConversation = async (convId, userID) => {
     try {
-      const response = await fetch(`/api/conversations/${convId}`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/conversations/${convId}`, {
         method: "DELETE",
       });
 
@@ -220,16 +220,14 @@ const Chat = () => {
   return (
     <div className="flex flex-col w-full h-screen overflow-hidden bg-gray-100 md:flex-row">
       {/* Back Button */}
-      {/* Back Button - Now visible on all screen sizes */}
-<div className="flex items-center justify-start p-4 transition-all duration-500 ease-in-out bg-indigo-500 border border-gray-200 rounded-lg hover:bg-gray-300">
-  <button
-    onClick={() => navigate('/')}
-    className="flex items-center px-6 py-3 font-semibold text-indigo-600 transition-all duration-300 ease-in-out transform bg-white border border-indigo-600 shadow-md rounded-xl hover:bg-indigo-600 hover:text-white hover:scale-105 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-  >
-    <span className="mr-2 text-lg">&larr;</span> Back to Home
-  </button>
-</div>
-
+      <div className="flex items-center justify-start p-4 transition-all duration-500 ease-in-out bg-indigo-500 border border-gray-200 rounded-lg hover:bg-gray-300">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center px-6 py-3 font-semibold text-indigo-600 transition-all duration-300 ease-in-out transform bg-white border border-indigo-600 shadow-md rounded-xl hover:bg-indigo-600 hover:text-white hover:scale-105 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          <span className="mr-2 text-lg">&larr;</span> Back to Home
+        </button>
+      </div>
 
       {/* Conversations Sidebar */}
       <div className="w-full p-4 bg-white border-r md:w-1/3">
