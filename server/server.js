@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || "localhost";
 
 const corsOptions = {
-  origin: ['https://mycampushome.netlify.app/', 'http://localhost:3000', 'http://localhost:5173'],
+  origin: ['https://mycampushome.netlify.app', 'http://localhost:3000', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,  // Enable credentials (cookies, authorization headers, etc)
@@ -55,7 +55,7 @@ app.use("/api/messages", messageRoutes);
 const server = http.createServer(app); // `app` is your Express app instance
 const io = new Server(server, {
   cors: {
-    origin: 'https://mycampushome.netlify.app/', // Adjust based on your frontend's URL
+    origin: 'https://mycampushome.netlify.app', // Adjust based on your frontend's URL
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -76,6 +76,5 @@ app.get("/", (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Server running on http://${HOST}:${PORT}`);
   console.log(`Server running on port ${PORT}`);
 });
