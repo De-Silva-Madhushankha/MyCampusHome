@@ -30,7 +30,7 @@ import PayRent from './pages/PayRent';
 import NewChat from './pages/newChat';
 
 
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'http://localhost:4000/api';
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'mycampushome-production.up.railway.apphttps://mycampushome-production.up.railway.app/api/';
 
 
 export default function App() {
