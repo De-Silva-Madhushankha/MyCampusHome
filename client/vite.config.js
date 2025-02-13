@@ -5,7 +5,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'mycampushome-production.up.railway.app',
+        target: 'https://mycampushome-production.up.railway.app/',
         changeOrigin: true,
         secure: false,
       }
