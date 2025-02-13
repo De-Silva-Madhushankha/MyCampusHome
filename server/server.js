@@ -55,7 +55,7 @@ app.use("/api/messages", messageRoutes);
 const server = http.createServer(app); // `app` is your Express app instance
 const io = new Server(server, {
   cors: {
-    origin: 'https://mycampushome.netlify.app', // Adjust based on your frontend's URL
+    origin: 'https://mycampushome.netlify.app/', // Adjust based on your frontend's URL
     methods: ['GET', 'POST'],
     credentials: true
   }

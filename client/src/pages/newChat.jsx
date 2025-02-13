@@ -5,7 +5,7 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { format } from "date-fns";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
-const socket = io("http://localhost:4000", {
+const socket = io("https://mycampushome-production.up.railway.app", {
   transports: ["websocket", "polling"],
   withCredentials: true,
 });
