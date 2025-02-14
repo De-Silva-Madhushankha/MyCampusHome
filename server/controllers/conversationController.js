@@ -41,7 +41,7 @@ export const getUserConversations = async (req, res) => {
 
     const conversations = await Conversation.find({
       participants: userID,
-    }).populate("participants", "username email")
+    }).populate("participants", "email firstname lastname")
       .sort({ updatedAt: -1 });;
     
     //console.log(conversations);
@@ -77,7 +77,7 @@ export const searchConversation = async (req, res) => {
     const filteredConversations = conversations.filter(conv => {
       // Search for a match in participants' email or name
       return conv.participants.some(
-        (p) => p.email.toLowerCase().includes(searchQuery.toLowerCase())
+        (p) => p.email.toLowerCase().includes(searchQuery.toLowerCase()) || p.firstname?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     });
 

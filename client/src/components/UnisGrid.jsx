@@ -64,7 +64,7 @@ const UniversityGrid = () => {
     <div className="container px-4 py-8 mx-auto">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-5xl font-bold text-gray-900">Explore Universities</h1>
-        <Button
+        {/* <Button
           variant="contained"
           startIcon={<MapIcon />}
           onClick={() => setShowMap(!showMap)}
@@ -74,7 +74,7 @@ const UniversityGrid = () => {
           }}
         >
           {showMap ? 'Hide Map' : 'View on Map'}
-        </Button>
+        </Button> */}
       </div>
 
       <div className="flex justify-center gap-4 mb-8">
