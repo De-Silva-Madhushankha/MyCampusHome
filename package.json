@@ -1,5 +1,5 @@
 {
-  "name": "MyCampusHomeLK",
+  "name": "my-campus-home-lk",
   "version": "1.0.0",
   "description": "A comprehensive platform specialized in finding apartments, boarding houses, rooms for rent near Sri Lankan Universities ",
   "main": "index.js",
@@ -16,11 +16,7 @@
     "build": "npm run install-server && npm run install-client && npm run build-client"
   },
   "keywords": [],
-  "author": [
-    "Madhushankha De Silva",
-    "Chamoda Pramudika",
-    "Nimash Dilshan"
-  ],
+  "author": "Madhushankha De Silva, Chamoda Pramudika, Nimash Dilshan",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^6.2.2"

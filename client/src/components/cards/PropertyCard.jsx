@@ -1,12 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from "react-redux";
 import { MapPin, Bed, Bath, Heart, Info, X, Clock } from 'lucide-react';
+import axios from 'axios';
 
 const PropertyCard = ({ property, isSelected }) => {
+    const { currentUser } = useSelector((state) => state.user);
     const [showDetails, setShowDetails] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
+
     const navigate = useNavigate()
+
+    // Check if the property is in the user's favorites
+    useEffect(() => {
+        if (!currentUser) return;
+
+        axios.get(`/user/favAccommodation/${currentUser._id}`)
+            .then(response => {
+                const favoriteAccommodations = response.data; // Array of accommodation objects
+                setIsFavorite(favoriteAccommodations.some(acc => acc._id === property._id));
+            })
+            .catch(error => console.error("Failed to fetch favorite accommodations", error));
+    }, []);
+
+    const handleFavoriteClick = () => {
+        if (!currentUser) {
+            return;
+        }
+
+        if (isFavorite) {
+            axios
+                .delete(`/user/${currentUser._id}/favAccommodation/${property._id}`)
+                .then(() => setIsFavorite(false))
+                .catch((error) => console.error("Failed to remove property from favorites", error));
+        } else {
+            axios
+                .post(`/user/${currentUser._id}/favAccommodation/${property._id}`)
+                .then(() => setIsFavorite(true))
+                .catch((error) => console.error("Failed to add property to favorites", error));
+        }
+    }
+
     const handleClick = () => {
-       navigate(`/accommodation/${property._id}`) //Navigate to the related apartment page
+        navigate(`/accommodation/${property._id}`) //Navigate to the related apartment page
     }
 
     const MainView = () => (
@@ -20,8 +56,9 @@ const PropertyCard = ({ property, isSelected }) => {
             <div className="p-4 flex flex-col flex-grow">
                 <div className="flex justify-between items-center mb-2">
                     <h3 className="text-2xl font-bold">LKR {property.price?.toLocaleString()}</h3>
-                    <button className="text-gray-400 hover:text-red-500">
-                        <Heart size={20} />
+                    <button className="text-gray-400 hover:text-red-500"
+                        onClick={handleFavoriteClick}>
+                        <Heart className={`transition-colors duration-300 cursor-pointer ${isFavorite ? 'text-red-500' : 'text-gray-500 hover:text-red-500'}`} />
                     </button>
                 </div>
                 <div className="flex gap-4 text-gray-600 mb-3">
@@ -92,7 +129,7 @@ const PropertyCard = ({ property, isSelected }) => {
 
                 {/* Description with Toggle */}
                 <p className="text-gray-700 leading-relaxed">
-                    {property.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+                    {property.description || "No description available"}
                 </p>
             </div>
 
