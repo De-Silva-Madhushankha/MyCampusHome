@@ -119,7 +119,7 @@ const PropertySearchPage = () => {
           <select
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
-            className="flex items-center px-3 py-2 border border-gray-200 rounded-md hover:border-indigo-600 hover:text-indigo-600"
+            className="flex items-center px-3 py-2 border border-gray-200 rounded-md hover:border-indigo-600 "
           >
             <option>Best Match</option>
             <option>Price: Low to High</option>
@@ -127,7 +127,7 @@ const PropertySearchPage = () => {
           </select>
           <button
             onClick={() => setShowMap(!showMap)}
-            className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-md hover:cursor-pointer hover:border-indigo-600 hover:text-indigo-600"
+            className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-md hover:cursor-pointer hover:border-indigo-600"
           >
             {showMap ? 'Hide Map' : 'Show Map'}
           </button>

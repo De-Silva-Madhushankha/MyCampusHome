@@ -24,8 +24,8 @@ Here are some screenshots of the MyCampusHome application:
 ### Accommodation Listing
 ![Accommodation Search Screenshot](screenshots/listing.jpeg)
 
-### Booking Confirmation
-![Booking Confirmation Screenshot](screenshots/booking.png)
+### Profile Page
+![Profile Page Screenshot](screenshots/web-demo-03.png)
 
 ## Tech Stack
 
@@ -67,6 +67,25 @@ Here are some screenshots of the MyCampusHome application:
    ```bash
    npm install
    ```
+4. Create an env file in the client directory:
+   include the following key-value pairs
+
+   ```env
+   
+   VITE_BASE_URL=" your server URL"
+   
+   VITE_FIREBASE_API_KEY=" your firebase API key"
+   VITE_FIREBASE_AUTH_DOMAIN="example.firebaseapp.com"
+   VITE_FIREBASE_PROJECT_ID="example-760a0"
+   VITE_FIREBASE_STORAGE_BUCKET="example.firebasestorage.app"
+   VITE_FIREBASE_MESSAGING_SENDER_ID=""
+   VITE_FIREBASE_APP_ID=""
+   VITE_FIREBASE_MEASUREMENT_ID=""
+
+   VITE_OPENCAGE_API_KEY=""
+   VITE_MAPTILER_API_KEY=""
+   ```
+   
 4. Start the development server:
    ```bash
    npm start
@@ -83,17 +102,45 @@ Here are some screenshots of the MyCampusHome application:
    npm install
    ```
 3. Configure environment variables:
-   Create a `.env` file in the backend directory with the following:
+   Create a `.env` file in the server directory with the following:
    ```env
-   MONGO_URI=your-mongodb-uri
-   JWT_SECRET=your-jwt-secret
-   GOOGLE_CLIENT_ID=your-google-client-id
-   GOOGLE_CLIENT_SECRET=your-google-client-secret
+   HOST= ""
+   PORT= 4000
+   NODE_ENV= production
+   
+   COOKIE_KEY="your cookie key"
+   JWT_SECRET="your jwt secret"
+   
+   CLOUDINARY_CLOUD_NAME=""
+   CLOUDINARY_API_KEY="your Cloudinary API key"
+   CLOUDINARY_API_SECRET="your Cloudinary API secret"
+   
+   MONGO_URI="your mongo uri"
+   
+   GOOGLE_CLIENT_ID=""
+   GOOGLE_CLIENT_SECRET=""
+   
+   SMTP_HOST="smtp.gmail.com"
+   SMTP_PORT=587
+   SMTP_USER=
+   SMTP_PASSWORD=''
+   
+   TWILIO_ACCOUNT_SID=
+   TWILIO_AUTH_TOKEN=
+   TWILIO_PHONE_NUMBER=
    ```
 4. Start the server:
    ```bash
    npm start
    ```
+
+## Development Environment
+- Navigate to the root directory mycampushome:
+   ```bash
+   npm run start
+   ```
+  above script will run your client and server in development mode using nodemon. suitable for development.
+   
 
 ## Future Enhancements
 - **Payment Integration**: Implement Stripe for handling payments.

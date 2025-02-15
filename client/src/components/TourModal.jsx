@@ -13,7 +13,6 @@ const TourModal = ({ isOpen, onClose, accommodation, date,accomodationUserId}) =
 
 
     useEffect(() => {
-        console.log("Received User ID in TourModal:", accomodationUserId); // ✅ Print userId
         
         setSelectedDate(date);
         setMessage(`Hi,\n\nI found ${accommodation?.address || "the given location"}, ${accommodation?.propertyType} on MyCampusHome.lk, and I would like to find out more. Could you please let me know when I might be able to view it?\n\nThanks`);
@@ -37,18 +36,13 @@ const TourModal = ({ isOpen, onClose, accommodation, date,accomodationUserId}) =
     };
 
     const handleSendRequest = () => {
-        console.log("Tour Scheduled for:", selectedDate?.format("YYYY-MM-DD"), selectedTime);
-        console.log("Message:", message);
-
         navigate('/newchat/{}', {
             state: {
                 accomodationUserId,
                 message,
             },
         });
-
         onClose();
-
     };
 
     return (

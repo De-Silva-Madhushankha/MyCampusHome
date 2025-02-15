@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { format } from "date-fns";
 import { TrashIcon } from "@heroicons/react/24/solid";
+import Navbar from "../components/Navbar";
 
 const socket = io(import.meta.env.VITE_BASE_URL, {
   transports: ["websocket", "polling"],
@@ -49,7 +50,6 @@ const Chat = () => {
         const res = await fetch(url);
         if (!res.ok) throw new Error("Failed to load conversations");
         const data = await res.json();
-
         setConversations(data);
       } catch (err) {
         setError(err.message);
@@ -218,118 +218,210 @@ const Chat = () => {
   const groupedMessages = groupMessagesByDate(messages);
 
   return (
-    <div className="flex flex-col w-full h-screen overflow-hidden bg-gray-100 md:flex-row">
-      {/* Back Button */}
-      <div className="flex items-center justify-start p-4 transition-all duration-500 ease-in-out bg-indigo-500 border border-gray-200 rounded-lg hover:bg-gray-300">
-        <button
-          onClick={() => navigate('/')}
-          className="flex items-center px-6 py-3 font-semibold text-indigo-600 transition-all duration-300 ease-in-out transform bg-white border border-indigo-600 shadow-md rounded-xl hover:bg-indigo-600 hover:text-white hover:scale-105 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-          <span className="mr-2 text-lg">&larr;</span> Back to Home
-        </button>
-      </div>
+    <div className="flex flex-col h-screen">
+      <Navbar />
+      <div className="flex flex-1 w-full bg-gray-100 md:flex-row overflow-hidden">
+        {/* Conversations Sidebar */}
+        <div className="w-full md:w-1/4 bg-white border-r flex flex-col h-full">
+          <div className="p-6">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+              Recent chats
+              <span className="ml-2 text-sm font-normal text-gray-400">{conversations.length || 0} conversations</span>
+            </h2>
 
-      {/* Conversations Sidebar */}
-      <div className="w-full p-4 bg-white border-r md:w-1/3">
-        <h2 className="mb-4 text-xl font-bold">Chats</h2>
-        <input
-          type="text"
-          placeholder="Search chats..."
-          className="w-full p-2 mb-4 border-2 border-indigo-600 rounded-md"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-
-        {loading ? (
-          <p className="text-gray-500">Loading chats...</p>
-        ) : error ? (
-          <p className="text-red-500">{error}</p>
-        ) : (
-          <div className="space-y-2">
-            {conversations.map((conv) => {
-              const otherUser = conv.participants?.find((p) => p._id !== userId);
-              const isSelected = conversationId === conv._id;
-
-              return (
-                <div
-                  key={conv._id}
-                  onClick={() => handleSelectConversation(conv._id, userId, otherUser)}
-                  className={`flex items-center justify-between p-3 rounded cursor-pointer 
-                    hover:bg-gray-300 ${isSelected ? "bg-indigo-600 text-white" : "bg-gray-200"}`}
-                >
-                  <p className="font-medium">{otherUser?.email || "Unknown User"}</p>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteConversation(conv._id, userId);
-                    }}
-                    className="p-1 text-red-500 hover:text-red-700"
-                  >
-                    <TrashIcon className="w-5 h-5" />
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Chat Window */}
-      <div className="flex flex-col w-full h-screen p-4 overflow-hidden md:w-2/3">
-        <h2 className="p-2 mb-4 text-xl font-bold text-center bg-indigo-400 rounded shadow-md">
-          {receiver?.email || "Select a conversation"}
-        </h2>
-
-        <div className="flex flex-col flex-grow gap-2 p-4 overflow-y-auto bg-white rounded shadow-md no-scrollbar">
-          {groupedMessages.map((group) => (
-            <div key={group.date} className="space-y-2">
-              <div className="text-xs font-semibold text-center text-gray-500">
-                {format(new Date(group.date), "MMMM dd, yyyy")}
-              </div>
-              {group.messages.map((msg, index) => {
-                const formattedTime = format(new Date(msg.createdAt), "hh:mm a");
-                return (
-                  <div
-                    key={index}
-                    className={`p-3 rounded-lg max-w-xs text-white shadow-md relative 
-                      ${msg.sender === userId ? "bg-indigo-600 ml-auto" : "bg-gray-500 mr-auto"}`}
-                  >
-                    <p>{msg.message}</p>
-                    <span className="text-xs text-gray-300">{formattedTime}</span>
-
-                    {msg.sender === userId && (
-                      <button
-                        className="absolute text-xs text-red-400 top-1 right-1 hover:text-red-600"
-                        onClick={() => deleteMessage(msg._id)}
-                      >
-                        ❌
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search conversations..."
+                className="w-full p-3 pl-10 bg-gray-50 border border-gray-200 rounded-2xl 
+                 placeholder-gray-400 focus:outline-none focus:ring-2 
+                 focus:ring-indigo-500 focus:border-transparent
+                 transition-all duration-200"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <svg
+                className="absolute left-3 top-3.5 h-5 w-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
             </div>
-          ))}
-          <div ref={messagesEndRef} />
+          </div>
+
+          <div className="flex-1 overflow-y-auto px-6">
+            {loading ? (
+              <div className="flex items-center justify-center h-full">
+                <div className="animate-spin rounded-full h-8 w-8 border-4 border-indigo-500 border-t-transparent"></div>
+              </div>
+            ) : error ? (
+              <div className="flex items-center justify-center h-full">
+                <p className="text-red-500 flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  {error}
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {conversations.map((conv) => {
+                  const otherUser = conv.participants?.find((p) => p._id !== userId);
+                  const isSelected = conversationId === conv._id;
+
+                  return (
+                    <div
+                      key={conv._id}
+                      onClick={() => handleSelectConversation(conv._id, userId, otherUser)}
+                      className={`flex items-center gap-4 p-4 rounded-2xl cursor-pointer transition-all duration-200 
+              ${isSelected
+                          ? "bg-indigo-600 text-white shadow-lg"
+                          : "bg-white hover:bg-gray-50 border border-gray-100 shadow-md"}`}
+                    >
+                      {/* Avatar */}
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-medium
+              ${isSelected ? "bg-indigo-500" : "bg-indigo-100 text-indigo-600"}`}>
+                        {otherUser?.firstname && otherUser?.lastname
+                          ? `${otherUser.firstname[0]}${otherUser.lastname[0]}`
+                          : "U"}
+                      </div>
+
+                      {/* User Info */}
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <p className={`font-medium ${isSelected ? "text-white" : "text-gray-900"}`}>
+                            {otherUser?.firstname && otherUser?.lastname
+                              ? `${otherUser.firstname} ${otherUser.lastname}`
+                              : "Unknown User"}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Delete Button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteConversation(conv._id, userId);
+                        }}
+                        className={`p-2 rounded-full transition-all duration-200
+                ${isSelected
+                            ? "hover:bg-indigo-500 text-indigo-100 hover:text-white"
+                            : "hover:bg-red-50 text-gray-400 hover:text-red-500"}`}
+                      >
+                        <TrashIcon className="w-5 h-5" />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Message Input */}
-        <div className="flex items-center p-2 mt-4 bg-white border-indigo-600 rounded-lg shadow-md">
-          <input
-            type="text"
-            className="flex-grow p-3 text-gray-800 bg-gray-200 border-indigo-600 border-none rounded-lg outline-none"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Type a message..."
-          />
-          <button
-            onClick={sendMessage}
-            className="flex items-center justify-center p-3 ml-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700"
-          >
-            <PaperAirplaneIcon className="w-6 h-6 transform rotate-45" />
-          </button>
+        {/* Chat Window */}
+        <div className="flex flex-col flex-1 md:w-2/3 h-full bg-gray-50">
+          {/* Chat Header */}
+          <div className="p-4 bg-white border-b">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 text-lg font-medium">
+                {receiver?.firstname && receiver?.lastname
+                  ? `${receiver.firstname[0]}${receiver.lastname[0]}`
+                  : "U"}
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold text-gray-800">
+                  {receiver?.firstname && receiver?.lastname
+                    ? `${receiver.firstname} ${receiver.lastname}`
+                    : "Unkonwn User"}
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          {/* Messages Area */}
+          <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gray-100">
+            {groupedMessages.map((group) => (
+              <div key={group.date} className="space-y-4">
+                <div className="flex items-center justify-center">
+                  <div className="px-4 py-1 rounded-full bg-gray-200 text-xs font-medium text-gray-500">
+                    {format(new Date(group.date), "MMMM dd, yyyy")}
+                  </div>
+                </div>
+                {group.messages.map((msg, index) => {
+                  const formattedTime = format(new Date(msg.createdAt), "hh:mm a");
+                  const isSender = msg.sender === userId;
+
+                  return (
+                    <div
+                      key={index}
+                      className={`flex ${isSender ? "justify-end" : "justify-start"}`}
+                    >
+                      <div className={`relative group max-w-sm`}>
+                        <div
+                          className={`p-4 rounded-2xl shadow-lg
+                    ${isSender
+                              ? "bg-indigo-600 text-white rounded-br-none"
+                              : "bg-white text-gray-800 rounded-bl-none"}`}
+                        >
+                          <p className="text-sm">{msg.message}</p>
+                          <span className={`text-xs block mt-1
+                    ${isSender ? "text-indigo-200" : "text-gray-400"}`}>
+                            {formattedTime}
+                          </span>
+                        </div>
+
+                        {isSender && (
+                          <button
+                            className="absolute hidden group-hover:flex -top-2 -right-2 
+                             w-6 h-6 items-center justify-center rounded-full 
+                             bg-red-100 text-red-500 hover:bg-red-200"
+                            onClick={() => deleteMessage(msg._id)}
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Message Input */}
+          <div className="p-4 bg-white border-t">
+            <div className="flex items-center gap-2 bg-gray-50 rounded-2xl p-1">
+              <button className="p-2 text-gray-400 hover:text-indigo-600 rounded-full hover:bg-gray-100">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+              <input
+                type="text"
+                className="flex-1 p-3 bg-transparent text-gray-800 placeholder-gray-400 outline-none"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Type your message..."
+              />
+              <button
+                onClick={sendMessage}
+                className="p-3 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+              >
+                <PaperAirplaneIcon className="w-5 h-5 transform -rotate-45" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
