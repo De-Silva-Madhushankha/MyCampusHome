@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 
 const ApplyModal = ({ isOpen, onClose, accommodation }) => {
     const { currentUser } = useSelector((state) => state.user);
+    const navigate = useNavigate();
 
     const [form, setForm] = useState({
         phoneNumber: currentUser?.phoneNumber || '',
@@ -36,13 +38,20 @@ const ApplyModal = ({ isOpen, onClose, accommodation }) => {
     const handleSubmit = () => {
         if (!validateForm()) return;
 
-        console.log("UserId", currentUser?._id);
-        console.log("OwnerId", accommodation?.userId);
-        console.log("Phone Number:", form.phoneNumber);
-        console.log("Move-In Date:", form.moveInDate);
-        console.log("Term:", form.term);
-        console.log("Notes:", form.notes ? form.noteText : "None");
+        const message = `Hello, I am interested in your accommodation. 
+    Here are my details:
+    - Phone Number: ${form.phoneNumber}
+    - Move-In Date: ${form.moveInDate}
+    - Term: ${form.term}
+    - Notes: ${form.notes ? form.noteText : "None"}`;
 
+        let accomodationUserId = accommodation?.userId;
+        navigate('/newchat/{}', {
+            state: {
+                accomodationUserId,
+                message,
+            },
+        });
         onClose();
     };
 

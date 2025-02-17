@@ -30,7 +30,7 @@ import PayRent from './pages/PayRent';
 import NewChat from './pages/newChat';
 
 
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'http://localhost:4000/api';
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || 'https://mycampushome-production.up.railway.app/api/';
 
 
 export default function App() {
@@ -51,32 +51,21 @@ export default function App() {
         <Route path="/schedule-tour" element={<ScheduleTour />} />
         <Route path="/negotiate-rent" element={<NegotiateRent />} />
         <Route path="/pay-rent" element={<PayRent />} />
-
-        
-        <Route path="/*" element={<NotFound />} />
-
         <Route path="/forgot-password-otp" element={<ForgotPasswordOTP />} />
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/reset-password-otp" element={<ResetPasswordOTP />} />
 
-
-
-       
-
+        <Route path="/*" element={<NotFound />} />
 
         {/* Private Routes */}
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Profile />} />
           <Route path="/list-property" element={<AccommodationListing />} />
           <Route path="/edit-accommodation/:id" element={<AccommodationEdit />} />
-
           <Route path="/newchat/:userID" element={<NewChat />} />
           <Route path="/newchat/:userID/:conversationId" element={<NewChat />} />
-          
-          {/*
-              <Route path="/settings" element={<Settings />} />
-          */}
         </Route>
+        
       </Routes>
 
       <ToastContainer
